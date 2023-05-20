@@ -1,7 +1,16 @@
 import Versions from './components/Versions'
 import icons from './assets/icons.svg'
+import { useEffect, useState } from 'react'
 
 function App(): JSX.Element {
+  const [s, setS] = useState('')
+
+  useEffect(() => {
+    window.api.getState().then(({ x }) => {
+      setS(x)
+    })
+  })
+
   return (
     <div className="container">
       <Versions></Versions>
@@ -13,6 +22,7 @@ function App(): JSX.Element {
         You{"'"}ve successfully created an Electron project with React and TypeScript
       </h2>
       <p className="hero-tagline">
+        {s}
         Please try pressing <code>F12</code> to open the devTool
       </p>
 

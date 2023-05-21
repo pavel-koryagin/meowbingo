@@ -17,17 +17,22 @@ export interface EnrichedLesson {
   engWords: string[]
 }
 
+export type Estimation = 'easy' | 'hard'
+
 interface Answer {
   lesson: Lesson
   answer: string
+  estimation?: Estimation
   submittedAt: number
 }
 
 export interface AppState {
   answers: Answer[]
+  droppedLessonIds: string[]
 }
 
 const state: AppState = await window.api.getState<AppState>()
+const lessonIdsInThisSession: string[] = []
 
 const allLessons: Lesson[] = generateAllLessons()
 
@@ -65,14 +70,18 @@ function generateAllLessons(): Lesson[] {
   return result
 }
 
-export function getNextLesson(): EnrichedLesson {
-  const lastThreeLessonIds = getLastThreeLessonIds()
+export function takeNextLesson(): EnrichedLesson {
+  // Get lesson ids to avoid
+  const lastLessonIds = lessonIdsInThisSession.slice(-20)
 
+  // Pick lesson
   let lesson: Lesson
   do {
-    lesson = _sample(allLessons)
-  } while (lastThreeLessonIds.includes(lesson.id))
+    lesson = _sample(allLessons)!
+  } while (lastLessonIds.includes(lesson.id))
 
+  // Use the lesson
+  lessonIdsInThisSession.push(lesson.id)
   return {
     lesson: {
       ...lesson,
@@ -84,11 +93,16 @@ export function getNextLesson(): EnrichedLesson {
   }
 }
 
-export function acceptAnswer(lesson: Lesson, answer: string): boolean /* isPerfect */ {
+export function acceptAnswer(
+  lesson: Lesson,
+  answer: string,
+  estimation?: Estimation
+): boolean /* isPerfect */ {
   // Save
   state.answers.push({
     lesson,
     answer,
+    estimation,
     submittedAt: Date.now()
   })
   window.api.setState(state)
@@ -97,6 +111,12 @@ export function acceptAnswer(lesson: Lesson, answer: string): boolean /* isPerfe
   return isAnswerPerfect(lesson.askInGeorgian ? lesson.eng : lesson.geo, answer)
 }
 
-function getLastThreeLessonIds(): string[] {
-  return state.answers.slice(-3).map((v) => v.lesson.id)
+export function amendEstimation(estimation?: Estimation) {
+  state.answers[state.answers.length - 1].estimation = estimation
+}
+
+export function dropLesson(lessonId: string) {
+  if (!state.droppedLessonIds.includes(lessonId)) {
+    state.droppedLessonIds.push(lessonId)
+  }
 }

@@ -16,7 +16,7 @@ interface Props {
 
 export function TrainingPaneView({
   enrichedLesson: {
-    lesson: { eng, geo, askInGeorgian }
+    lesson: { id, eng, geo, askInGeorgian }
   },
   showAnswer,
   answer,
@@ -26,8 +26,16 @@ export function TrainingPaneView({
   onSubmit,
   onHint
 }: Props): JSX.Element {
+  // TODO: Move state to TrainingPane or to a widget
   const [usedHints, setUsedHints] = useState<number[]>([])
   const textareaRef = createRef<HTMLTextAreaElement>()
+
+  // Reset on every change of the lesson
+  useEffect(() => {
+    if (usedHints.length) {
+      setUsedHints([])
+    }
+  }, [id])
 
   const hasAnswerToSubmit = answer.trim() !== ''
 

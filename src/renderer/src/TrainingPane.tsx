@@ -1,31 +1,26 @@
-import { getBlock1Pair, getSentences } from './lessonsBase'
+import { acceptAnswer, getNextLesson } from './studentProgress'
+import { TrainingPaneView } from './TrainingPaneView'
+import { useState } from 'react'
 
 export function TrainingPane(): JSX.Element {
-  const { geo, eng } = getBlock1Pair()
+  const [isAnswerPerfect, setIsAnswerPerfect] = useState(false)
+  const [showAnswer, setShowAnswer] = useState(false)
 
-  const geoSentences = getSentences(geo)
-  const engSentences = getSentences(eng)
+  const lesson = getNextLesson()
 
   return (
-    <div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Geo {geoSentences.length}</th>
-            <th>Eng {engSentences.length}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {geoSentences.map((geoSentence, i) => {
-            return (
-              <tr key={i}>
-                <td>{geoSentence}</td>
-                <td>{engSentences[i]}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
+    <TrainingPaneView
+      lesson={lesson}
+      showAnswer={showAnswer}
+      isAnswerPerfect={isAnswerPerfect}
+      onSubmit={(answer) => {
+        // Accept
+        const isAnswerPerfect = acceptAnswer(answer)
+        setIsAnswerPerfect(isAnswerPerfect)
+
+        // Show
+        setShowAnswer(true)
+      }}
+    />
   )
 }

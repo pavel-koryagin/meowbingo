@@ -33,7 +33,7 @@ d) – სად არის ეს წიგნი? – ეს წიგნი
         eng: `a) – Who is this? – This is a student. This is a Korean student. The Korean student is in Tbilisi. The Georgian student is in Korea, in Seoul. Seoul is in Asia.
 b) – What is this? – This is a book. This is a Georgian book.
 c) I am in the room. I am in the university. The university is in Tbilisi. Tbilisi is in
-Georgia. I am in Seoul, Korea.
+Georgia. I am in Korea, in Seoul.
 d) – Where is this book? – This book is in Tbilisi.`
       },
       {

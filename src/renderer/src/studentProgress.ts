@@ -1,4 +1,6 @@
-import { isAnswerPerfect } from './lessonsBase'
+import { getSentences, getWords, isAnswerPerfect } from './lessonsBase'
+import { texts } from './texts'
+import _sample from 'lodash/sample'
 
 export interface Lesson {
   id: string
@@ -27,18 +29,52 @@ export interface AppState {
 
 const state: AppState = await window.api.getState<AppState>()
 
+const allLessons: Lesson[] = generateAllLessons()
+
+function generateAllLessons(): Lesson[] {
+  const result: Lesson[] = []
+
+  for (const { title: lessonTitle, blocks } of texts) {
+    for (const { title: blockTitle, geo, eng } of blocks) {
+      const geoSentences = getSentences(geo)
+      const engSentences = getSentences(eng)
+
+      if (geoSentences.length !== engSentences.length) {
+        throw new Error(
+          `"${lessonTitle} > ${blockTitle}" has ${geoSentences.length} Georgian sentences and ${engSentences.length} English sentences`
+        )
+      }
+
+      for (let i = 0; i < geoSentences.length; i++) {
+        const item: Lesson = {
+          id: `${lessonTitle} > ${blockTitle} > sentence ${i + 1}`,
+          shownAt: 0,
+          askInGeorgian: true,
+          geo: geoSentences[i],
+          eng: engSentences[i]
+        }
+        result.push(item)
+        result.push({
+          ...item,
+          askInGeorgian: false
+        })
+      }
+    }
+  }
+
+  return result
+}
+
 export function getNextLesson(): EnrichedLesson {
+  const lesson = _sample(allLessons)
   return {
     lesson: {
-      id: 'Lesson 2 > Block > sentence 1',
-      shownAt: Date.now(),
-      askInGeorgian: false,
-      geo: 'მე ვიყავი სახლში',
-      eng: 'I was at home'
+      ...lesson,
+      shownAt: Date.now()
     },
     geoAudio: null,
-    geoWords: ['მე', 'ვიყავი', 'სახლში'],
-    engWords: ['I', 'was', 'at home']
+    geoWords: getWords(lesson.geo),
+    engWords: getWords(lesson.eng)
   }
 }
 

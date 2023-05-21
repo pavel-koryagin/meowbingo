@@ -1,5 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { ElectronWrapperAPI } from './ElectronWrapperAPI';
+import { ElectronWrapperAPI } from './ElectronWrapperAPI'
 
 declare global {
   interface Window {

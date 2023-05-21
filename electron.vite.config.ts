@@ -12,6 +12,7 @@ export default defineConfig({
   renderer: {
     resolve: {
       alias: {
+        '~bootstrap': resolve('node_modules/bootstrap'),
         '@renderer': resolve('src/renderer/src')
       }
     },

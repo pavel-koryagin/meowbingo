@@ -8,7 +8,7 @@ export function TrainingPane(): JSX.Element {
 
   return (
     <div>
-      <table>
+      <table className="table">
         <thead>
           <tr>
             <th>Geo {geoSentences.length}</th>

@@ -6,20 +6,24 @@ export function TrainingPane(): JSX.Element {
   const [isAnswerPerfect, setIsAnswerPerfect] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
 
-  const lesson = getNextLesson()
+  const [enrichedLesson, setEnrichedLesson] = useState(getNextLesson())
 
   return (
     <TrainingPaneView
-      lesson={lesson}
+      enrichedLesson={enrichedLesson}
       showAnswer={showAnswer}
       isAnswerPerfect={isAnswerPerfect}
       onSubmit={(answer) => {
         // Accept
-        const isAnswerPerfect = acceptAnswer(answer)
+        const isAnswerPerfect = acceptAnswer(enrichedLesson.lesson, answer)
         setIsAnswerPerfect(isAnswerPerfect)
 
         // Show
         setShowAnswer(true)
+      }}
+      onNext={() => {
+        setEnrichedLesson(getNextLesson())
+        setShowAnswer(false)
       }}
     />
   )

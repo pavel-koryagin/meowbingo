@@ -113,10 +113,12 @@ export function acceptAnswer(
 
 export function amendEstimation(estimation?: Estimation) {
   state.answers[state.answers.length - 1].estimation = estimation
+  window.api.setState(state)
 }
 
 export function dropLesson(lessonId: string) {
   if (!state.droppedLessonIds.includes(lessonId)) {
     state.droppedLessonIds.push(lessonId)
+    window.api.setState(state)
   }
 }

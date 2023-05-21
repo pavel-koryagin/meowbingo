@@ -1,7 +1,9 @@
+import { isAnswerPerfect } from './lessonsBase'
+
 export interface Lesson {
   id: string
   shownAt: number
-  isReverse: boolean
+  askInGeorgian: boolean
   geo: string
   eng: string
 }
@@ -30,7 +32,7 @@ export function getNextLesson(): EnrichedLesson {
     lesson: {
       id: 'Lesson 2 > Block > sentence 1',
       shownAt: Date.now(),
-      isReverse: false,
+      askInGeorgian: false,
       geo: 'მე ვიყავი სახლში',
       eng: 'I was at home'
     },
@@ -49,5 +51,6 @@ export function acceptAnswer(lesson: Lesson, answer: string): boolean /* isPerfe
   })
   window.api.setState(state)
 
-  return true
+  // Check the answer
+  return isAnswerPerfect(lesson.askInGeorgian ? lesson.eng : lesson.geo, answer)
 }

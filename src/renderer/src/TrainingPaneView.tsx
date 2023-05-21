@@ -11,7 +11,7 @@ interface Props {
 
 export function TrainingPaneView({
   enrichedLesson: {
-    lesson: { eng, geo }
+    lesson: { eng, geo, askInGeorgian }
   },
   showAnswer,
   isAnswerPerfect,
@@ -21,7 +21,7 @@ export function TrainingPaneView({
   const [answer, setAnswer] = useState('')
   const textareaRef = createRef<HTMLTextAreaElement>()
 
-  const canSubmit = answer.trim() !== '';
+  const canSubmit = answer.trim() !== ''
 
   function submitAction() {
     if (!canSubmit) {
@@ -54,7 +54,7 @@ export function TrainingPaneView({
         }
       }}
     >
-      <div className="form-group mb-3">{eng}</div>
+      <div className="form-group mb-3">{askInGeorgian ? geo : eng}</div>
       <div className="form-group mb-3">
         <textarea
           className="form-control"
@@ -66,10 +66,17 @@ export function TrainingPaneView({
       </div>
       <div className="form-group mb-3">
         {showAnswer ? (
-          <div className={`alert ${isAnswerPerfect ? 'alert-success' : 'alert-info'}`}>{geo}</div>
+          <div className={`alert ${isAnswerPerfect ? 'alert-success' : 'alert-warning'}`}>
+            {askInGeorgian ? eng : geo}
+          </div>
         ) : null}
         <p>
-          <input type="submit" className="btn btn-primary" value={showAnswer ? 'Next' : 'Check' } disabled={!canSubmit} />
+          <input
+            type="submit"
+            className="btn btn-primary"
+            value={showAnswer ? 'Next' : 'Check'}
+            disabled={!canSubmit}
+          />
         </p>
       </div>
     </form>

@@ -1,11 +1,13 @@
 import { EnrichedLesson, Estimation } from './studentProgress'
 import { createRef, useEffect, useState } from 'react'
+import { getQualifiedWords } from './lessonsBase'
 
 interface Props {
   enrichedLesson: EnrichedLesson
   showAnswer: boolean
   answer: string
   hint?: string[]
+  goodWords: string[]
   isAnswerPerfect: boolean
   onAnswerChange: (answer: string) => void
   onSubmit: (answer: string, button?: Estimation | 'skip' | 'drop') => void
@@ -28,6 +30,9 @@ export function TrainingPaneView({
   const textareaRef = createRef<HTMLTextAreaElement>()
 
   const hasAnswerToSubmit = answer.trim() !== ''
+
+  const expectedAnswer = askInGeorgian ? eng : geo
+  const qualifiedWords = getQualifiedWords(expectedAnswer, answer)
 
   function defaultAction() {
     if (showAnswer || hasAnswerToSubmit) {
@@ -100,7 +105,9 @@ export function TrainingPaneView({
             </>
           ) : (
             <span className={showAnswer ? undefined : 'invisible'}>
-              {askInGeorgian ? eng : geo}
+              {qualifiedWords.map(({ withPunctuation, matchesTyped }, index) =>
+                matchesTyped ? withPunctuation : <strong key={index}>{withPunctuation}</strong>
+              )}
             </span>
           )}
         </div>

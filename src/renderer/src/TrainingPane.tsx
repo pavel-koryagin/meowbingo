@@ -10,12 +10,14 @@ export function TrainingPane(): JSX.Element {
 
   const [enrichedLesson, setEnrichedLesson] = useState(takeNextLesson())
   const [hint, setHint] = useState<string[] | undefined>(undefined)
+  const [goodWords, setGoodWords] = useState<string[]>([])
 
   function next() {
     setEnrichedLesson(takeNextLesson())
     setShowAnswer(false)
     setHint(undefined)
     setAnswer('')
+    setGoodWords([])
   }
 
   return (
@@ -24,6 +26,7 @@ export function TrainingPane(): JSX.Element {
       showAnswer={showAnswer}
       answer={answer}
       hint={hint}
+      goodWords={goodWords}
       isAnswerPerfect={isAnswerPerfect}
       onAnswerChange={setAnswer}
       onSubmit={(answer, estimation) => {
@@ -42,8 +45,13 @@ export function TrainingPane(): JSX.Element {
 
         // Accept
         if (estimation === undefined && !showAnswer) {
-          const isAnswerPerfect = acceptAnswer(enrichedLesson.lesson, answer, estimation)
-          setIsAnswerPerfect(isAnswerPerfect)
+          const { isPerfect, goodWords: newGoodWords } = acceptAnswer(
+            enrichedLesson.lesson,
+            answer,
+            estimation
+          )
+          setIsAnswerPerfect(isPerfect)
+          setGoodWords(newGoodWords)
 
           // Show
           setShowAnswer(true)

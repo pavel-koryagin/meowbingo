@@ -1,4 +1,4 @@
-import { getSentences, getWords, isAnswerPerfect } from './lessonsBase'
+import { AnswerResult, getSentences, getWords, isAnswerPerfect } from "./lessonsBase";
 import { texts } from './texts'
 import _sample from 'lodash/sample'
 
@@ -78,7 +78,7 @@ export function takeNextLesson(): EnrichedLesson {
   let lesson: Lesson
   do {
     lesson = _sample(allLessons)!
-  } while (lastLessonIds.includes(lesson.id))
+  } while (lastLessonIds.includes(lesson.id) || state.droppedLessonIds.includes(lesson.id))
 
   // Use the lesson
   lessonIdsInThisSession.push(lesson.id)
@@ -97,7 +97,7 @@ export function acceptAnswer(
   lesson: Lesson,
   answer: string,
   estimation?: Estimation
-): boolean /* isPerfect */ {
+): AnswerResult {
   // Save
   state.answers.push({
     lesson,

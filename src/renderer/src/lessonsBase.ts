@@ -1,7 +1,10 @@
 import { texts } from './texts'
 
 export function getSentences(text: string) {
-  return text.split(/\.\?!/).filter((v) => v)
+  return text
+    .split(/(?<=[.?!])/)
+    .filter((v) => v)
+    .map((v) => v.trim().replace(/^[–-]\s+/, ''))
 }
 
 export function getBlock1Pair() {

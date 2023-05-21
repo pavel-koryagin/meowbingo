@@ -66,7 +66,13 @@ function generateAllLessons(): Lesson[] {
 }
 
 export function getNextLesson(): EnrichedLesson {
-  const lesson = _sample(allLessons)
+  const lastThreeLessonIds = getLastThreeLessonIds()
+
+  let lesson: Lesson
+  do {
+    lesson = _sample(allLessons)
+  } while (lastThreeLessonIds.includes(lesson.id))
+
   return {
     lesson: {
       ...lesson,
@@ -89,4 +95,8 @@ export function acceptAnswer(lesson: Lesson, answer: string): boolean /* isPerfe
 
   // Check the answer
   return isAnswerPerfect(lesson.askInGeorgian ? lesson.eng : lesson.geo, answer)
+}
+
+function getLastThreeLessonIds(): string[] {
+  return state.answers.slice(-3).map((v) => v.lesson.id)
 }

@@ -11,6 +11,7 @@ An Electron application with React and TypeScript
   - Merge after skipping the ones marked bad
 - Rename 'lesson' to 'task'
 - Replace Next with 'Bad' and 'Good'? Use backspace for 'Bad'?
+- Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
 
 ## Ranging algorithm
 

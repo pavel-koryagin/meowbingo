@@ -62,5 +62,107 @@ i) – Who is in the room? – I am in the room. The Korean student is in the cl
 j) – What is in the room? – There is a table in the room. – What is on the table? – A pen is on the table.`
       }
     ]
+  },
+  {
+    title: 'Lesson 3',
+    blocks: [
+      {
+        title: 'Texts',
+        geo: `– გამარჯობა! მე ვარ ამერიკელი სტუდენტი ნიუ იორკიდან. საქართველოში მე ვსწავლობ ქართულს. საქართველო პატარა, მაგრამ ლამაზი ქვეყანაა. თბილისი ლამაზი ქალაქია? – დიახ, ლამაზია. კავკასიონი დიდი და ლამაზია. ეს დიდი მთაა. – ეს კორეელი სტუდენტი არ არის კლასში. სად ხართ თქვენ? – შენ ხარ უნივერსიტეტში და მე ვარ სახლში. დედა და მამა სოფელში არიან. – ჩვენ ვართ ქალაქში. დედა არის გერმანიიდან, მამა არის თბილისელი. ბოდიში, ჩვენ არ ვართ სახლში. ჩვენ ვართ უნივერსიტეტში.
+– გამარჯობა! შენ კორეელი ხარ?
+– არა, მე გერმანიიდან ვარ. მე ვსწავლობ ქართულს თბილისში. საიდან ხართ თქვენ
+და სადაურია ეს სტუდენტი?
+– მე ვარ იაპონიიდან, მაგრამ ეს არის ლონდონიდან. ეს ინგლისელია.
+– მადლობა. ნახვამდის.`,
+        eng: `– Hello! I am an American student from New York. I'm studying Georgian in Georgia. Georgia is a small, but beautiful country. Is Tbilisi a beautiful city? – Yes, it's beautiful. The Caucasus is big and beautiful. This is a big mountain. – This Korean student is not in the classroom. Where are you? – You are at the university and I am at home. (My) mom and dad are in the village. – We are in the city. (My) mom is from Germany; dad is Tbilisian. Sorry we aren't at home. We are at the university.
+– Hello! Are you Korean?
+– No, I'm from Germany. I'm studying Georgian in Tbilisi. Where from are you and where
+is this student from?
+– I'm from Japan, but they are from London. They are English.
+– Thank you. Goodbye.`
+      },
+      {
+        title: '1. Read and translate',
+        isList: true,
+        geo: `a) ჩვენ ვართ მთაზე, ჩვენ ვართ კავკასიონზე.
+b) ისინი არიან ამერიკიდან და თქვენ ხართ იტალიიდან. ის არის კორეელი
+სეულიდან და მე ვარ თბილისელი. შენ თბილისელი ხარ? – დიახ, მე
+თბილისიდან ვარ და თქვენ სადაური ხართ?
+c) ბოდიში. რა არის ეს? ვინ ხარ შენ? – მე ვარ ამერიკელი. ის არის ესპანელი.
+– ესპანელი მადრიდიდან არის? – არა, ის ბარსელონადან არის. ის არ არის
+მადრიდელი.
+d) – სად არიან დედა და მამა? – ისინი არ არიან ქალაქში. ისინი სოფელში არიან.
+– საიდანაა დედა? – დედა ქართველია. – მამა? – მამა იტალიელია ვენეციიდან.`,
+        eng: `a) We are on a mountain, we are on the Caucasus.
+b) They are from America and you all are from Italy. He/she is Korean from Seoul and I
+am Tbilisian. Are you Tbilisian? – Yes, I am Tbilisian and where are you from?
+c) I'm sorry. What is this? Who are you? – I am American. He/she is Spanish. – Is the
+Spaniard from Madrid? – No, he/she is from Barcelona. He/she is not Madridian.
+d) – Where are mom and dad? – They are not in the city. They are in the village. – Where is your mom from? – (My) mom is Georgian. – (Your) dad? – (My) dad is
+Italian, from Venice.`
+      },
+      {
+        title: '2. Translate and try to answer',
+        isList: true,
+        geo: `a) ვინ ხარ შენ? შენ სტუდენტი ხარ?
+b) სადაური ხართ? საიდანაა დედა? სადაურია მამა? c) ის საიდანაა?
+d) ვინ არიან ისინი? სად არიან ისინი?
+e) ეს სტუდენტი ვინ არის?`,
+        eng: `a) Who are you? Are you a student?
+b) Where are you from? Where is mom from? Where is dad from? c) Where is he from?
+d) Who are they? Where are they?
+e) Who is this student?`
+      },
+      {
+        title: '3. Translate into Georgian',
+        isList: true,
+        geo: `a) მე ვარ კორეიდან. მე ვსწავლობ ქართულს თბილისში. საქართველო არის პატარა, მაგრამ ლამაზი ქვეყანა. სეული არის დიდი და ლამაზი ქალაქი.
+b) მე არ ვარ კორეაში. მე ვარ ამერიკაში. ეს არის ამერიკელი სტუდენტი.
+c) კალამი არის მაგიდაზე, ოთახში.
+d) ისინი არ არიან უნივერსიტეტში, ისინი არიან სოფელში.
+e) შენ ხარ მთაზე.
+f) ბოდიში.მადლობა.ნახვამდის.`,
+        eng: `a) I am from Korea. I study Georgian in Tbilisi. Georgia is small, but it’s a beautiful country. Seoul is a big and beautiful city.
+b) I am not in Korea. I am in America. This is an American student.
+c) The pen is on the table in the room.
+d) They are not in the university, they are in the village.
+e) You are on the mountains.
+f) I’m sorry. Thank you. Goodbye.`
+      },
+      {
+        title: '4. Translate into Georgian and answer the questions',
+        isList: true,
+        geo: `a) ვინ ხართ თქვენ? b) სად ხართ თქვენ? c) სადაური ხართ?
+d) სადაურებიარიან? e) რა არის ის?
+f) სეულიდიდიქალაქია?
+g) ამერიკა არის პატარა ქვეყანა?
+h) სად არის ეს გერმანელი სტუდენტი?
+i) რაარისმაგიდაზე?
+j) რაარისკლასში?
+k) სად არის კავკასიონი?
+l) სადარისთბილისიდასადარისლონდონი? m)რა არის ეს?
+n) ვინ არის ეს?
+o) ვინ არიან ისინი?`,
+        eng: `a) Who are you?
+b) Where are you?
+c) Where are you from?
+d) Where are they from?
+e) What is it?
+f) IsSeoulabigcity?
+g) Is America a small country?
+h) Where is this German student?
+i) Whatisonthetable?
+j) Whoisintheclass?
+k) Where is Caucasus?
+l) WhereisTbilisiandwhereisLondon? m)What is this?
+n) Who is this?
+o) Who are they?`
+      },
+      {
+        title: '',
+        geo: ``,
+        eng: ``
+      }
+    ]
   }
 ]

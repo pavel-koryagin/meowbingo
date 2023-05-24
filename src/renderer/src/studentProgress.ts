@@ -1,6 +1,6 @@
 import { AnswerResult, getWords, isAnswerPerfect } from './textUtils'
 import _sample from 'lodash/sample'
-import { allTasks } from './tasksBase'
+import { allTaskSentences } from './tasksBase'
 
 export interface Task {
   id: string
@@ -41,7 +41,14 @@ export function takeNextTask(): EnrichedTask {
   // Pick task
   let task: Task
   do {
-    task = _sample(allTasks)!
+    const { id, geo, eng } = _sample(allTaskSentences)!
+    task = {
+      id,
+      shownAt: 0,
+      askInGeorgian: Math.random() < 0.5,
+      geo,
+      eng
+    }
   } while (lastTaskIds.includes(task.id) || state.droppedTaskIds.includes(task.id))
 
   // Use the task
@@ -57,11 +64,7 @@ export function takeNextTask(): EnrichedTask {
   }
 }
 
-export function acceptAnswer(
-  task: Task,
-  answer: string,
-  estimation?: Estimation
-): AnswerResult {
+export function acceptAnswer(task: Task, answer: string, estimation?: Estimation): AnswerResult {
   // Save
   state.answers.push({
     task,

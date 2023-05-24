@@ -6,8 +6,8 @@ An Electron application with React and TypeScript
 
 - Skip the tasks marked 'easy'
 - Rename 'Drop' to mark the sentence pair bad and skip it, not skipping the task
-- Marge the same sentences.
-  - Use the id from the first of them
+- Merge the same sentences.
+  + Use the id from the first of them
   - Merge after skipping the ones marked bad
   - Collect all the other variants for checking the answer. Show the perfect one
 - Rename 'lesson' to 'task'

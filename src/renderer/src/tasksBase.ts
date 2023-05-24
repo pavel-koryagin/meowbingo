@@ -11,7 +11,10 @@ interface TaskSentence {
 
 type TaskSentencesByKey = Record<string, TaskSentence>
 
-export function generateAllTaskSentences(texts: Texts): TaskSentence[] {
+export function generateAllTaskSentences(texts: Texts): {
+  duplicateToPrimaryIds: Record<string, string>
+  allTaskSentences: TaskSentence[]
+} {
   const taskSentencesByTextKey = {} as TaskSentencesByKey
 
   for (const { title: taskTitle, blocks } of texts) {
@@ -35,7 +38,17 @@ export function generateAllTaskSentences(texts: Texts): TaskSentence[] {
     }
   }
 
-  return _uniqBy(Object.values(taskSentencesByTextKey), 'id')
+  const allTaskSentences = _uniqBy(Object.values(taskSentencesByTextKey), 'id')
+
+  const duplicateToPrimaryIds = {} as Record<string, string>
+  for (const taskSentence of allTaskSentences) {
+    duplicateToPrimaryIds[taskSentence.id] = taskSentence.id
+    for (const duplicate of taskSentence.duplicates) {
+      duplicateToPrimaryIds[duplicate.id] = taskSentence.id
+    }
+  }
+
+  return { duplicateToPrimaryIds, allTaskSentences }
 }
 
 function getSentenceKey(sentence: string): string {
@@ -74,7 +87,10 @@ function registerTaskSentence(
       // no engKey, but has geoKey
       taskSentencesByTextKey[geoKey].duplicates.push(item)
       taskSentencesByTextKey[engKey] = taskSentencesByTextKey[geoKey]
-    } else if (taskSentencesByTextKey[engKey] !== taskSentencesByTextKey[geoKey]) {
+    } else if (taskSentencesByTextKey[engKey] === taskSentencesByTextKey[geoKey]) {
+      // full duplicate by engKey and geoKey
+      taskSentencesByTextKey[geoKey].duplicates.push(item)
+    } else {
       // has both: merge engKey into geoKey
       const masterTaskSentence = taskSentencesByTextKey[geoKey]
       masterTaskSentence.duplicates = [
@@ -84,7 +100,13 @@ function registerTaskSentence(
         item
       ]
       taskSentencesByTextKey[engKey].duplicates = []
+
+      // Set all pointers to master, this includes engKey
       taskSentencesByTextKey[engKey] = masterTaskSentence
+      for (const duplicate of masterTaskSentence.duplicates) {
+        taskSentencesByTextKey[getSentenceKey(duplicate.geo)] = masterTaskSentence
+        taskSentencesByTextKey[getSentenceKey(duplicate.eng)] = masterTaskSentence
+      }
     }
   } else {
     // no geoKey, but has engKey

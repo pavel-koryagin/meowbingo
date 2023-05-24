@@ -18,7 +18,7 @@ export interface EnrichedTask {
   engWords: string[]
 }
 
-const allTaskSentences = generateAllTaskSentences(texts)
+const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(texts)
 
 export type Estimation = 'easy' | 'hard'
 
@@ -37,12 +37,36 @@ export interface AppState {
 const state: AppState = await window.api.getState<AppState>()
 const taskIdsInThisSession: string[] = []
 
+export interface TaskStats {
+  hasEasy: boolean
+}
+
+function extractStatsFromAnswers(): Record<string, TaskStats> {
+  const result: Record<string, TaskStats> = {}
+  for (const { task, estimation } of state.answers) {
+    const taskId = duplicateToPrimaryIds[task.id]
+    if (!result[taskId]) {
+      result[taskId] = {
+        hasEasy: false
+      }
+    }
+    if (estimation === 'easy') {
+      result[taskId].hasEasy = true
+    }
+  }
+
+  return result
+}
+
+const taskStats: Record<string, TaskStats> = extractStatsFromAnswers()
+
 export function takeNextTask(): EnrichedTask {
   // Get task ids to avoid
   const lastTaskIds = taskIdsInThisSession.slice(-20)
 
   // Pick task
   let task: Task
+  let dropThis = false
   do {
     const { id, geo, eng } = _sample(allTaskSentences)!
     task = {
@@ -52,7 +76,11 @@ export function takeNextTask(): EnrichedTask {
       geo,
       eng
     }
-  } while (lastTaskIds.includes(task.id) || state.droppedTaskIds.includes(task.id))
+
+    const stats = taskStats[task.id]
+    dropThis =
+      lastTaskIds.includes(task.id) || state.droppedTaskIds.includes(task.id) || stats?.hasEasy
+  } while (dropThis)
 
   // Use the task
   taskIdsInThisSession.push(task.id)

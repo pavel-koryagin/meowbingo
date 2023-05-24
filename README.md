@@ -19,7 +19,7 @@ An Electron application with React and TypeScript
 
 - Use buckets, e.g. 'time to repeat', 'new', 'hard' to avoid some of the cards becoming unavailable
 - Define sorting formula for every bucket
-- Calculate dynamic parameters for every lesson, based on the answers
+- Calculate dynamic parameters for every task, based on the answers
 
 ## Recommended IDE Setup
 

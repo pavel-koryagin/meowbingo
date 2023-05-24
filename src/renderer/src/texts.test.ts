@@ -2,9 +2,9 @@ import { texts } from './texts'
 import { getSentences } from './textUtils'
 
 describe('texts', () => {
-  for (const { title: lessonTitle, blocks } of texts) {
+  for (const { title: taskTitle, blocks } of texts) {
     for (const { title: blockTitle, geo, eng } of blocks) {
-      it(`"${lessonTitle} > ${blockTitle}" has no contradictions`, () => {
+      it(`"${taskTitle} > ${blockTitle}" has no contradictions`, () => {
         const geoSentences = getSentences(geo)
         const engSentences = getSentences(eng)
 

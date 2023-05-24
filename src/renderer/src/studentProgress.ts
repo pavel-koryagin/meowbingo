@@ -1,8 +1,8 @@
 import { AnswerResult, getWords, isAnswerPerfect } from './textUtils'
 import _sample from 'lodash/sample'
-import { allLessons } from './lessonsBase'
+import { allTasks } from './tasksBase'
 
-export interface Lesson {
+export interface Task {
   id: string
   shownAt: number
   askInGeorgian: boolean
@@ -10,8 +10,8 @@ export interface Lesson {
   eng: string
 }
 
-export interface EnrichedLesson {
-  lesson: Lesson
+export interface EnrichedTask {
+  task: Task
   geoAudio: string | null
   geoWords: string[]
   engWords: string[]
@@ -20,7 +20,7 @@ export interface EnrichedLesson {
 export type Estimation = 'easy' | 'hard'
 
 interface Answer {
-  lesson: Lesson
+  task: Task
   answer: string
   estimation?: Estimation
   submittedAt: number
@@ -28,43 +28,43 @@ interface Answer {
 
 export interface AppState {
   answers: Answer[]
-  droppedLessonIds: string[]
+  droppedTaskIds: string[]
 }
 
 const state: AppState = await window.api.getState<AppState>()
-const lessonIdsInThisSession: string[] = []
+const taskIdsInThisSession: string[] = []
 
-export function takeNextLesson(): EnrichedLesson {
-  // Get lesson ids to avoid
-  const lastLessonIds = lessonIdsInThisSession.slice(-20)
+export function takeNextTask(): EnrichedTask {
+  // Get task ids to avoid
+  const lastTaskIds = taskIdsInThisSession.slice(-20)
 
-  // Pick lesson
-  let lesson: Lesson
+  // Pick task
+  let task: Task
   do {
-    lesson = _sample(allLessons)!
-  } while (lastLessonIds.includes(lesson.id) || state.droppedLessonIds.includes(lesson.id))
+    task = _sample(allTasks)!
+  } while (lastTaskIds.includes(task.id) || state.droppedTaskIds.includes(task.id))
 
-  // Use the lesson
-  lessonIdsInThisSession.push(lesson.id)
+  // Use the task
+  taskIdsInThisSession.push(task.id)
   return {
-    lesson: {
-      ...lesson,
+    task: {
+      ...task,
       shownAt: Date.now()
     },
     geoAudio: null,
-    geoWords: getWords(lesson.geo),
-    engWords: getWords(lesson.eng)
+    geoWords: getWords(task.geo),
+    engWords: getWords(task.eng)
   }
 }
 
 export function acceptAnswer(
-  lesson: Lesson,
+  task: Task,
   answer: string,
   estimation?: Estimation
 ): AnswerResult {
   // Save
   state.answers.push({
-    lesson,
+    task,
     answer,
     estimation,
     submittedAt: Date.now()
@@ -72,7 +72,7 @@ export function acceptAnswer(
   window.api.setState(state)
 
   // Check the answer
-  return isAnswerPerfect(lesson.askInGeorgian ? lesson.eng : lesson.geo, answer)
+  return isAnswerPerfect(task.askInGeorgian ? task.eng : task.geo, answer)
 }
 
 export function amendEstimation(estimation?: Estimation) {
@@ -80,9 +80,9 @@ export function amendEstimation(estimation?: Estimation) {
   window.api.setState(state)
 }
 
-export function dropLesson(lessonId: string) {
-  if (!state.droppedLessonIds.includes(lessonId)) {
-    state.droppedLessonIds.push(lessonId)
+export function dropTask(taskId: string) {
+  if (!state.droppedTaskIds.includes(taskId)) {
+    state.droppedTaskIds.push(taskId)
     window.api.setState(state)
   }
 }

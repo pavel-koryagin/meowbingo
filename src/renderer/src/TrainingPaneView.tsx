@@ -1,9 +1,9 @@
-import { EnrichedLesson, Estimation } from './studentProgress'
+import { EnrichedTask, Estimation } from './studentProgress'
 import { createRef, useEffect, useState } from 'react'
 import { getQualifiedWords } from './textUtils'
 
 interface Props {
-  enrichedLesson: EnrichedLesson
+  enrichedTask: EnrichedTask
   showAnswer: boolean
   answer: string
   hint?: string[]
@@ -15,8 +15,8 @@ interface Props {
 }
 
 export function TrainingPaneView({
-  enrichedLesson: {
-    lesson: { id, eng, geo, askInGeorgian }
+  enrichedTask: {
+    task: { id, eng, geo, askInGeorgian }
   },
   showAnswer,
   answer,
@@ -30,7 +30,7 @@ export function TrainingPaneView({
   const [usedHints, setUsedHints] = useState<number[]>([])
   const textareaRef = createRef<HTMLTextAreaElement>()
 
-  // Reset on every change of the lesson
+  // Reset on every change of the task
   useEffect(() => {
     if (usedHints.length) {
       setUsedHints([])

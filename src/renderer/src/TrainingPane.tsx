@@ -1,4 +1,4 @@
-import { acceptAnswer, amendEstimation, dropLesson, takeNextLesson } from './studentProgress'
+import { acceptAnswer, amendEstimation, dropTask, takeNextTask } from './studentProgress'
 import { TrainingPaneView } from './TrainingPaneView'
 import { useState } from 'react'
 import _shuffle from 'lodash/shuffle'
@@ -8,12 +8,12 @@ export function TrainingPane(): JSX.Element {
   const [showAnswer, setShowAnswer] = useState(false)
   const [answer, setAnswer] = useState('')
 
-  const [enrichedLesson, setEnrichedLesson] = useState(takeNextLesson())
+  const [enrichedTask, setEnrichedTask] = useState(takeNextTask())
   const [hint, setHint] = useState<string[] | undefined>(undefined)
   const [goodWords, setGoodWords] = useState<string[]>([])
 
   function next() {
-    setEnrichedLesson(takeNextLesson())
+    setEnrichedTask(takeNextTask())
     setShowAnswer(false)
     setHint(undefined)
     setAnswer('')
@@ -22,7 +22,7 @@ export function TrainingPane(): JSX.Element {
 
   return (
     <TrainingPaneView
-      enrichedLesson={enrichedLesson}
+      enrichedTask={enrichedTask}
       showAnswer={showAnswer}
       answer={answer}
       hint={hint}
@@ -32,7 +32,7 @@ export function TrainingPane(): JSX.Element {
       onSubmit={(answer, estimation) => {
         // Drop
         if (estimation === 'drop') {
-          dropLesson(enrichedLesson.lesson.id)
+          dropTask(enrichedTask.task.id)
           next()
           return
         }
@@ -46,7 +46,7 @@ export function TrainingPane(): JSX.Element {
         // Accept
         if (estimation === undefined && !showAnswer) {
           const { isPerfect, goodWords: newGoodWords } = acceptAnswer(
-            enrichedLesson.lesson,
+            enrichedTask.task,
             answer,
             estimation
           )
@@ -62,14 +62,14 @@ export function TrainingPane(): JSX.Element {
         if (showAnswer) {
           amendEstimation(estimation)
         } else {
-          acceptAnswer(enrichedLesson.lesson, answer, estimation)
+          acceptAnswer(enrichedTask.task, answer, estimation)
         }
         next()
       }}
       onHint={() => {
-        const words = enrichedLesson.lesson.askInGeorgian
-          ? enrichedLesson.engWords
-          : enrichedLesson.geoWords
+        const words = enrichedTask.task.askInGeorgian
+          ? enrichedTask.engWords
+          : enrichedTask.geoWords
         setHint(_shuffle(words))
       }}
     />

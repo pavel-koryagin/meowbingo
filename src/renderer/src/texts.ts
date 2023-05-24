@@ -10,7 +10,7 @@ type Texts = {
 
 export const texts: Texts = [
   {
-    title: 'Lesson 2',
+    title: 'Task 2',
     blocks: [
       {
         title: 'Text',
@@ -64,7 +64,7 @@ j) – What is in the room? – There is a table in the room. – What is on the
     ]
   },
   {
-    title: 'Lesson 3',
+    title: 'Task 3',
     blocks: [
       {
         title: 'Texts',

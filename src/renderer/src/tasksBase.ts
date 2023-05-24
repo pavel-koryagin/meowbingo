@@ -1,26 +1,26 @@
 import { texts } from './texts'
 import { getSentences } from './textUtils'
-import { Lesson } from './studentProgress'
+import { Task } from './studentProgress'
 
-export const allLessons: Lesson[] = generateAllLessons()
+export const allTasks: Task[] = generateAllTasks()
 
-function generateAllLessons(): Lesson[] {
-  const result: Lesson[] = []
+function generateAllTasks(): Task[] {
+  const result: Task[] = []
 
-  for (const { title: lessonTitle, blocks } of texts) {
+  for (const { title: taskTitle, blocks } of texts) {
     for (const { title: blockTitle, geo, eng } of blocks) {
       const geoSentences = getSentences(geo)
       const engSentences = getSentences(eng)
 
       if (geoSentences.length !== engSentences.length) {
         throw new Error(
-          `"${lessonTitle} > ${blockTitle}" has ${geoSentences.length} Georgian sentences and ${engSentences.length} English sentences`
+          `"${taskTitle} > ${blockTitle}" has ${geoSentences.length} Georgian sentences and ${engSentences.length} English sentences`
         )
       }
 
       for (let i = 0; i < geoSentences.length; i++) {
-        const item: Lesson = {
-          id: `${lessonTitle} > ${blockTitle} > sentence ${i + 1}`,
+        const item: Task = {
+          id: `${taskTitle} > ${blockTitle} > sentence ${i + 1}`,
           shownAt: 0,
           askInGeorgian: true,
           geo: geoSentences[i],

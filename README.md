@@ -4,16 +4,15 @@ An Electron application with React and TypeScript
 
 ## TODO list
 
-- Skip the tasks marked 'easy'
-- Rename 'Drop' to mark the sentence pair bad and skip it, not skipping the task
+- Rename 'Drop' to mark the sentence pair bad and skip it, not skipping the whole merged task (if any)
 - Merge the same sentences.
   + Use the id from the first of them
   - Merge after skipping the ones marked bad
   - Collect all the other variants for checking the answer. Show the perfect one
-- Rename 'lesson' to 'task'
 - Replace Next with 'Bad' and 'Good'? Use backspace for 'Bad'?
 - Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
 - On Hint show "one word" instead of a single-word hint itself
+- Create a view to show all tasks and their statuses
 
 ## Ranging algorithm
 

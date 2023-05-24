@@ -1,4 +1,4 @@
-import { EnrichedTask, Estimation } from './studentProgress'
+import { EnrichedTask, Estimation } from './studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
 import { getQualifiedWords } from './textUtils'
 
@@ -84,33 +84,39 @@ export function TrainingPaneView({
           }`}
         >
           {hint && !showAnswer ? (
-            <>
-              {hint.map((word, index) => (
+            hint.length === 1 ? (
+              // Single word hint; user presses "Check" if no idea
+              <span>One word</span>
+            ) : (
+              // Regular hint
+              <>
+                {hint.map((word, index) => (
+                  <span
+                    key={index}
+                    className={`me-3 ${usedHints.includes(index) ? 'opacity-50' : ''}`}
+                    style={{
+                      cursor: 'pointer',
+                      borderBottom: '1px dashed var(--bs-info)'
+                    }}
+                    onClick={() => {
+                      onAnswerChange(answer.trimEnd() + ' ' + word)
+                      setUsedHints([...usedHints, index])
+                    }}
+                  >
+                    {word}
+                  </span>
+                ))}
                 <span
-                  key={index}
-                  className={`me-3 ${usedHints.includes(index) ? 'opacity-50' : ''}`}
-                  style={{
-                    cursor: 'pointer',
-                    borderBottom: '1px dashed var(--bs-info)'
-                  }}
-                  onClick={() => {
-                    onAnswerChange(answer.trimEnd() + ' ' + word)
-                    setUsedHints([...usedHints, index])
-                  }}
+                  className={`btn btn-sm btn-outline-dark align-baseline ${
+                    usedHints.length ? 'visible' : 'invisible'
+                  }`}
+                  style={{ margin: '-5px 0' }}
+                  onClick={() => setUsedHints([])}
                 >
-                  {word}
+                  ×
                 </span>
-              ))}
-              <span
-                className={`btn btn-sm btn-outline-dark align-baseline ${
-                  usedHints.length ? 'visible' : 'invisible'
-                }`}
-                style={{ margin: '-5px 0' }}
-                onClick={() => setUsedHints([])}
-              >
-                ×
-              </span>
-            </>
+              </>
+            )
           ) : (
             <span className={showAnswer ? undefined : 'invisible'}>
               {qualifiedWords.map(({ withPunctuation, matchesTyped }, index) =>

@@ -11,7 +11,6 @@ An Electron application with React and TypeScript
   - Collect all the other variants for checking the answer. Show the perfect one
 - Replace Next with 'Bad' and 'Good'? Use backspace for 'Bad'?
 - Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
-- On Hint show "one word" instead of a single-word hint itself
 - Create a view to show all tasks and their statuses
 
 ## Ranging algorithm

@@ -2,32 +2,16 @@ import { AnswerResult, getWords, isAnswerPerfect } from './textUtils'
 import _sample from 'lodash/sample'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
-
-export interface Task {
-  id: string
-  shownAt: number
-  askInGeorgian: boolean
-  geo: string
-  eng: string
-}
-
-export interface EnrichedTask {
-  task: Task
-  geoAudio: string | null
-  geoWords: string[]
-  engWords: string[]
-}
+import {
+  Answer,
+  EnrichedTask,
+  Estimation,
+  extractStatsFromAnswers,
+  Task,
+  TaskStats
+} from './studentProgressUtils'
 
 const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(texts)
-
-export type Estimation = 'easy' | 'hard'
-
-interface Answer {
-  task: Task
-  answer: string
-  estimation?: Estimation
-  submittedAt: number
-}
 
 export interface AppState {
   answers: Answer[]
@@ -37,28 +21,10 @@ export interface AppState {
 const state: AppState = await window.api.getState<AppState>()
 const taskIdsInThisSession: string[] = []
 
-export interface TaskStats {
-  hasEasy: boolean
-}
-
-function extractStatsFromAnswers(): Record<string, TaskStats> {
-  const result: Record<string, TaskStats> = {}
-  for (const { task, estimation } of state.answers) {
-    const taskId = duplicateToPrimaryIds[task.id]
-    if (!result[taskId]) {
-      result[taskId] = {
-        hasEasy: false
-      }
-    }
-    if (estimation === 'easy') {
-      result[taskId].hasEasy = true
-    }
-  }
-
-  return result
-}
-
-const taskStats: Record<string, TaskStats> = extractStatsFromAnswers()
+const taskStats: Record<string, TaskStats> = extractStatsFromAnswers({
+  duplicateToPrimaryIds,
+  answers: state.answers
+})
 
 export function takeNextTask(): EnrichedTask {
   // Get task ids to avoid

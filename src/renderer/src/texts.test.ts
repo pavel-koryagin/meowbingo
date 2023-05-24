@@ -1,5 +1,5 @@
 import { texts } from './texts'
-import { getSentences } from './lessonParsers'
+import { getSentences } from './textUtils'
 
 describe('texts', () => {
   for (const { title: lessonTitle, blocks } of texts) {

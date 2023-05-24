@@ -1,4 +1,4 @@
-import { AnswerResult, getWords, isAnswerPerfect } from './lessonParsers'
+import { AnswerResult, getWords, isAnswerPerfect } from './textUtils'
 import _sample from 'lodash/sample'
 import { allLessons } from './lessonsBase'
 

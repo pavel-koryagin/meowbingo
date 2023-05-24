@@ -1,4 +1,4 @@
-import { getList, getSentences, getWords } from './lessonParsers'
+import { getList, getSentences, getWords } from './textUtils'
 
 describe('getSentences', () => {
   it('handles typical case', () => {

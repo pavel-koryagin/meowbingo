@@ -1,6 +1,6 @@
 import { EnrichedLesson, Estimation } from './studentProgress'
 import { createRef, useEffect, useState } from 'react'
-import { getQualifiedWords } from './lessonParsers'
+import { getQualifiedWords } from './textUtils'
 
 interface Props {
   enrichedLesson: EnrichedLesson

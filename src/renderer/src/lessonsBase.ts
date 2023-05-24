@@ -1,5 +1,5 @@
 import { texts } from './texts'
-import { getSentences } from './lessonParsers'
+import { getSentences } from './textUtils'
 import { Lesson } from './studentProgress'
 
 export const allLessons: Lesson[] = generateAllLessons()

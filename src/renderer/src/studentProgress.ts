@@ -1,6 +1,7 @@
 import { AnswerResult, getWords, isAnswerPerfect } from './textUtils'
 import _sample from 'lodash/sample'
-import { allTaskSentences } from './tasksBase'
+import { generateAllTaskSentences } from './tasksBase'
+import { texts } from './texts'
 
 export interface Task {
   id: string
@@ -16,6 +17,8 @@ export interface EnrichedTask {
   geoWords: string[]
   engWords: string[]
 }
+
+const allTaskSentences = generateAllTaskSentences(texts)
 
 export type Estimation = 'easy' | 'hard'
 

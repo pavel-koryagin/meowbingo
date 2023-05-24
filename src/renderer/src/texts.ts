@@ -1,4 +1,4 @@
-type Texts = {
+export type Texts = {
   title: string
   blocks: {
     title: string

@@ -1,5 +1,5 @@
 import _uniqBy from 'lodash/uniqBy'
-import { texts } from './texts'
+import { Texts } from './texts'
 import { getSentences } from './textUtils'
 
 interface TaskSentence {
@@ -9,10 +9,11 @@ interface TaskSentence {
   duplicates: TaskSentence[]
 }
 
-const taskSentencesByTextKey = {} as Record<string, TaskSentence>
-export let allTaskSentences = [] as TaskSentence[]
+type TaskSentencesByKey = Record<string, TaskSentence>
 
-function generateAllTaskSentences(): void {
+export function generateAllTaskSentences(texts: Texts): TaskSentence[] {
+  const taskSentencesByTextKey = {} as TaskSentencesByKey
+
   for (const { title: taskTitle, blocks } of texts) {
     for (const { title: blockTitle, geo, eng } of blocks) {
       const geoSentences = getSentences(geo)
@@ -25,7 +26,7 @@ function generateAllTaskSentences(): void {
       }
 
       for (let i = 0; i < geoSentences.length; i++) {
-        registerTaskSentence({
+        registerTaskSentence(taskSentencesByTextKey, {
           id: `${taskTitle} > ${blockTitle} > sentence ${i + 1}`,
           geo: geoSentences[i],
           eng: engSentences[i]
@@ -34,7 +35,7 @@ function generateAllTaskSentences(): void {
     }
   }
 
-  allTaskSentences = _uniqBy(Object.values(taskSentencesByTextKey), 'id')
+  return _uniqBy(Object.values(taskSentencesByTextKey), 'id')
 }
 
 function getSentenceKey(sentence: string): string {
@@ -46,7 +47,10 @@ function getSentenceKey(sentence: string): string {
     .toLowerCase()
 }
 
-function registerTaskSentence({ id, geo, eng }: Omit<TaskSentence, 'duplicates'>) {
+function registerTaskSentence(
+  taskSentencesByTextKey: TaskSentencesByKey,
+  { id, geo, eng }: Omit<TaskSentence, 'duplicates'>
+) {
   const geoKey = getSentenceKey(geo)
   const engKey = getSentenceKey(eng)
 
@@ -88,5 +92,3 @@ function registerTaskSentence({ id, geo, eng }: Omit<TaskSentence, 'duplicates'>
     taskSentencesByTextKey[geoKey] = taskSentencesByTextKey[engKey]
   }
 }
-
-generateAllTaskSentences()

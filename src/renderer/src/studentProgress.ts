@@ -2,9 +2,9 @@ import { AnswerResult, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
 import { EnrichedTask, Estimation, extractStatsFromAnswers } from './studentProgressUtils'
-import { getCurrentLesson, nextTask } from './lessons'
+import { CurrentTask, getCurrentTask, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
-import { Lesson, NewTasksParams } from './lessonUtils'
+import { NewTasksParams } from './lessonUtils'
 
 const taskIdsInThisSession: string[] = []
 
@@ -27,10 +27,17 @@ export function getNewTasksParams(): NewTasksParams {
   }
 }
 
-export function takeNextTask(): [Lesson, EnrichedTask] {
-  const enrichedTask = nextTask()
-  taskIdsInThisSession.push(enrichedTask.task.id)
-  return [getCurrentLesson(), enrichedTask]
+export function takeNextTask(): CurrentTask {
+  // Move
+  nextTask()
+
+  // Get
+  const result = getCurrentTask()
+
+  // Add to session
+  taskIdsInThisSession.push(result.task.task.id)
+
+  return result
 }
 
 export function acceptAnswer(

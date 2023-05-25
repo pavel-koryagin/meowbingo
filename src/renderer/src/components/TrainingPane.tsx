@@ -2,13 +2,14 @@ import { acceptAnswer, amendEstimation, dropTask, takeNextTask } from '../studen
 import { TrainingPaneView } from './TrainingPaneView'
 import { useState } from 'react'
 import _shuffle from 'lodash/shuffle'
+import { getCurrentTask } from '../lessons'
 
 export function TrainingPane(): JSX.Element {
   const [isAnswerPerfect, setIsAnswerPerfect] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
   const [answer, setAnswer] = useState('')
 
-  const [[lesson, enrichedTask], setLessonTask] = useState(() => takeNextTask())
+  const [{ lesson, task: enrichedTask }, setLessonTask] = useState(() => getCurrentTask())
   const [hint, setHint] = useState<string[] | undefined>(undefined)
   const [goodWords, setGoodWords] = useState<string[]>([])
 

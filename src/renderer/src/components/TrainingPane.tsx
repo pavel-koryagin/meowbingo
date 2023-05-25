@@ -8,7 +8,7 @@ export function TrainingPane(): JSX.Element {
   const [showAnswer, setShowAnswer] = useState(false)
   const [answer, setAnswer] = useState('')
 
-  const [enrichedTask, setEnrichedTask] = useState(takeNextTask())
+  const [enrichedTask, setEnrichedTask] = useState(() => takeNextTask())
   const [hint, setHint] = useState<string[] | undefined>(undefined)
   const [goodWords, setGoodWords] = useState<string[]>([])
 

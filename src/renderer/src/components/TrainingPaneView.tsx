@@ -16,7 +16,11 @@ interface Props {
 
 export function TrainingPaneView({
   enrichedTask: {
-    task: { id, eng, geo, askInGeorgian }
+    task: { id, eng, geo, askInGeorgian },
+    lesson: {
+      currentTaskIndex,
+      taskIds: { length: totalTasks }
+    }
   },
   showAnswer,
   answer,
@@ -83,6 +87,9 @@ export function TrainingPaneView({
         }
       }}
     >
+      <div className="border-bottom mb-5">
+        Task {currentTaskIndex + 1} / {totalTasks}
+      </div>
       <div className="form-group mb-3">{askInGeorgian ? geo : eng}</div>
       <div className="form-group mb-3">
         <textarea

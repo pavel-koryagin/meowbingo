@@ -1,3 +1,5 @@
+import { Lesson } from './lessonUtils'
+
 export interface Task {
   id: string
   shownAt: number
@@ -7,6 +9,7 @@ export interface Task {
 }
 
 export interface EnrichedTask {
+  lesson: Lesson
   task: Task
   geoAudio: string | null
   geoWords: string[]

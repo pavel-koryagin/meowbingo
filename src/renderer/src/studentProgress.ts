@@ -10,6 +10,7 @@ import {
   extractStatsFromAnswers,
   TaskStats
 } from './studentProgressUtils'
+import { nextTask } from './lessons'
 
 export interface AppState {
   answers: Answer[]
@@ -30,6 +31,9 @@ const taskStats: Record<string, TaskStats> = extractStatsFromAnswers({
 })
 
 export function takeNextTask(): EnrichedTask {
+  // Get lesson
+  const lesson = nextTask()
+
   // Get task ids to avoid
   const lastTaskIds = taskIdsInThisSession.slice(-20)
 
@@ -55,6 +59,7 @@ export function takeNextTask(): EnrichedTask {
       geo,
       eng
     },
+    lesson,
     geoAudio: null,
     geoWords: getWords(geo),
     engWords: getWords(eng),

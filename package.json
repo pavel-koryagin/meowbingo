@@ -9,6 +9,7 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "test": "jest",
+    "full-lint": "npm run typecheck && npm run lint",
     "use": "MEOW_STATE_FILE=data/state-prod.json electron-vite dev",
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",

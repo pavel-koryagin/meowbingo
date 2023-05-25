@@ -1,10 +1,10 @@
-import { Answer } from './studentProgressUtils'
-import { Lesson } from './lessonUtils'
+import { RawAnswer } from './studentProgressUtils'
+import { RawLesson } from './lessonUtils'
 
 interface AppState {
-  answers: Answer[]
+  answers: RawAnswer[]
   droppedTaskIds: string[]
-  lesson?: Lesson
+  lesson?: RawLesson
 }
 
 type AppStateKey = keyof AppState

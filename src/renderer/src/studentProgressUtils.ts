@@ -28,6 +28,8 @@ export interface Answer {
   submittedAt: number
 }
 
+export type RawAnswer = Answer
+
 export interface TaskStats {
   hasEasy: boolean
 }

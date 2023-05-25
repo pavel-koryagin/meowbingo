@@ -9,6 +9,8 @@ export interface Lesson {
   taskIds: string[]
 }
 
+export type RawLesson = Lesson
+
 export interface EnrichedLesson {
   lesson: Lesson
   tasks: EnrichedTask[]

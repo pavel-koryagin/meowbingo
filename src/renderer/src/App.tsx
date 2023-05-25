@@ -1,4 +1,4 @@
-import { TrainingPane } from './TrainingPane'
+import { TrainingPane } from './components/TrainingPane'
 
 function App(): JSX.Element {
   return (

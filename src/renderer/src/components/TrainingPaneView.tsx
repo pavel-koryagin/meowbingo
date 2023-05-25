@@ -1,6 +1,6 @@
-import { EnrichedTask, Estimation } from './studentProgressUtils'
+import { EnrichedTask, Estimation } from '../studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
-import { getQualifiedWords } from './textUtils'
+import { getQualifiedWords } from '../textUtils'
 
 interface Props {
   enrichedTask: EnrichedTask

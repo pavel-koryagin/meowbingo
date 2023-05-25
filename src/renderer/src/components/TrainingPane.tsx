@@ -1,4 +1,4 @@
-import { acceptAnswer, amendEstimation, dropTask, takeNextTask } from './studentProgress'
+import { acceptAnswer, amendEstimation, dropTask, takeNextTask } from '../studentProgress'
 import { TrainingPaneView } from './TrainingPaneView'
 import { useState } from 'react'
 import _shuffle from 'lodash/shuffle'

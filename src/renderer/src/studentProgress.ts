@@ -28,8 +28,6 @@ export function getAllTaskSentences(): TaskSentence[] {
 }
 
 export function takeNextTask(): EnrichedTask {
-  const droppedTaskIds = getState('droppedTaskIds')
-
   // Get lesson
   const lesson = nextTask()
 
@@ -44,7 +42,7 @@ export function takeNextTask(): EnrichedTask {
     const { id } = taskSentence
 
     const stats = taskStats[id]
-    dropThis = lastTaskIds.includes(id) || droppedTaskIds.includes(id) || stats?.hasEasy
+    dropThis = lastTaskIds.includes(id) || stats?.hasEasy
   } while (dropThis)
 
   // Use the task

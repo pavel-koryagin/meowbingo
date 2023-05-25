@@ -15,7 +15,8 @@ export interface EnrichedTask {
   engVariants: string[]
 }
 
-export type Estimation = 'easy' | 'hard'
+// hard = systematically bad, i.e. stronger than bad
+export type Estimation = 'easy' | 'good' | 'bad' | 'hard'
 
 export interface Answer {
   task: Task

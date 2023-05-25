@@ -43,7 +43,9 @@ export function TrainingPaneView({
   const qualifiedWords = getQualifiedWords(expectedAnswer, answer)
 
   function defaultAction() {
-    if (showAnswer || hasAnswerToSubmit) {
+    if (showAnswer) {
+      onSubmit(answer, 'good')
+    } else if (hasAnswerToSubmit) {
       onSubmit(answer)
     }
   }
@@ -63,7 +65,21 @@ export function TrainingPaneView({
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault()
+
+          // Require an explicit click, if the answer is not estimated
+          if (showAnswer && !isAnswerPerfect) {
+            return
+          }
+
           defaultAction()
+        } else if (showAnswer) {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault()
+            onSubmit(answer, 'bad')
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault()
+            onSubmit(answer, 'good')
+          }
         }
       }}
     >
@@ -139,19 +155,34 @@ export function TrainingPaneView({
         </div>
         <div className="row">
           <div className="col d-flex justify-content-start">
-            <input
-              type="submit"
-              className="btn btn-primary me-2"
-              value={showAnswer ? 'Next' : 'Check'}
-              disabled={!hasAnswerToSubmit}
-            />
-            <input
-              type="button"
-              className="btn btn-secondary"
-              value="Hint"
-              disabled={showAnswer || hint !== undefined}
-              onClick={onHint}
-            />
+            {!showAnswer ? (
+              <>
+                <input
+                  type="submit"
+                  className="btn btn-primary me-2"
+                  value="Check"
+                  disabled={!hasAnswerToSubmit}
+                />
+                <input
+                  type="button"
+                  className="btn btn-secondary"
+                  value="Hint"
+                  disabled={hint !== undefined}
+                  onClick={onHint}
+                />
+              </>
+            ) : (
+              <>
+                <input type="submit" className="btn btn-success me-2" value="Good" />
+                <input
+                  type="button"
+                  className="btn btn-danger"
+                  value="Bad"
+                  disabled={showAnswer || hint !== undefined}
+                  onClick={() => onSubmit(answer, 'bad')}
+                />
+              </>
+            )}
           </div>
           <div className="col d-flex justify-content-center">
             <input

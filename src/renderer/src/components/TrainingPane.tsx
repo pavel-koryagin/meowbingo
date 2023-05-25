@@ -8,12 +8,12 @@ export function TrainingPane(): JSX.Element {
   const [showAnswer, setShowAnswer] = useState(false)
   const [answer, setAnswer] = useState('')
 
-  const [enrichedTask, setEnrichedTask] = useState(() => takeNextTask())
+  const [[lesson, enrichedTask], setLessonTask] = useState(() => takeNextTask())
   const [hint, setHint] = useState<string[] | undefined>(undefined)
   const [goodWords, setGoodWords] = useState<string[]>([])
 
   function next() {
-    setEnrichedTask(takeNextTask())
+    setLessonTask(takeNextTask())
     setShowAnswer(false)
     setHint(undefined)
     setAnswer('')
@@ -22,6 +22,7 @@ export function TrainingPane(): JSX.Element {
 
   return (
     <TrainingPaneView
+      lesson={lesson}
       enrichedTask={enrichedTask}
       showAnswer={showAnswer}
       answer={answer}

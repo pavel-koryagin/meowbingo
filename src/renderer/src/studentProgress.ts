@@ -1,15 +1,10 @@
-import _sample from 'lodash/sample'
 import { AnswerResult, evaluateAnswer } from './textUtils'
-import { generateAllTaskSentences, makeTask, TaskSentence } from './tasksBase'
+import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
-import {
-  EnrichedTask,
-  Estimation,
-  extractStatsFromAnswers,
-  TaskStats
-} from './studentProgressUtils'
-import { nextTask } from './lessons'
+import { EnrichedTask, Estimation, extractStatsFromAnswers } from './studentProgressUtils'
+import { getCurrentLesson, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
+import { Lesson, NewTasksParams } from './lessonUtils'
 
 const taskIdsInThisSession: string[] = []
 
@@ -18,38 +13,24 @@ const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(
   getState('droppedTaskIds')
 )
 
-const taskStats: Record<string, TaskStats> = extractStatsFromAnswers({
+const taskStatsById = extractStatsFromAnswers({
   duplicateToPrimaryIds,
   answers: getState('answers')
 })
 
-export function getAllTaskSentences(): TaskSentence[] {
-  return allTaskSentences
+export function getNewTasksParams(): NewTasksParams {
+  return {
+    allTaskSentences,
+    taskStatsById,
+    droppedTaskIds: getState('droppedTaskIds'),
+    taskIdsInThisSession
+  }
 }
 
-export function takeNextTask(): EnrichedTask {
-  // Get lesson
-  const lesson = nextTask()
-
-  // Get task ids to avoid
-  const lastTaskIds = taskIdsInThisSession.slice(-20)
-
-  // Pick task
-  let taskSentence: TaskSentence
-  let dropThis = false
-  do {
-    taskSentence = _sample(allTaskSentences)!
-    const { id } = taskSentence
-
-    const stats = taskStats[id]
-    dropThis = lastTaskIds.includes(id) || stats?.hasEasy
-  } while (dropThis)
-
-  // Use the task
-  const enrichedTask = makeTask(lesson, taskSentence)
-  enrichedTask.task.shownAt = Date.now()
+export function takeNextTask(): [Lesson, EnrichedTask] {
+  const enrichedTask = nextTask()
   taskIdsInThisSession.push(enrichedTask.task.id)
-  return enrichedTask
+  return [getCurrentLesson(), enrichedTask]
 }
 
 export function acceptAnswer(

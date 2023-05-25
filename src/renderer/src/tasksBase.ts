@@ -3,7 +3,6 @@ import { Texts } from './texts'
 import { getSentences, getWords } from './textUtils'
 import { EnrichedTask } from './studentProgressUtils'
 import _uniq from 'lodash/uniq'
-import { Lesson } from './lessonUtils'
 
 export interface TaskSentence {
   id: string
@@ -129,7 +128,7 @@ function registerTaskSentence(
   }
 }
 
-export function makeTask(lesson: Lesson, { id, geo, eng, duplicates }: TaskSentence): EnrichedTask {
+export function makeTask({ id, geo, eng, duplicates }: TaskSentence): EnrichedTask {
   return {
     task: {
       id,
@@ -138,7 +137,6 @@ export function makeTask(lesson: Lesson, { id, geo, eng, duplicates }: TaskSente
       geo,
       eng
     },
-    lesson,
     geoAudio: null,
     geoWords: getWords(geo),
     engWords: getWords(eng),

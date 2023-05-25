@@ -1,6 +1,6 @@
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskSentence } from './tasksBase'
-import { EnrichedTask } from './studentProgressUtils'
+import { EnrichedTask, TaskStatsById } from './studentProgressUtils'
 
 const TASKS_IN_LESSON = 20
 
@@ -14,29 +14,38 @@ export interface RawLesson {
   taskIds: string[]
 }
 
-interface FormNewTasksParams {
-  lesson: Lesson
-  amount?: number
+export interface NewTasksParams {
   allTaskSentences: TaskSentence[]
-  excludeTaskIds?: string[]
+  taskStatsById: TaskStatsById
+  droppedTaskIds: string[]
+  taskIdsInThisSession: string[]
 }
 
-export function formNewTasks({
-  lesson,
-  amount = TASKS_IN_LESSON,
-  allTaskSentences,
-  excludeTaskIds
-}: FormNewTasksParams): EnrichedTask[] {
-  // Filter
-  const taskSentences = excludeTaskIds
-    ? allTaskSentences.filter(({ id }) => !excludeTaskIds.includes(id))
-    : allTaskSentences
+export function formRemainingTasks(
+  lesson: Lesson,
+  { allTaskSentences, taskStatsById, droppedTaskIds, taskIdsInThisSession }: NewTasksParams
+): EnrichedTask[] {
+  const amount = TASKS_IN_LESSON - lesson.tasks.length
 
-  // Pick
+  // Filter
+  const allExcludedTaskIds = [
+    ...droppedTaskIds,
+    ...taskIdsInThisSession.slice(-20),
+    ...lesson.tasks.map(({ task }) => task.id)
+  ]
+  const taskSentences = allTaskSentences.filter(
+    ({ id }) =>
+      // Not excluded
+      !allExcludedTaskIds.includes(id) &&
+      // Not marked easy
+      !taskStatsById[id]?.hasEasy
+  )
+
+  // Pick random
   const pickedTaskSentences = _sampleSize(taskSentences, amount)
 
   // Make tasks
-  return pickedTaskSentences.map((taskSentence) => makeTask(lesson, taskSentence))
+  return pickedTaskSentences.map((taskSentence) => makeTask(taskSentence))
 }
 
 function defineEmptyLesson(): Lesson {
@@ -46,41 +55,34 @@ function defineEmptyLesson(): Lesson {
   }
 }
 
-export function formNewLesson(allTaskSentences: TaskSentence[]): Lesson {
+export function formNewLesson(newTasksParams: NewTasksParams): Lesson {
   const lesson = defineEmptyLesson()
 
   // Get tasks
   return {
     ...lesson,
-    tasks: formNewTasks({ lesson, allTaskSentences })
+    tasks: formRemainingTasks(lesson, newTasksParams)
   }
 }
 
 export function loadLesson(
   { currentTaskId, taskIds }: RawLesson,
-  allTaskSentences: TaskSentence[]
+  newTasksParams: NewTasksParams
 ): Lesson {
+  const { allTaskSentences } = newTasksParams
   const lesson = defineEmptyLesson()
 
   // Load pre-selected tasks
   for (const taskId of taskIds) {
     const taskSentence = allTaskSentences.find((taskSentence) => taskSentence.id === taskId)
     if (taskSentence) {
-      lesson.tasks.push(makeTask(lesson, taskSentence))
+      lesson.tasks.push(makeTask(taskSentence))
     }
   }
 
   // Generate missing tasks
   if (lesson.tasks.length < TASKS_IN_LESSON) {
-    lesson.tasks = [
-      ...lesson.tasks,
-      ...formNewTasks({
-        lesson,
-        amount: TASKS_IN_LESSON - lesson.tasks.length,
-        allTaskSentences,
-        excludeTaskIds: lesson.tasks.map(({ task }) => task.id)
-      })
-    ]
+    lesson.tasks = [...lesson.tasks, ...formRemainingTasks(lesson, newTasksParams)]
   }
 
   // Know the current task

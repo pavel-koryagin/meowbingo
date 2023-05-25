@@ -1,5 +1,3 @@
-import { Lesson } from './lessonUtils'
-
 export interface Task {
   id: string
   shownAt: number
@@ -9,7 +7,6 @@ export interface Task {
 }
 
 export interface EnrichedTask {
-  lesson: Lesson
   task: Task
   geoAudio: string | null
   geoWords: string[]
@@ -34,14 +31,16 @@ export interface TaskStats {
   hasEasy: boolean
 }
 
+export type TaskStatsById = Record<string, TaskStats>
+
 export function extractStatsFromAnswers({
   duplicateToPrimaryIds,
   answers
 }: {
   duplicateToPrimaryIds: Record<string, string>
   answers: Answer[]
-}): Record<string, TaskStats> {
-  const result: Record<string, TaskStats> = {}
+}): TaskStatsById {
+  const result: TaskStatsById = {}
   for (const { task, estimation } of answers) {
     const taskId = duplicateToPrimaryIds[task.id]
     if (!result[taskId]) {

@@ -1,8 +1,10 @@
 import { EnrichedTask, Estimation } from '../studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
 import { getQualifiedWords } from '../textUtils'
+import { Lesson } from '../lessonUtils'
 
 interface Props {
+  lesson: Lesson
   enrichedTask: EnrichedTask
   showAnswer: boolean
   answer: string
@@ -15,12 +17,12 @@ interface Props {
 }
 
 export function TrainingPaneView({
+  lesson: {
+    currentTaskIndex,
+    tasks: { length: totalTasks }
+  },
   enrichedTask: {
-    task: { id, eng, geo, askInGeorgian },
-    lesson: {
-      currentTaskIndex,
-      tasks: { length: totalTasks }
-    }
+    task: { id, eng, geo, askInGeorgian }
   },
   showAnswer,
   answer,

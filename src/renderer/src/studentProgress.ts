@@ -4,33 +4,29 @@ import { AnswerResult, getWords, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences, TaskSentence } from './tasksBase'
 import { texts } from './texts'
 import {
-  Answer,
   EnrichedTask,
   Estimation,
   extractStatsFromAnswers,
   TaskStats
 } from './studentProgressUtils'
 import { nextTask } from './lessons'
+import { getState, setState, updateState } from './state'
 
-export interface AppState {
-  answers: Answer[]
-  droppedTaskIds: string[]
-}
-
-const state: AppState = await window.api.getState<AppState>()
 const taskIdsInThisSession: string[] = []
 
 const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(
   texts,
-  state.droppedTaskIds
+  getState('droppedTaskIds')
 )
 
 const taskStats: Record<string, TaskStats> = extractStatsFromAnswers({
   duplicateToPrimaryIds,
-  answers: state.answers
+  answers: getState('answers')
 })
 
 export function takeNextTask(): EnrichedTask {
+  const droppedTaskIds = getState('droppedTaskIds')
+
   // Get lesson
   const lesson = nextTask()
 
@@ -45,7 +41,7 @@ export function takeNextTask(): EnrichedTask {
     const { id } = taskSentence
 
     const stats = taskStats[id]
-    dropThis = lastTaskIds.includes(id) || state.droppedTaskIds.includes(id) || stats?.hasEasy
+    dropThis = lastTaskIds.includes(id) || droppedTaskIds.includes(id) || stats?.hasEasy
   } while (dropThis)
 
   // Use the task
@@ -74,26 +70,33 @@ export function acceptAnswer(
   estimation?: Estimation
 ): AnswerResult {
   // Save
-  state.answers.push({
-    task,
-    answer,
-    estimation,
-    submittedAt: Date.now()
-  })
-  window.api.setState(state)
+  updateState('answers', (answers) => [
+    ...answers,
+    {
+      task,
+      answer,
+      estimation,
+      submittedAt: Date.now()
+    }
+  ])
 
   // Check the answer
   return evaluateAnswer(task.askInGeorgian ? engVariants : geoVariants, answer)
 }
 
 export function amendEstimation(estimation?: Estimation) {
-  state.answers[state.answers.length - 1].estimation = estimation
-  window.api.setState(state)
+  updateState('answers', (answers) => [
+    ...answers.slice(0, -1),
+    {
+      ...answers[answers.length - 1],
+      estimation
+    }
+  ])
 }
 
 export function dropTask(taskId: string) {
-  if (!state.droppedTaskIds.includes(taskId)) {
-    state.droppedTaskIds.push(taskId)
-    window.api.setState(state)
+  const droppedTaskIds = getState('droppedTaskIds')
+  if (!droppedTaskIds.includes(taskId)) {
+    setState('droppedTaskIds', [...droppedTaskIds, taskId])
   }
 }

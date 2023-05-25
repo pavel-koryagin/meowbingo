@@ -1,36 +1,35 @@
-import { EnrichedLesson, formNewLesson, Lesson, loadLesson } from './lessonUtils'
+import { Lesson, formNewLesson, loadLesson } from './lessonUtils'
 import { getState } from './state'
 import { getAllTaskSentences } from './studentProgress'
 import { EnrichedTask } from './studentProgressUtils'
 
-let lesson: EnrichedLesson
+let currentLesson: Lesson
 
 export function nextTask(): Lesson {
-  const { lesson } = getCurrentLesson()
-  lesson.currentTaskIndex++
-  if (lesson.currentTaskIndex >= lesson.taskIds.length) {
-    lesson.currentTaskIndex = 0
+  // Load
+  getCurrentLesson()
+
+  currentLesson.currentTaskIndex++
+  if (currentLesson.currentTaskIndex >= currentLesson.tasks.length) {
+    currentLesson = formNewLesson(getAllTaskSentences())
   }
-  return lesson
+  return currentLesson
 }
 
-export function getCurrentLesson(): EnrichedLesson {
-  if (!lesson) {
+export function getCurrentLesson(): Lesson {
+  if (!currentLesson) {
     const rawLesson = getState('lesson')
     if (rawLesson) {
-      lesson = loadLesson(rawLesson, getAllTaskSentences())
+      currentLesson = loadLesson(rawLesson, getAllTaskSentences())
     } else {
-      lesson = formNewLesson(getAllTaskSentences())
+      currentLesson = formNewLesson(getAllTaskSentences())
     }
   }
 
-  return lesson
+  return currentLesson
 }
 
 export function getCurrentTask(): EnrichedTask {
-  const {
-    tasks,
-    lesson: { currentTaskIndex }
-  } = getCurrentLesson()
+  const { currentTaskIndex, tasks } = getCurrentLesson()
   return tasks[currentTaskIndex]
 }

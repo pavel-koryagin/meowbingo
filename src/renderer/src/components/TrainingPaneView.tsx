@@ -19,7 +19,7 @@ export function TrainingPaneView({
     task: { id, eng, geo, askInGeorgian },
     lesson: {
       currentTaskIndex,
-      taskIds: { length: totalTasks }
+      tasks: { length: totalTasks }
     }
   },
   showAnswer,

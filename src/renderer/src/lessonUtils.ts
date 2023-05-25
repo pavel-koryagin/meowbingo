@@ -6,14 +6,12 @@ const TASKS_IN_LESSON = 20
 
 export interface Lesson {
   currentTaskIndex: number
-  taskIds: string[]
+  tasks: EnrichedTask[]
 }
 
-export type RawLesson = Lesson
-
-export interface EnrichedLesson {
-  lesson: Lesson
-  tasks: EnrichedTask[]
+export interface RawLesson {
+  currentTaskId: string
+  taskIds: string[]
 }
 
 interface FormNewTasksParams {
@@ -41,51 +39,55 @@ export function formNewTasks({
   return pickedTaskSentences.map((taskSentence) => makeTask(lesson, taskSentence))
 }
 
-export function formNewLesson(allTaskSentences: TaskSentence[]): EnrichedLesson {
-  // Lesson
-  const lesson: Lesson = {
-    currentTaskIndex: 0,
-    taskIds: []
-  }
-
-  // Tasks
-  const tasks = formNewTasks({ lesson, allTaskSentences })
-  lesson.taskIds = tasks.map(({ task }) => task.id)
-
-  // Make enriched
+function defineEmptyLesson(): Lesson {
   return {
-    lesson,
-    tasks
+    currentTaskIndex: 0,
+    tasks: []
   }
 }
 
-export function loadLesson(lesson: Lesson, allTaskSentences: TaskSentence[]): EnrichedLesson {
+export function formNewLesson(allTaskSentences: TaskSentence[]): Lesson {
+  const lesson = defineEmptyLesson()
+
+  // Get tasks
+  return {
+    ...lesson,
+    tasks: formNewTasks({ lesson, allTaskSentences })
+  }
+}
+
+export function loadLesson(
+  { currentTaskId, taskIds }: RawLesson,
+  allTaskSentences: TaskSentence[]
+): Lesson {
+  const lesson = defineEmptyLesson()
+
   // Load pre-selected tasks
-  let tasks = [] as EnrichedTask[]
-  for (const taskId of lesson.taskIds) {
+  for (const taskId of taskIds) {
     const taskSentence = allTaskSentences.find((taskSentence) => taskSentence.id === taskId)
     if (taskSentence) {
-      tasks.push(makeTask(lesson, taskSentence))
+      lesson.tasks.push(makeTask(lesson, taskSentence))
     }
   }
 
-  // Generate new
-  if (tasks.length < TASKS_IN_LESSON) {
-    const excludeTaskIds = tasks.map(({ task }) => task.id)
-    tasks = [
-      ...tasks,
+  // Generate missing tasks
+  if (lesson.tasks.length < TASKS_IN_LESSON) {
+    lesson.tasks = [
+      ...lesson.tasks,
       ...formNewTasks({
         lesson,
-        amount: TASKS_IN_LESSON - tasks.length,
+        amount: TASKS_IN_LESSON - lesson.tasks.length,
         allTaskSentences,
-        excludeTaskIds
+        excludeTaskIds: lesson.tasks.map(({ task }) => task.id)
       })
     ]
   }
 
-  // Make enriched
-  return {
-    lesson,
-    tasks
-  }
+  // Know the current task
+  lesson.currentTaskIndex = Math.max(
+    0,
+    lesson.tasks.findIndex(({ task }) => task.id === currentTaskId)
+  )
+
+  return lesson
 }

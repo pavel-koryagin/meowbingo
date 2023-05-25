@@ -6,6 +6,8 @@ export interface Task {
   eng: string
 }
 
+export type RawTask = Task
+
 export interface EnrichedTask {
   task: Task
   geoAudio: string | null
@@ -15,11 +17,15 @@ export interface EnrichedTask {
   engVariants: string[]
 }
 
+export function getRawTask(task: EnrichedTask): RawTask {
+  return task.task
+}
+
 // hard = systematically bad, i.e. stronger than bad
 export type Estimation = 'easy' | 'good' | 'bad' | 'hard'
 
 export interface Answer {
-  task: Task
+  task: RawTask
   answer: string
   estimation?: Estimation
   submittedAt: number

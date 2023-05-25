@@ -21,9 +21,7 @@ export function TrainingPaneView({
     currentTaskIndex,
     tasks: { length: totalTasks }
   },
-  enrichedTask: {
-    task: { id, eng, geo, askInGeorgian }
-  },
+  enrichedTask: { id, eng, geo, askInGeorgian },
   showAnswer,
   answer,
   hint,

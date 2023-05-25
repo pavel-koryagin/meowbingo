@@ -31,7 +31,7 @@ export function formRemainingTasks(
   const allExcludedTaskIds = [
     ...droppedTaskIds,
     ...taskIdsInThisSession.slice(-20),
-    ...lesson.tasks.map(({ task }) => task.id)
+    ...lesson.tasks.map(({ id }) => id)
   ]
   const taskSentences = allTaskSentences.filter(
     ({ id }) =>
@@ -88,7 +88,7 @@ export function loadLesson(
   // Know the current task
   lesson.currentTaskIndex = Math.max(
     0,
-    lesson.tasks.findIndex(({ task }) => task.id === currentTaskId)
+    lesson.tasks.findIndex(({ id }) => id === currentTaskId)
   )
 
   return lesson

@@ -21,7 +21,7 @@ export function nextTask() {
   }
 
   const enrichedTask = currentLesson.tasks[currentLesson.currentTaskIndex]
-  enrichedTask.task.shownAt = Date.now()
+  enrichedTask.shownAt = Date.now()
 }
 
 export function getCurrentLesson(): Lesson {

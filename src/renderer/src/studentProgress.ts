@@ -40,7 +40,7 @@ export function takeNextTask(): CurrentTask {
   const result = getCurrentTask()
 
   // Add to session
-  taskIdsInThisSession.push(result.task.task.id)
+  taskIdsInThisSession.push(result.task.id)
 
   return result
 }
@@ -50,7 +50,7 @@ export function acceptAnswer(
   answer: string,
   estimation?: Estimation
 ): AnswerResult {
-  const { task, geoVariants, engVariants } = enrichedTask
+  const { askInGeorgian, geoVariants, engVariants } = enrichedTask
 
   // Save
   updateState('answers', (answers) => [
@@ -64,7 +64,7 @@ export function acceptAnswer(
   ])
 
   // Check the answer
-  return evaluateAnswer(task.askInGeorgian ? engVariants : geoVariants, answer)
+  return evaluateAnswer(askInGeorgian ? engVariants : geoVariants, answer)
 }
 
 export function amendEstimation(estimation?: Estimation) {

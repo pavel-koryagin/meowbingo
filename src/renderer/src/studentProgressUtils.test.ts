@@ -8,7 +8,12 @@ const sampleTask1: Task = {
   shownAt: moment1,
   askInGeorgian: true,
   geo: 'კი',
-  eng: 'yes'
+  eng: 'yes',
+  geoAudio: null,
+  geoWords: [],
+  engWords: [],
+  geoVariants: [],
+  engVariants: []
 }
 
 const sampleTask2: Task = {

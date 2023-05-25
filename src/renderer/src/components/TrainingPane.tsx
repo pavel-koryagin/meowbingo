@@ -34,7 +34,7 @@ export function TrainingPane(): JSX.Element {
       onSubmit={(answer, estimation) => {
         // Drop
         if (estimation === 'drop') {
-          dropTask(enrichedTask.task.id)
+          dropTask(enrichedTask.id)
           next()
           return
         }
@@ -69,9 +69,7 @@ export function TrainingPane(): JSX.Element {
         next()
       }}
       onHint={() => {
-        const words = enrichedTask.task.askInGeorgian
-          ? enrichedTask.engWords
-          : enrichedTask.geoWords
+        const words = enrichedTask.askInGeorgian ? enrichedTask.engWords : enrichedTask.geoWords
         setHint(_shuffle(words))
       }}
     />

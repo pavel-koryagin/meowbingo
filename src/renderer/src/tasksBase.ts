@@ -130,13 +130,11 @@ function registerTaskSentence(
 
 export function makeTask({ id, geo, eng, duplicates }: TaskSentence): EnrichedTask {
   return {
-    task: {
-      id,
-      shownAt: 0,
-      askInGeorgian: Math.random() < 0.5,
-      geo,
-      eng
-    },
+    id,
+    shownAt: 0,
+    askInGeorgian: Math.random() < 0.5,
+    geo,
+    eng,
     geoAudio: null,
     geoWords: getWords(geo),
     engWords: getWords(eng),

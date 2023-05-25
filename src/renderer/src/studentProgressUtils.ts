@@ -1,4 +1,4 @@
-export interface Task {
+export interface RawTask {
   id: string
   shownAt: number
   askInGeorgian: boolean
@@ -6,19 +6,17 @@ export interface Task {
   eng: string
 }
 
-export type RawTask = Task
-
-export interface EnrichedTask {
-  task: Task
+export interface EnrichedTask extends RawTask {
   geoAudio: string | null
   geoWords: string[]
   engWords: string[]
   geoVariants: string[]
   engVariants: string[]
 }
+export type Task = EnrichedTask
 
-export function getRawTask(task: EnrichedTask): RawTask {
-  return task.task
+export function getRawTask({ id, shownAt, askInGeorgian, geo, eng }: EnrichedTask): RawTask {
+  return { id, shownAt, askInGeorgian, geo, eng }
 }
 
 // hard = systematically bad, i.e. stronger than bad

@@ -31,3 +31,11 @@ export function formRemainingTasks(
   // Make tasks
   return pickedTaskSentences.map((taskSentence) => makeTask(taskSentence))
 }
+
+// function fetchBucket1({ allTaskSentences }: NewTasksParams): TaskSentence[] {
+//   return allTaskSentences
+// }
+//
+// function fetchBucket2({ allTaskSentences }: NewTasksParams): TaskSentence[] {
+//   return allTaskSentences
+// }

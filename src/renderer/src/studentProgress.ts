@@ -1,7 +1,6 @@
 import _sample from 'lodash/sample'
-import _uniq from 'lodash/uniq'
-import { AnswerResult, getWords, evaluateAnswer } from './textUtils'
-import { generateAllTaskSentences, TaskSentence } from './tasksBase'
+import { AnswerResult, evaluateAnswer } from './textUtils'
+import { generateAllTaskSentences, makeTask, TaskSentence } from './tasksBase'
 import { texts } from './texts'
 import {
   EnrichedTask,
@@ -24,6 +23,10 @@ const taskStats: Record<string, TaskStats> = extractStatsFromAnswers({
   answers: getState('answers')
 })
 
+export function getAllTaskSentences(): TaskSentence[] {
+  return allTaskSentences
+}
+
 export function takeNextTask(): EnrichedTask {
   const droppedTaskIds = getState('droppedTaskIds')
 
@@ -45,23 +48,10 @@ export function takeNextTask(): EnrichedTask {
   } while (dropThis)
 
   // Use the task
-  const { id, eng, geo, duplicates } = taskSentence
-  taskIdsInThisSession.push(id)
-  return {
-    task: {
-      id,
-      shownAt: Date.now(),
-      askInGeorgian: Math.random() < 0.5,
-      geo,
-      eng
-    },
-    lesson,
-    geoAudio: null,
-    geoWords: getWords(geo),
-    engWords: getWords(eng),
-    geoVariants: _uniq([geo, ...duplicates.map(({ geo }) => geo)]),
-    engVariants: _uniq([eng, ...duplicates.map(({ eng }) => eng)])
-  }
+  const enrichedTask = makeTask(lesson, taskSentence)
+  enrichedTask.task.shownAt = Date.now()
+  taskIdsInThisSession.push(enrichedTask.task.id)
+  return enrichedTask
 }
 
 export function acceptAnswer(

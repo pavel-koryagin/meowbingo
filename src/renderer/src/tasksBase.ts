@@ -1,6 +1,9 @@
 import _uniqBy from 'lodash/uniqBy'
 import { Texts } from './texts'
-import { getSentences } from './textUtils'
+import { getSentences, getWords } from './textUtils'
+import { EnrichedTask } from './studentProgressUtils'
+import _uniq from 'lodash/uniq'
+import { Lesson } from './lessonUtils'
 
 export interface TaskSentence {
   id: string
@@ -123,5 +126,23 @@ function registerTaskSentence(
     // no geoKey, but has engKey
     taskSentencesByTextKey[engKey].duplicates.push(item)
     taskSentencesByTextKey[geoKey] = taskSentencesByTextKey[engKey]
+  }
+}
+
+export function makeTask(lesson: Lesson, { id, geo, eng, duplicates }: TaskSentence): EnrichedTask {
+  return {
+    task: {
+      id,
+      shownAt: 0,
+      askInGeorgian: Math.random() < 0.5,
+      geo,
+      eng
+    },
+    lesson,
+    geoAudio: null,
+    geoWords: getWords(geo),
+    engWords: getWords(eng),
+    geoVariants: _uniq([geo, ...duplicates.map(({ geo }) => geo)]),
+    engVariants: _uniq([eng, ...duplicates.map(({ eng }) => eng)])
   }
 }

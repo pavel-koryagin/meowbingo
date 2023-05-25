@@ -1,14 +1,31 @@
 import { Task } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
-import { makeTask } from './tasksBase'
+import { makeTask, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
 
 export const TASKS_IN_LESSON = 20
 
+interface BucketGenerators {
+  amount?: number
+  doesTaskSentenceBelong: (
+    taskSentence: TaskSentence,
+    params: Omit<NewTasksParams, 'allTaskSentences'>
+  ) => boolean
+}
+
+const defaultBucketGenerators: BucketGenerators[] = [
+  // {
+  //   doesTaskSentenceBelong: ({ id }, { taskStatsById }) => !taskStatsById[id]?.hasEasy
+  // }
+]
+
 export function formRemainingTasks(
   lesson: Lesson,
-  { allTaskSentences, taskStatsById, droppedTaskIds, taskIdsInThisSession }: NewTasksParams
+  { allTaskSentences, ...params }: NewTasksParams,
+  // This is for test
+  bucketGenerators: BucketGenerators[] = defaultBucketGenerators
 ): Task[] {
+  const { taskStatsById, droppedTaskIds, taskIdsInThisSession } = params
   const amount = TASKS_IN_LESSON - lesson.tasks.length
 
   // Filter
@@ -25,17 +42,35 @@ export function formRemainingTasks(
       !taskStatsById[id]?.hasEasy
   )
 
+  // Make buckets
+  const buckets: TaskSentence[][] = bucketGenerators.map(() => [])
+  buckets.push([])
+  for (const taskSentence of taskSentences) {
+    let bucketIndex = buckets.length - 1
+    for (let i = 0; i < bucketGenerators.length; i++) {
+      const bucketGenerator = bucketGenerators[i]
+      if (bucketGenerator.doesTaskSentenceBelong(taskSentence, params)) {
+        bucketIndex = i
+        break
+      }
+    }
+    buckets[bucketIndex].push(taskSentence)
+  }
+
   // Pick random
-  const pickedTaskSentences = _sampleSize(taskSentences, amount)
+  let pickedTaskSentences: TaskSentence[] = []
+  let bucketIndex = 0
+  while (pickedTaskSentences.length < amount && bucketIndex < buckets.length) {
+    const bucket = buckets[bucketIndex]
+    const amountInBucket = Math.min(
+      amount - pickedTaskSentences.length, // Remaining places in the lesson
+      bucket.length, // Available
+      bucketGenerators[bucketIndex]?.amount || Infinity // Desired
+    )
+    pickedTaskSentences = [...pickedTaskSentences, ..._sampleSize(bucket, amountInBucket)]
+    bucketIndex++
+  }
 
   // Make tasks
   return pickedTaskSentences.map((taskSentence) => makeTask(taskSentence))
 }
-
-// function fetchBucket1({ allTaskSentences }: NewTasksParams): TaskSentence[] {
-//   return allTaskSentences
-// }
-//
-// function fetchBucket2({ allTaskSentences }: NewTasksParams): TaskSentence[] {
-//   return allTaskSentences
-// }

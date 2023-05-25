@@ -185,7 +185,6 @@ export function TrainingPaneView({
                   type="button"
                   className="btn btn-danger"
                   value="Bad"
-                  disabled={showAnswer || hint !== undefined}
                   onClick={() => onSubmit(answer, 'bad')}
                 />
               </>

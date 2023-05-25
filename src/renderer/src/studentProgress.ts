@@ -40,7 +40,19 @@ export function takeNextTask(): CurrentTask {
   return result
 }
 
-export function acceptAnswer(task: Task, answer: string, estimation?: Estimation): AnswerResult {
+interface AcceptAnswerParams {
+  task: Task
+  answer: string
+  withHint: boolean
+  estimation?: Estimation
+}
+
+export function acceptAnswer({
+  task,
+  answer,
+  withHint,
+  estimation
+}: AcceptAnswerParams): AnswerResult {
   const { askInGeorgian, geoVariants, engVariants } = task
 
   // Save
@@ -49,6 +61,7 @@ export function acceptAnswer(task: Task, answer: string, estimation?: Estimation
     {
       task: getRawTask(task),
       answer,
+      withHint,
       estimation,
       submittedAt: Date.now()
     }

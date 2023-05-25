@@ -24,6 +24,7 @@ export type Estimation = 'easy' | 'good' | 'bad' | 'hard'
 export interface Answer {
   task: RawTask
   answer: string
+  withHint?: boolean
   estimation?: Estimation
   submittedAt: number
 }

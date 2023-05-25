@@ -47,7 +47,12 @@ export function TrainingPane(): JSX.Element {
 
         // Accept
         if (estimation === undefined && !showAnswer) {
-          const { isPerfect, goodWords: newGoodWords } = acceptAnswer(task, answer, estimation)
+          const { isPerfect, goodWords: newGoodWords } = acceptAnswer({
+            task,
+            answer,
+            withHint: hint !== undefined,
+            estimation
+          })
           setIsAnswerPerfect(isPerfect)
           setGoodWords(newGoodWords)
 
@@ -60,7 +65,7 @@ export function TrainingPane(): JSX.Element {
         if (showAnswer) {
           amendEstimation(estimation)
         } else {
-          acceptAnswer(task, answer, estimation)
+          acceptAnswer({ task, answer, withHint: hint !== undefined, estimation })
         }
         next()
       }}

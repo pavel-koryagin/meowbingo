@@ -1,12 +1,12 @@
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskSentence } from './tasksBase'
-import { EnrichedTask, TaskStatsById } from './studentProgressUtils'
+import { Task, TaskStatsById } from './studentProgressUtils'
 
 const TASKS_IN_LESSON = 20
 
 export interface Lesson {
   currentTaskIndex: number
-  tasks: EnrichedTask[]
+  tasks: Task[]
 }
 
 export interface RawLesson {
@@ -24,7 +24,7 @@ export interface NewTasksParams {
 export function formRemainingTasks(
   lesson: Lesson,
   { allTaskSentences, taskStatsById, droppedTaskIds, taskIdsInThisSession }: NewTasksParams
-): EnrichedTask[] {
+): Task[] {
   const amount = TASKS_IN_LESSON - lesson.tasks.length
 
   // Filter

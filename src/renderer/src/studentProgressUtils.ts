@@ -6,16 +6,15 @@ export interface RawTask {
   eng: string
 }
 
-export interface EnrichedTask extends RawTask {
+export interface Task extends RawTask {
   geoAudio: string | null
   geoWords: string[]
   engWords: string[]
   geoVariants: string[]
   engVariants: string[]
 }
-export type Task = EnrichedTask
 
-export function getRawTask({ id, shownAt, askInGeorgian, geo, eng }: EnrichedTask): RawTask {
+export function getRawTask({ id, shownAt, askInGeorgian, geo, eng }: Task): RawTask {
   return { id, shownAt, askInGeorgian, geo, eng }
 }
 

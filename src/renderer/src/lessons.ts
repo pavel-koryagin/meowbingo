@@ -1,13 +1,13 @@
 import { Lesson, formNewLesson, loadLesson } from './lessonUtils'
 import { getState } from './state'
 import { getNewTasksParams } from './studentProgress'
-import { EnrichedTask } from './studentProgressUtils'
+import { Task } from './studentProgressUtils'
 
 let currentLesson: Lesson
 
 export interface CurrentTask {
   lesson: Lesson
-  task: EnrichedTask
+  task: Task
 }
 
 export function nextTask() {
@@ -20,8 +20,8 @@ export function nextTask() {
     currentLesson = formNewLesson(getNewTasksParams())
   }
 
-  const enrichedTask = currentLesson.tasks[currentLesson.currentTaskIndex]
-  enrichedTask.shownAt = Date.now()
+  const task = currentLesson.tasks[currentLesson.currentTaskIndex]
+  task.shownAt = Date.now()
 }
 
 export function getCurrentLesson(): Lesson {

@@ -1,7 +1,7 @@
 import _uniqBy from 'lodash/uniqBy'
 import { Texts } from './texts'
 import { getSentences, getWords } from './textUtils'
-import { EnrichedTask } from './studentProgressUtils'
+import { Task } from './studentProgressUtils'
 import _uniq from 'lodash/uniq'
 
 export interface TaskSentence {
@@ -128,7 +128,7 @@ function registerTaskSentence(
   }
 }
 
-export function makeTask({ id, geo, eng, duplicates }: TaskSentence): EnrichedTask {
+export function makeTask({ id, geo, eng, duplicates }: TaskSentence): Task {
   return {
     id,
     shownAt: 0,

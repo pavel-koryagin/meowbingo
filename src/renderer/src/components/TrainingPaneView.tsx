@@ -1,11 +1,11 @@
-import { EnrichedTask, Estimation } from '../studentProgressUtils'
+import { Task, Estimation } from '../studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
 import { getQualifiedWords } from '../textUtils'
 import { Lesson } from '../lessonUtils'
 
 interface Props {
   lesson: Lesson
-  enrichedTask: EnrichedTask
+  task: Task
   showAnswer: boolean
   answer: string
   hint?: string[]
@@ -21,7 +21,7 @@ export function TrainingPaneView({
     currentTaskIndex,
     tasks: { length: totalTasks }
   },
-  enrichedTask: { id, eng, geo, askInGeorgian },
+  task: { id, eng, geo, askInGeorgian },
   showAnswer,
   answer,
   hint,

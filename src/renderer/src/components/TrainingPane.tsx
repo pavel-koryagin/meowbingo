@@ -9,7 +9,7 @@ export function TrainingPane(): JSX.Element {
   const [showAnswer, setShowAnswer] = useState(false)
   const [answer, setAnswer] = useState('')
 
-  const [{ lesson, task: enrichedTask }, setLessonTask] = useState(() => getCurrentTask())
+  const [{ lesson, task: task }, setLessonTask] = useState(() => getCurrentTask())
   const [hint, setHint] = useState<string[] | undefined>(undefined)
   const [goodWords, setGoodWords] = useState<string[]>([])
 
@@ -24,7 +24,7 @@ export function TrainingPane(): JSX.Element {
   return (
     <TrainingPaneView
       lesson={lesson}
-      enrichedTask={enrichedTask}
+      task={task}
       showAnswer={showAnswer}
       answer={answer}
       hint={hint}
@@ -34,7 +34,7 @@ export function TrainingPane(): JSX.Element {
       onSubmit={(answer, estimation) => {
         // Drop
         if (estimation === 'drop') {
-          dropTask(enrichedTask.id)
+          dropTask(task.id)
           next()
           return
         }
@@ -47,11 +47,7 @@ export function TrainingPane(): JSX.Element {
 
         // Accept
         if (estimation === undefined && !showAnswer) {
-          const { isPerfect, goodWords: newGoodWords } = acceptAnswer(
-            enrichedTask,
-            answer,
-            estimation
-          )
+          const { isPerfect, goodWords: newGoodWords } = acceptAnswer(task, answer, estimation)
           setIsAnswerPerfect(isPerfect)
           setGoodWords(newGoodWords)
 
@@ -64,12 +60,12 @@ export function TrainingPane(): JSX.Element {
         if (showAnswer) {
           amendEstimation(estimation)
         } else {
-          acceptAnswer(enrichedTask, answer, estimation)
+          acceptAnswer(task, answer, estimation)
         }
         next()
       }}
       onHint={() => {
-        const words = enrichedTask.askInGeorgian ? enrichedTask.engWords : enrichedTask.geoWords
+        const words = task.askInGeorgian ? task.engWords : task.geoWords
         setHint(_shuffle(words))
       }}
     />

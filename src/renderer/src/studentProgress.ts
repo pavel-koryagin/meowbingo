@@ -1,12 +1,7 @@
 import { AnswerResult, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
-import {
-  EnrichedTask,
-  Estimation,
-  extractStatsFromAnswers,
-  getRawTask
-} from './studentProgressUtils'
+import { Task, Estimation, extractStatsFromAnswers, getRawTask } from './studentProgressUtils'
 import { CurrentTask, getCurrentTask, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
 import { NewTasksParams } from './lessonUtils'
@@ -45,18 +40,14 @@ export function takeNextTask(): CurrentTask {
   return result
 }
 
-export function acceptAnswer(
-  enrichedTask: EnrichedTask,
-  answer: string,
-  estimation?: Estimation
-): AnswerResult {
-  const { askInGeorgian, geoVariants, engVariants } = enrichedTask
+export function acceptAnswer(task: Task, answer: string, estimation?: Estimation): AnswerResult {
+  const { askInGeorgian, geoVariants, engVariants } = task
 
   // Save
   updateState('answers', (answers) => [
     ...answers,
     {
-      task: getRawTask(enrichedTask),
+      task: getRawTask(task),
       answer,
       estimation,
       submittedAt: Date.now()

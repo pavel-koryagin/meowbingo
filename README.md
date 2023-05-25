@@ -7,6 +7,7 @@ An Electron application with React and TypeScript
 - Replace Next with 'Bad' and 'Good'? Use backspace for 'Bad'?
 - Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
 - Create a view to show all tasks and their statuses
+- Implement a feature to edit the pairs
 
 ## Ranging algorithm
 

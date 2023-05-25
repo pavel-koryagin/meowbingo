@@ -4,10 +4,6 @@ An Electron application with React and TypeScript
 
 ## TODO list
 
-- Merge the same sentences.
-  + Use the id from the first of them
-  + Merge after skipping the ones marked bad
-  - Collect all the other variants for checking the answer. Show the perfect one
 - Replace Next with 'Bad' and 'Good'? Use backspace for 'Bad'?
 - Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
 - Create a view to show all tasks and their statuses

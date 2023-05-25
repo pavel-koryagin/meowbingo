@@ -2,7 +2,7 @@ import _uniqBy from 'lodash/uniqBy'
 import { Texts } from './texts'
 import { getSentences } from './textUtils'
 
-interface TaskSentence {
+export interface TaskSentence {
   id: string
   geo: string
   eng: string

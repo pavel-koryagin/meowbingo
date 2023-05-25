@@ -6,6 +6,7 @@ const notLetterNotSpaceRegex =
 
 export interface AnswerResult {
   isPerfect: boolean
+  text: string
   goodWords: string[]
 }
 
@@ -71,7 +72,7 @@ export function getQualifiedWords(
   })
 }
 
-export function isAnswerPerfect(expected: string, actual: string): AnswerResult {
+function evaluateSingleAnswer(expected: string, actual: string): AnswerResult {
   const expectedWords = getWords(expected.toLowerCase())
   const actualWords = getWords(actual.toLowerCase())
 
@@ -80,6 +81,7 @@ export function isAnswerPerfect(expected: string, actual: string): AnswerResult 
   if (expectedWords.length !== actualWords.length) {
     return {
       isPerfect: false,
+      text: expected,
       goodWords
     }
   }
@@ -88,6 +90,7 @@ export function isAnswerPerfect(expected: string, actual: string): AnswerResult 
     if (expectedWords[i] !== actualWords[i]) {
       return {
         isPerfect: false,
+        text: expected,
         goodWords
       }
     }
@@ -95,6 +98,20 @@ export function isAnswerPerfect(expected: string, actual: string): AnswerResult 
 
   return {
     isPerfect: true,
+    text: expected,
     goodWords
   }
+}
+
+export function evaluateAnswer(expectedAnswers: string[], actual: string): AnswerResult {
+  let result: AnswerResult | undefined
+
+  for (const expectedAnswer of expectedAnswers) {
+    const { isPerfect, goodWords } = evaluateSingleAnswer(expectedAnswer, actual)
+    if (!result || goodWords.length > result.goodWords.length) {
+      result = { isPerfect, goodWords, text: expectedAnswer }
+    }
+  }
+
+  return result!
 }

@@ -11,6 +11,8 @@ export interface EnrichedTask {
   geoAudio: string | null
   geoWords: string[]
   engWords: string[]
+  geoVariants: string[]
+  engVariants: string[]
 }
 
 export type Estimation = 'easy' | 'hard'

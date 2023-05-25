@@ -210,4 +210,37 @@ describe('generateAllTaskSentences', () => {
       }
     })
   })
+
+  it('skips dropped lessons', () => {
+    // Act
+    const result = generateAllTaskSentences(
+      makeSampleTexts(
+        {
+          // This block is marked for dropping
+          geo: 'მე ვარ უნივერსიტეტში.',
+          eng: "I'm at the university."
+        },
+        {
+          geo: 'მე ვარ უნივერსიტეტში.', // Same as first, so we test that it is dropped before merging
+          eng: 'I am at the university.'
+        }
+      ),
+      ['Lesson 1 > Block 1 > sentence 1']
+    )
+
+    // Assert
+    expect(result).toStrictEqual({
+      allTaskSentences: [
+        {
+          id: 'Lesson 1 > Block 2 > sentence 1',
+          geo: 'მე ვარ უნივერსიტეტში.',
+          eng: 'I am at the university.',
+          duplicates: []
+        }
+      ],
+      duplicateToPrimaryIds: {
+        'Lesson 1 > Block 2 > sentence 1': 'Lesson 1 > Block 2 > sentence 1'
+      }
+    })
+  })
 })

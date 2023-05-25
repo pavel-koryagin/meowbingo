@@ -11,7 +11,10 @@ interface TaskSentence {
 
 type TaskSentencesByKey = Record<string, TaskSentence>
 
-export function generateAllTaskSentences(texts: Texts): {
+export function generateAllTaskSentences(
+  texts: Texts,
+  droppedTaskIds: string[] = []
+): {
   duplicateToPrimaryIds: Record<string, string>
   allTaskSentences: TaskSentence[]
 } {
@@ -29,8 +32,16 @@ export function generateAllTaskSentences(texts: Texts): {
       }
 
       for (let i = 0; i < geoSentences.length; i++) {
+        const id = `${taskTitle} > ${blockTitle} > sentence ${i + 1}`
+
+        // Skip dropped tasks
+        if (droppedTaskIds.includes(id)) {
+          continue
+        }
+
+        // Register
         registerTaskSentence(taskSentencesByTextKey, {
-          id: `${taskTitle} > ${blockTitle} > sentence ${i + 1}`,
+          id,
           geo: geoSentences[i],
           eng: engSentences[i]
         })

@@ -11,8 +11,6 @@ import {
   TaskStats
 } from './studentProgressUtils'
 
-const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(texts)
-
 export interface AppState {
   answers: Answer[]
   droppedTaskIds: string[]
@@ -20,6 +18,11 @@ export interface AppState {
 
 const state: AppState = await window.api.getState<AppState>()
 const taskIdsInThisSession: string[] = []
+
+const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(
+  texts,
+  state.droppedTaskIds
+)
 
 const taskStats: Record<string, TaskStats> = extractStatsFromAnswers({
   duplicateToPrimaryIds,

@@ -182,14 +182,12 @@ export function TrainingPaneView({
             ) : (
               <>
                 <input type="submit" className="btn btn-success me-2" value="Good" />
-                {!isAnswerPerfect && (
-                  <input
-                    type="button"
-                    className="btn btn-danger"
-                    value="Bad"
-                    onClick={() => onSubmit(answer, 'bad')}
-                  />
-                )}
+                <input
+                  type="button"
+                  className="btn btn-danger"
+                  value="Bad"
+                  onClick={() => onSubmit(answer, 'bad')}
+                />
               </>
             )}
           </div>

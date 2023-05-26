@@ -1,7 +1,13 @@
 import { AnswerResult, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
-import { Task, Estimation, extractStatsFromAnswers, getRawTask } from './studentProgressUtils'
+import {
+  Task,
+  Estimation,
+  extractStatsFromAnswers,
+  getRawTask,
+  TaskStats
+} from './studentProgressUtils'
 import { CurrentTask, getCurrentTask, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
 import { NewTasksParams } from './lessonUtils'
@@ -25,6 +31,10 @@ export function getNewTasksParams(): NewTasksParams {
     droppedTaskIds: getState('droppedTaskIds'),
     taskIdsInThisSession
   }
+}
+
+export function getTaskStats(id: string): TaskStats | undefined {
+  return taskStatsById[id]
 }
 
 export function takeNextTask(): CurrentTask {

@@ -1,13 +1,14 @@
 import { Lesson, formNewLesson, loadLesson } from './lessonUtils'
 import { getState } from './state'
-import { getNewTasksParams } from './studentProgress'
-import { Task } from './studentProgressUtils'
+import { getNewTasksParams, getTaskStats } from './studentProgress'
+import { Task, TaskStats } from './studentProgressUtils'
 
 let currentLesson: Lesson
 
 export interface CurrentTask {
   lesson: Lesson
   task: Task
+  taskStats: TaskStats | undefined
 }
 
 export function nextTask() {
@@ -39,8 +40,10 @@ export function getCurrentLesson(): Lesson {
 
 export function getCurrentTask(): CurrentTask {
   const lesson = getCurrentLesson()
+  const task = lesson.tasks[lesson.currentTaskIndex]
   return {
     lesson,
-    task: lesson.tasks[lesson.currentTaskIndex]
+    task,
+    taskStats: getTaskStats(task.id)
   }
 }

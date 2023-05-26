@@ -1,4 +1,4 @@
-import { Task, Estimation } from '../studentProgressUtils'
+import { Task, Estimation, TaskStats } from '../studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
 import { getQualifiedWords } from '../textUtils'
 import { Lesson } from '../lessonUtils'
@@ -6,6 +6,7 @@ import { Lesson } from '../lessonUtils'
 interface Props {
   lesson: Lesson
   task: Task
+  taskStats: TaskStats | undefined
   showAnswer: boolean
   answer: string
   hint?: string[]
@@ -22,6 +23,7 @@ export function TrainingPaneView({
     tasks: { length: totalTasks }
   },
   task: { id, eng, geo, askInGeorgian },
+  taskStats,
   showAnswer,
   answer,
   hint,
@@ -221,6 +223,35 @@ export function TrainingPaneView({
           </div>
         </div>
       </div>
+      <div className="form-group mb-3">{formatTaskStats(taskStats)}</div>
     </form>
+  )
+}
+
+function formatTaskStats(taskStats: TaskStats | undefined) {
+  if (!taskStats) {
+    return <span className="badge text-bg-primary">new task</span>
+  }
+
+  if (taskStats.hardOvercoming !== null && taskStats.hardOvercoming < 2) {
+    return <span className="badge text-bg-dark">hard task at {taskStats.hardOvercoming} level</span>
+  }
+
+  if (taskStats.isEasy) {
+    return <span className="badge text-bg-success">easy task</span>
+  }
+
+  return (
+    <span
+      className={`badge ${
+        taskStats.confidence > 2
+          ? 'text-bg-success'
+          : taskStats.confidence > 0
+          ? 'text-bg-warning'
+          : 'text-bg-light'
+      }`}
+    >
+      {taskStats.confidence} confidence
+    </span>
   )
 }

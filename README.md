@@ -4,11 +4,8 @@ An Electron application with React and TypeScript
 
 ## TODO list
 
-Rotation:
-- Calculate suggested task repeat date
-- Implement buckets
-- Implement lesson of 20 tasks (save to state; do not implement the switching view yet)
-
+- Update taskStatsById on every answer
+- Show answers on the task as date and estimation
 - Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
 - Create a view to show all tasks and their statuses
 - Implement a feature to edit the pairs

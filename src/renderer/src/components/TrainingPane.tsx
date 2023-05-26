@@ -3,33 +3,33 @@ import { TrainingPaneView } from './TrainingPaneView'
 import { useState } from 'react'
 import _shuffle from 'lodash/shuffle'
 import { getCurrentTask } from '../lessons'
+import { getQualifiedWords, QualifiedWord } from '../textUtils'
 
 export function TrainingPane(): JSX.Element {
   const [isAnswerPerfect, setIsAnswerPerfect] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
   const [answer, setAnswer] = useState('')
 
-  const [{ lesson, task: task, taskStats }, setLessonTask] = useState(() => getCurrentTask())
+  const [currentTask, setCurrentTask] = useState(() => getCurrentTask())
+  const { task } = currentTask
   const [hint, setHint] = useState<string[] | undefined>(undefined)
-  const [goodWords, setGoodWords] = useState<string[]>([])
+  const [qualifiedWords, setQualifiedWords] = useState<QualifiedWord[]>([])
 
   function next() {
-    setLessonTask(takeNextTask())
+    setCurrentTask(takeNextTask())
     setShowAnswer(false)
     setHint(undefined)
     setAnswer('')
-    setGoodWords([])
+    setQualifiedWords([])
   }
 
   return (
     <TrainingPaneView
-      lesson={lesson}
-      task={task}
-      taskStats={taskStats}
+      {...currentTask}
       showAnswer={showAnswer}
       answer={answer}
       hint={hint}
-      goodWords={goodWords}
+      qualifiedWords={qualifiedWords}
       isAnswerPerfect={isAnswerPerfect}
       onAnswerChange={setAnswer}
       onSubmit={(answer, estimation) => {
@@ -48,14 +48,14 @@ export function TrainingPane(): JSX.Element {
 
         // Accept
         if (estimation === undefined && !showAnswer) {
-          const { isPerfect, goodWords: newGoodWords } = acceptAnswer({
+          const { isPerfect, text } = acceptAnswer({
             task,
             answer,
             withHint: hint !== undefined,
             estimation
           })
           setIsAnswerPerfect(isPerfect)
-          setGoodWords(newGoodWords)
+          setQualifiedWords(getQualifiedWords(text, answer))
 
           // Show
           setShowAnswer(true)

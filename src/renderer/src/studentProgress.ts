@@ -1,3 +1,4 @@
+import _reverse from 'lodash/reverse'
 import { AnswerResult, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
@@ -8,7 +9,8 @@ import {
   getRawTask,
   TaskStats,
   RawAnswer,
-  accumulateAnswerInStats
+  accumulateAnswerInStats,
+  Answer
 } from './studentProgressUtils'
 import { CurrentTask, getCurrentTask, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
@@ -37,6 +39,11 @@ export function getNewTasksParams(): NewTasksParams {
 
 export function getTaskStats(id: string): TaskStats | undefined {
   return taskStatsById[id]
+}
+
+export function getAnswers(taskId: string): Answer[] {
+  const answers = getState('answers').filter((answer) => answer.task.id === taskId)
+  return _reverse(answers)
 }
 
 let lastAnswer: RawAnswer | undefined

@@ -116,11 +116,15 @@ export function formLessonPlan({
 
   // Pick planned part
   pickFromOrderedBucket(hardBucket, 10)
-  pickFromOrderedBucket(scheduledTillTodayBucket, newBucket.length > 0 ? 5 : 10)
+  pickFromOrderedBucket(
+    scheduledTillTodayBucket,
+    newBucket.length === 0 || hardBucket.length ? 10 : 5
+  )
   pickFromSequentialBucket(newBucket, scheduledTillTodayBucket.length > 5 ? 3 : 5)
   pickFromRandomBucket(easyBucket, 1)
 
   // Fill the capacity
+  pickFromSequentialBucket(newBucket, 10)
   pickFromOrderedBucket(scheduledForFutureBucket, amount /* no limit */)
   pickFromRandomBucket(easyBucket, amount /* no limit */) // Again
   pickFromSequentialBucket(newBucket, amount /* no limit */)
@@ -130,6 +134,9 @@ export function formLessonPlan({
 }
 
 export function getDesiredScheduledAt({ confidence, lastAnsweredAt }: TaskStats) {
-  const intervalDays = Math.pow(2, confidence - 1)
-  return lastAnsweredAt + intervalDays * 24 * 3600 * 1000
+  return lastAnsweredAt + getIntervalByConfidence(confidence) * 24 * 3600 * 1000
+}
+
+export function getIntervalByConfidence(confidence: number) {
+  return Math.pow(2, confidence)
 }

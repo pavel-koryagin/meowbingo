@@ -1,18 +1,15 @@
 import dayjs from 'dayjs'
-import { Task, Estimation, TaskStats } from '../studentProgressUtils'
+import { Estimation, TaskStats } from '../studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
-import { getQualifiedWords } from '../textUtils'
-import { Lesson } from '../lessonUtils'
-import { getDesiredScheduledAt } from '../taskScheduling'
+import { QualifiedWord } from '../textUtils'
+import { getDesiredScheduledAt, getIntervalByConfidence } from '../taskScheduling'
+import { CurrentTask } from '../lessons'
 
-interface Props {
-  lesson: Lesson
-  task: Task
-  taskStats: TaskStats | undefined
+interface Props extends CurrentTask {
   showAnswer: boolean
   answer: string
   hint?: string[]
-  goodWords: string[]
+  qualifiedWords: QualifiedWord[]
   isAnswerPerfect: boolean
   onAnswerChange: (answer: string) => void
   onSubmit: (answer: string, button?: Estimation | 'skip' | 'drop') => void
@@ -26,9 +23,11 @@ export function TrainingPaneView({
   },
   task: { id, eng, geo, askInGeorgian },
   taskStats,
+  pastAnswers,
   showAnswer,
   answer,
   hint,
+  qualifiedWords,
   isAnswerPerfect,
   onAnswerChange,
   onSubmit,
@@ -46,9 +45,6 @@ export function TrainingPaneView({
   }, [id])
 
   const hasAnswerToSubmit = answer.trim() !== ''
-
-  const expectedAnswer = askInGeorgian ? eng : geo
-  const qualifiedWords = getQualifiedWords(expectedAnswer, answer)
 
   function defaultAction() {
     if (showAnswer) {
@@ -185,12 +181,14 @@ export function TrainingPaneView({
             ) : (
               <>
                 <input type="submit" className="btn btn-success me-2" value="Good" />
-                <input
-                  type="button"
-                  className="btn btn-danger"
-                  value="Bad"
-                  onClick={() => onSubmit(answer, 'bad')}
-                />
+                {!isAnswerPerfect && (
+                  <input
+                    type="button"
+                    className="btn btn-danger"
+                    value="Bad"
+                    onClick={() => onSubmit(answer, 'bad')}
+                  />
+                )}
               </>
             )}
           </div>
@@ -226,6 +224,22 @@ export function TrainingPaneView({
         </div>
       </div>
       <div className="form-group mb-3">{formatTaskStats(taskStats)}</div>
+      <table className="table table-sm small w-auto">
+        <thead>
+          <tr>
+            <th>Answers {pastAnswers.length}</th>
+            <th>Estimation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {pastAnswers.map(({ submittedAt, estimation }, index) => (
+            <tr key={index}>
+              <td>{dayjs(submittedAt).format('D MMM YYYY')}</td>
+              <td>{estimation}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </form>
   )
 }
@@ -253,13 +267,14 @@ function formatTaskStats(taskStats: TaskStats | undefined) {
           : 'text-bg-light'
       }`}
     >
-      {taskStats.confidence} confidence, to be shown {formatDay(getDesiredScheduledAt(taskStats))}
+      {taskStats.confidence} confidence, to be shown {formatDay(getDesiredScheduledAt(taskStats))}{' '}
+      (interval was {getIntervalByConfidence(taskStats.confidence)}d)
     </span>
   )
 }
 
 function formatDay(at: number) {
   return dayjs(at).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
-    ? 'today'
-    : dayjs(at).minute(0).second(0).millisecond(0).fromNow()
+    ? 'today ' + dayjs(at).format('DD MMM')
+    : dayjs(at).minute(0).second(0).millisecond(0).fromNow() + ' ' + dayjs(at).format('DD MMM')
 }

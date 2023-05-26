@@ -54,10 +54,9 @@ export function getWords(sentence: string): string[] {
     .filter((v) => v)
 }
 
-export function getQualifiedWords(
-  expectedAnswer: string,
-  actualAnswer: string
-): { withPunctuation: string; word: string; matchesTyped: boolean }[] {
+export type QualifiedWord = { withPunctuation: string; word: string; matchesTyped: boolean }
+
+export function getQualifiedWords(expectedAnswer: string, actualAnswer: string): QualifiedWord[] {
   const words = expectedAnswer.split(/(?<=\s+)/).filter((v) => v)
   const lcTypedWords = getWords(actualAnswer).map((v) => v.toLowerCase())
 
@@ -108,6 +107,9 @@ export function evaluateAnswer(expectedAnswers: string[], actual: string): Answe
 
   for (const expectedAnswer of expectedAnswers) {
     const { isPerfect, goodWords } = evaluateSingleAnswer(expectedAnswer, actual)
+    if (isPerfect) {
+      return { isPerfect, goodWords, text: expectedAnswer }
+    }
     if (!result || goodWords.length > result.goodWords.length) {
       result = { isPerfect, goodWords, text: expectedAnswer }
     }

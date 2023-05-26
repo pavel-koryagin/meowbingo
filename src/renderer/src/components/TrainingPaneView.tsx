@@ -24,6 +24,7 @@ export function TrainingPaneView({
   task: { id, eng, geo, askInGeorgian },
   taskStats,
   pastAnswers,
+  bucketStats,
   showAnswer,
   answer,
   hint,
@@ -224,22 +225,38 @@ export function TrainingPaneView({
         </div>
       </div>
       <div className="form-group mb-3">{formatTaskStats(taskStats)}</div>
-      <table className="table table-sm small w-auto">
-        <thead>
-          <tr>
-            <th>Answers {pastAnswers.length}</th>
-            <th>Estimation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pastAnswers.map(({ submittedAt, estimation }, index) => (
-            <tr key={index}>
-              <td>{dayjs(submittedAt).format('D MMM YYYY')}</td>
-              <td>{estimation}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="row mb-3">
+        <div className="col-6">
+          <table className="table table-sm small w-auto">
+            <thead>
+              <tr>
+                <th>Answers {pastAnswers.length}</th>
+                <th>Estimation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pastAnswers.map(({ submittedAt, estimation }, index) => (
+                <tr key={index}>
+                  <td>{dayjs(submittedAt).format('D MMM YYYY')}</td>
+                  <td>{estimation}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="col-6">
+          <table className="table table-sm small w-auto ms-auto">
+            <tbody>
+              {bucketStats.map(({ title, count }, index) => (
+                <tr key={index}>
+                  <td>{title}</td>
+                  <td className="text-end">{count}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </form>
   )
 }

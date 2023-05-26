@@ -1,4 +1,5 @@
 import _reverse from 'lodash/reverse'
+import _startCase from 'lodash/startCase'
 import { AnswerResult, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
@@ -15,6 +16,7 @@ import {
 import { CurrentTask, getCurrentTask, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
 import { NewTasksParams } from './lessonUtils'
+import { classifySentencesIntoBuckets } from './taskScheduling'
 
 const taskIdsInThisSession: string[] = []
 
@@ -39,6 +41,14 @@ export function getNewTasksParams(): NewTasksParams {
 
 export function getTaskStats(id: string): TaskStats | undefined {
   return taskStatsById[id]
+}
+
+export function getBucketStats(): { title: string; count: number }[] {
+  const buckets = classifySentencesIntoBuckets(allTaskSentences, taskStatsById)
+  return Object.entries(buckets).map(([name, sentences]) => ({
+    title: _startCase(name.replace(/Bucket$/, '')),
+    count: sentences.length
+  }))
 }
 
 export function getAnswers(taskId: string): Answer[] {

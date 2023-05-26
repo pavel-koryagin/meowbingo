@@ -106,7 +106,10 @@ export function getIntervalByConfidence(confidence: number) {
   return Math.pow(2, confidence)
 }
 
-function classifySentencesIntoBuckets(taskSentences: TaskSentence[], taskStatsById: TaskStatsById) {
+export function classifySentencesIntoBuckets(
+  taskSentences: TaskSentence[],
+  taskStatsById: TaskStatsById
+) {
   // Make buckets with different properties
   // Hard - marked hard and not followed by at least two more goods than bads; up to 10 ordered by last bad; no pause
   const hardBucket: OrderedTaskSentence[] = []

@@ -31,8 +31,25 @@ export interface Answer {
 
 export type RawAnswer = Answer
 
-export interface TaskStats {
+export type TaskStats = {
+  hasAnswers: true // Always true, because the StatsBlock is absent otherwise
   hasEasy: boolean
+} & (
+  | {
+      lastWasHard: true
+      lastHardAt: number
+    }
+  | {
+      lastWasHard: false
+      lastHardAt: null
+    }
+)
+
+const defaultTaskStats: TaskStats = {
+  hasAnswers: true,
+  lastWasHard: false,
+  lastHardAt: null,
+  hasEasy: false
 }
 
 export type TaskStatsById = Record<string, TaskStats>
@@ -45,15 +62,20 @@ export function extractStatsFromAnswers({
   answers: Answer[]
 }): TaskStatsById {
   const result: TaskStatsById = {}
-  for (const { task, estimation } of answers) {
+  // Assume they are sorted by submittedAt
+  for (const { task, submittedAt, estimation } of answers) {
     const taskId = duplicateToPrimaryIds[task.id]
     if (!result[taskId]) {
-      result[taskId] = {
-        hasEasy: false
-      }
+      result[taskId] = { ...defaultTaskStats }
     }
+    const taskStats = result[taskId] ?? defaultTaskStats
+
     if (estimation === 'easy') {
-      result[taskId].hasEasy = true
+      taskStats.hasEasy = true
+    }
+    taskStats.lastWasHard = estimation === 'hard'
+    if (taskStats.lastWasHard) {
+      taskStats.lastHardAt = submittedAt
     }
   }
 

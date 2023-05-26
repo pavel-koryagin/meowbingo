@@ -1,4 +1,4 @@
-import { extractStatsFromAnswers, Task } from './studentProgressUtils'
+import { extractStatsFromAnswers, Task, TaskStats } from './studentProgressUtils'
 
 const moment1 = 100
 const moment2 = 101
@@ -24,6 +24,13 @@ const sampleTask2: Task = {
 const sampleTask3: Task = {
   ...sampleTask1,
   id: 'Block 3'
+}
+
+const sampleTaskStats: TaskStats = {
+  hasAnswers: true,
+  lastWasHard: false,
+  lastHardAt: null,
+  hasEasy: false
 }
 
 describe('extractStatsFromAnswers', () => {
@@ -59,9 +66,11 @@ describe('extractStatsFromAnswers', () => {
     // Assert
     expect(result).toStrictEqual({
       [sampleTask1.id]: {
+        ...sampleTaskStats,
         hasEasy: false
       },
       [sampleTask2.id]: {
+        ...sampleTaskStats,
         hasEasy: true
       }
     })
@@ -92,6 +101,7 @@ describe('extractStatsFromAnswers', () => {
     // Assert
     expect(result).toStrictEqual({
       [sampleTask2.id]: {
+        ...sampleTaskStats,
         hasEasy: true
       }
     })

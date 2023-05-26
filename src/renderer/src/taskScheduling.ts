@@ -14,8 +14,22 @@ interface BucketGenerators {
 }
 
 const defaultBucketGenerators: BucketGenerators[] = [
-  // {
+  // { // Easy
   //   doesTaskSentenceBelong: ({ id }, { taskStatsById }) => !taskStatsById[id]?.hasEasy
+  // }
+  // {
+  //   // Hard
+  //   amount: 10,
+  //   doesTaskSentenceBelong: ({ id }, { taskStatsById }) => {
+  //     const taskStats = taskStatsById[id]
+  //     if (taskStats?.lastWasHard) {
+  //       // More than an hour ago
+  //       if (taskStats.lastHardAt < Date.now() - 3600 * 1000) {
+  //         return true
+  //       }
+  //     }
+  //     return false
+  //   }
   // }
 ]
 

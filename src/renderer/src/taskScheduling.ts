@@ -13,6 +13,13 @@ interface BucketGenerators {
   ) => boolean
 }
 
+// Try banks with different properties
+// 1. Easy - all easy; don't show if shown less than 10 days ago, then show only 1 random of them
+// 2. Hard - marked hard and not followed by at least two more goods than bads; up to 10 ordered by last bad; no pause
+// 3. New - never seen; up to 5
+// 4. Scheduled - normal cards, ordered by recommended time to review; the rest amount
+// And there's no remainder after new and scheduled
+
 const defaultBucketGenerators: BucketGenerators[] = [
   // { // Easy
   //   doesTaskSentenceBelong: ({ id }, { taskStatsById }) => !taskStatsById[id]?.hasEasy

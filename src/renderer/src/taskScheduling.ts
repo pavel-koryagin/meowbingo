@@ -31,6 +31,24 @@ const defaultBucketGenerators: BucketGenerators[] = [
   //     return false
   //   }
   // }
+  // {
+  //   // Hard
+  //   amount: 10,
+  //   doesTaskSentenceBelong: ({ id }, { taskStatsById }) => {
+  //     const taskStats = taskStatsById[id]
+  //     if (!taskStats) {
+  //       return false
+  //     }
+  //     const desiredAt = Math.pow(2, taskStats.confidence - 1)
+  //     if (taskStats?.lastWasHard) {
+  //       // More than an hour ago
+  //       if (taskStats.lastHardAt < Date.now() - 3600 * 1000) {
+  //         return true
+  //       }
+  //     }
+  //     return false
+  //   }
+  // }
 ]
 
 export function formRemainingTasks(

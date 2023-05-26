@@ -34,6 +34,7 @@ export type RawAnswer = Answer
 export type TaskStats = {
   hasAnswers: true // Always true, because the StatsBlock is absent otherwise
   hasEasy: boolean
+  confidence: number // Add on good or easy, decrease on bad or hard; Don't go below 0
 } & (
   | {
       lastWasHard: true
@@ -49,7 +50,8 @@ const defaultTaskStats: TaskStats = {
   hasAnswers: true,
   lastWasHard: false,
   lastHardAt: null,
-  hasEasy: false
+  hasEasy: false,
+  confidence: 0 // Add on good or easy, decrease on bad or hard; Don't go below 0
 }
 
 export type TaskStatsById = Record<string, TaskStats>
@@ -73,9 +75,16 @@ export function extractStatsFromAnswers({
     if (estimation === 'easy') {
       taskStats.hasEasy = true
     }
+
     taskStats.lastWasHard = estimation === 'hard'
     if (taskStats.lastWasHard) {
       taskStats.lastHardAt = submittedAt
+    }
+
+    if (estimation === 'good' || estimation === 'easy') {
+      taskStats.confidence++
+    } else if (estimation === 'bad' || estimation === 'hard') {
+      taskStats.confidence--
     }
   }
 

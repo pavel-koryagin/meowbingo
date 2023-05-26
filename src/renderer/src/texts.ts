@@ -10,7 +10,7 @@ export type Texts = {
 
 export const texts: Texts = [
   {
-    title: 'Task 2',
+    title: 'Lesson 2',
     blocks: [
       {
         title: 'Text',
@@ -64,7 +64,7 @@ j) – What is in the room? – There is a table in the room. – What is on the
     ]
   },
   {
-    title: 'Task 3',
+    title: 'Lesson 3',
     blocks: [
       {
         title: 'Texts',
@@ -159,11 +159,130 @@ l) Where is Tbilisi and where is London?
 m) What is this?
 n) Who is this?
 o) Who are they?`
+      }
+    ]
+  },
+  {
+    title: 'Lesson 4',
+    blocks: [
+      {
+        title: 'Texts',
+        geo: `– გამარჯობა. როგორ ხარ? – დიდი მადლობა. შენ როგორ ხარ? – კარგად. – სად არის შენი უნივერსიტეტი? – ჩემი უნივერსიტეტი არის თბილისში. – სადაურია შენი მეგობარი? – ჩემი მეგობარი კორეელია. მე ვარ იტალიიდან. აქ, საქართველოში მე ვსწავლობ ქართულს. – როგორი ქალაქია თბილისი? – თბილისი ლამაზი ქალაქია. მე აქ ვცხოვრობ. – ის არის ჩვენი დედაქალაქი. – რა არის თქვენი დედაქალაქი? თქვენ სად ცხოვრობთ? – ჩვენ ვცხოვრობთ იტალიაში და ჩვენი დედაქალაქი არის რომი. რომი არის დიდი და ლამაზი ქალაქი.
+– აქ ვცხოვრობ მე. აი, ეს არის ჩვენი ქუჩა. აქ არის პატარა მდინარე. აქ არის ჩემი სახლი და ჩემი უნივერსიტეტი. აი, ეს ჩემი სურათია. სად არის ამის ფანქარი? – ამის ფანქარი მაგიდაზეა, თქვენი კალამი არის ჩანთაში. მისი რვეული მაგიდაზეა.
+– სადაურია ეს კაცი? – ეს კაცი არის გერმანელი. – ვინ არის ეს ქალი? – ეს ქალი არის კაცთან და არის მისი მეგობარი. ის არ არის ჩემი მეგობარი. – თქვენი მეგობარი სად არის? – ჩემი მეგობარი აქ არ არის. ის ლონდონშია. – სად არის ის ბავშვი? – ის ბავშვი არის სახლში და ეს ბავშვი არის ქუჩაში. ის არის ტბასთან. – არის აქ ტბა? – დიახ, აქ არის პატარა და ლამაზი ტბა. აი, ეს ტბა. ეს ბავშვი აქ ცხოვრობს. – როგორ არის დედა? – კარგად. დიდი მადლობა. – ნახვამდის.`,
+        eng: `– Hello. How are you? – Thank you very much. How are you? – Well. – Where is your university? – My university is in Tbilisi. – Where is your friend from? – My friend is Korean. I'm from Italy. Here, in Georgia I'm studying Georgian. – How is the city of Tbilisi? – Tbilisi is a beautiful city. I live here. – It is our capital. – What is your capital? Where do you live? – We live in Italy and our capital is Rome. Rome is a big and beautiful city.
+I live here. Here, this is our street. Here is a small river. Here is my house and my university. Here, it is my picture. Where is his pencil? His/her pencil is on the table; your pen is in the bag. His/her notebook is on the table.
+– Where is this man from? – This man is German. – Who is this woman? – This woman is with the man and is his friend. She is not my friend. – Where is your friend? – My friend is not here. He is in London. – Where is that child? – That child is at home and this child is in the street. He/she's by the lake. – There is a lake here? – Yes, there is a small and beautiful lake here. Here this is the lake. This child lives here. – How is your mom? – Well. Thank you very much. – Goodbye.`
       },
       {
-        title: '',
-        geo: ``,
-        eng: ``
+        title: '1. Translate',
+        isList: true,
+        geo: `a) სეული არის ჩვენი დედაქალაქი. სეულში არის მდინარე და არ არის ტბა.
+b) ის არის იმათი პატარა, მაგრამ ლამაზი ქალაქი. თბილისი ჩვენი ლამაზი
+დედაქალაქია.
+c) – სად არის ჩვენი ფანქარი? – ის მაგიდაზეა ოთახში. მაგიდაზე იმისი ჩანთაა და იქ არის წიგნი და რვეული.
+d) – ეს ბავშვი ჩემი პატარა მეგობარია. ვინ არის შენი მეგობარი? – ეს ქართველი კაცი ჩემი მეგობარია. ეს იმისი სურათია.
+e) – სოფელში არის ტბა და მდინარე? – სოფელში არის დიდი ტბა, მაგრამ აქ არ არის მდინარე.
+f) – ვინ არიან ეს ქალი და კაცი? საიდან არიან ისინი? – ისინი არიან კორეიდან. – ბოდიში, მაგრამ თქვენ საიდან ხართ?
+g) რვეული არის წიგნთან. წიგნი არაა მაგიდაზე. ის არის ჩანთაში.
+h) – სად ხარ შენ? – მე ვარ დედასთან სახლში. – სად ცხოვრობს დედა? კორეელი სტუდენტი არის მის მეგობართან.
+i) – ეს როგორი წიგნია? – ეს ქართული წიგნია. ეს წიგნი დიდია.
+j) – როგორ ხართ თქვენ? – კარგად. დიდი მადლობა. – დედა და მამა სეულში
+არიან? – არა, ისინი თბილისში არიან. ისინი იქ ცხოვრობენ.`,
+        eng: `a) Seoul is our capital. In Seoul there is a river and not a lake.
+b) It is their small, but beautiful city. Tbilisi is our beautiful capital.
+c) – Where is our pencil? – It is on the table in the room. On the table is her bag and
+there is a book and notebook.
+d) – This child is my small friend. Who is your friend? – This Georgian man is my
+friend. This is his picture.
+e) – Is there a lake and a river in the village? – There is a big lake in the village, but
+there is not a river here.
+f) – Who is this man and woman? Where are they from? – They are from Korea.
+– Excuse me, where are you from?
+g) The notebook is at the book. The book is not on the table. It is in the bag.
+h) – Where are you? – I am with my mother at home. – Where does (your) mom live? The Korean student is with her friend.
+i) – How is this book? – This is a Georgian book. This is a big book.
+j) – How are you? – Well. Thank you very much. – Is (your) mom and dad in Seoul?
+– No, they are in Tbilisi. They live there.`
+      },
+      {
+        title: '2. Translate',
+        isList: true,
+        geo: `a) – მისი მეგობარი ნიუ-იორკშია და შენი მეგობარი არის აქ სეულში. თბილისიდან ხართ? – ბოდიში, თქვენ სადაური ხართ?
+b) ჩვენ ვართ ქუჩაში. ეს არის დიდი დედაქალაქი. იგი არის რომი.
+c) ხე არის ქუჩაში. ტბა არა არის ამ სოფელში. სეულში დიდი მდინარეა.
+d) ის არის ხეზე. ის არის ქუჩაში? ისინი არიან სახლში.
+e) – გამარჯობა. როგორ ხარ? შენ ხარ საქართველოში? – არა, მე ვარ კორეაში.
+f) – სად არის შენი სახლი? – ჩვენი სახლი არის მოსკოვში. – ისინი სოფელიდან
+არიან? – კაცი თბილისიდან არის და ქალი (არის) ქალაქიდან. იმათი ბავშვი
+არის აქ.
+g) – სად ხარ შენ? – ბოდიში, მაგრამ მე არ ვარ სახლში. მე ვარ მაგიდასთან
+ოთახში, უნივერსიტეტში.
+h) – რა არის ეს? – ეს არის ფანქარი. – სად არის ეს ფანქარი? – ის ჩანთაშია. – სად
+არის ჩანთა? – ჩანთა არის მაგიდასთან კლასში.
+i) ეს არის მისი სურათი. ის არის დიდი, მაგრამ არ არის ლამაზი. შენი სურათი
+არის პატარა და ლამაზი.
+j) უღრმესი მადლობა. კარგად ბრძანდებოდეთ.`,
+        eng: `a) – His friend is in New York and your friend is here in Soul. Are you from Tbilisi? – Excuse me (sorry), where are you from?
+b) We are in the street. This is a big capital. It is Rome.
+c) The tree is in the street. There is no lake in this village. There is a big river in Seoul.
+d) He is on the tree. Is he in the street? They are at home.
+e) – Hello. How are you? Are you in Georgia? – No, I am in Korea.
+f) – Where is your house? – Our house is in Moscow. – Are they from the village? – The
+man is from Tbilisi and the woman is from the city. Their child is here.
+g) – Where are you? – Sorry, but I am not at home. I am at the table in the room in the
+university.
+h) – What is this? – This is a pencil. – Where is this pencil? – It is in the bag. – Where is
+the bag? – The bag is at the table in the class.
+i) This is her picture. It is big, but not beautiful. Your picture is small and beautiful.
+j) Thank you very much. Goodbye.`
+      },
+      {
+        title: '3. Translate and answer the questions',
+        isList: true,
+        geo: `a) ვინ არის ეს ბავშვი?
+b) როგორ(ა) ხარ?
+c) შენ სადაური ხარ?
+d) რა არის ეს? სად არის შენი ჩანთა?
+e) სად არის დედაშენი? ის ამერიკელი არის? f) სად არის მამაშენი? ის რომიდან არის?
+g) როგორ არის შენი მეგობარი? სად არის ის?
+h) სად არის ეს ფანქარი და სად არის ეგ კალამი? i) შენხარუნივერსიტეტში?
+j) ვინარისაქ?რაარისიქ?
+k) ხე არის ქუჩაში? ის არის ხესთან?
+l) ეს არის ჩვენი სახლი? ეს არის შენი ოთახი? m) სად არის შენი სურათი?
+n) ისინი როგორ არიან აქ?
+o) როგორი წიგნი არის ეს?
+p) ეს ბავშვი არის მაგიდასთან?
+q) ისინი არიან აქ? სად არიან ისინი?
+r) ვინ არის იქ ბავშვთან?
+s) ვინ არის აქ? ვინ არის ოთახში?
+t) შენ ხარ თბილისიდან?
+u) სად ცხოვრობ?
+v) კორეელი სტუდენტი სად ცხოვრობს? w) შენ ცხოვრობ თბილისში?
+x) ეს სტუდენტი ცხოვრობს აქ?
+y) ეს ბავშვი სად ცხოვრობს?`,
+        eng: `a) Who is this child?
+b) How are you?
+c) Where are you from?
+d) What is this? Where is your bag?
+e) Where is your mother? Is she American?
+f) Where is your father? Is he from Roma?
+g) How is your friend? Where is he?
+h) Where is this pencil and where is that pen? i) Are you at the University?
+j) Who is here? What is there?
+k) Is the tree in the street? Is he at that tree? l) Is this our house? Is this your room? m) Where is your picture?
+n) How are they here?
+o) What kind of book is this?
+p) Is this child at the table?
+q) Are they here? Where are they?
+r) Who is there with (at) the child?
+s) Who is here? Who is in the room?
+t) Are you from Tbilisi?
+u) Where do you live?
+v) Where does the Korean student live?
+w) Do you live in Tbilisi?
+x) Does this student live here?
+y) Where does this child live?`
       }
     ]
   }

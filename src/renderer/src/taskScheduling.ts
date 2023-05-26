@@ -46,7 +46,8 @@ export function formLessonPlan({
   const hardBucket: OrderedTaskSentence[] = []
 
   // Scheduled - normal cards, ordered by recommended time to review; the rest amount
-  const scheduledBucket: OrderedTaskSentence[] = []
+  const scheduledTillTodayBucket: OrderedTaskSentence[] = []
+  const scheduledForFutureBucket: OrderedTaskSentence[] = []
 
   // New - never seen; up to 5
   const newBucket: TaskSentence[] = []
@@ -77,50 +78,54 @@ export function formLessonPlan({
       // Scheduled
       const intervalDays = Math.pow(2, taskStats.confidence - 1)
       const desiredAt = taskStats.lastAnsweredAt + intervalDays * 24 * 3600 * 1000
-      scheduledBucket.push({ order: desiredAt, taskSentence })
+      if (desiredAt <= Date.now()) {
+        scheduledTillTodayBucket.push({ order: desiredAt, taskSentence })
+      } else {
+        scheduledForFutureBucket.push({ order: desiredAt, taskSentence })
+      }
     }
   }
 
-  // Pick
+  // Define pick logic
   let pickedTaskSentences: TaskSentence[] = []
-
-  // Pick from hard
-  pickedTaskSentences = [
-    ...pickedTaskSentences,
-    ..._sampleSize(hardBucket, 10).map(({ taskSentence }) => taskSentence)
-  ]
-
-  // Pick from scheduled
-  pickedTaskSentences = [
-    ...pickedTaskSentences,
-    ..._sampleSize(scheduledBucket, amount - pickedTaskSentences.length).map(
-      ({ taskSentence }) => taskSentence
-    )
-  ]
-
-  // Pick from new
-  pickedTaskSentences = [
-    ...pickedTaskSentences,
-    ..._sampleSize(newBucket, amount - pickedTaskSentences.length)
-  ]
-  if (pickedTaskSentences.length === amount) {
-    return pickedTaskSentences
+  const pickFromOrderedBucket = (bucket: OrderedTaskSentence[], limit: number) => {
+    bucket.sort((a, b) => a.order - b.order)
+    pickedTaskSentences = [
+      ...pickedTaskSentences,
+      ...bucket
+        .splice(0, Math.min(limit, amount - pickedTaskSentences.length))
+        .map(({ taskSentence }) => taskSentence)
+    ]
   }
 
-  // Pick from easy
-  pickedTaskSentences = [
-    ...pickedTaskSentences,
-    ..._sampleSize(easyBucket, amount - pickedTaskSentences.length)
-  ]
-  if (pickedTaskSentences.length === amount) {
-    return pickedTaskSentences
+  const pickFromRandomBucket = (bucket: TaskSentence[], limit: number) => {
+    const picked = _sampleSize(bucket, Math.min(limit, amount - pickedTaskSentences.length))
+    pickedTaskSentences = [...pickedTaskSentences, ...picked]
+    // Delete from bucket
+    for (const { id } of picked) {
+      const index = bucket.findIndex(({ id: taskId }) => taskId === id)
+      bucket.splice(index, 1)
+    }
   }
 
-  // Pick from omitted
-  pickedTaskSentences = [
-    ...pickedTaskSentences,
-    ..._sampleSize(omittedBucket, amount - pickedTaskSentences.length)
-  ]
+  const pickFromSequentialBucket = (bucket: TaskSentence[], limit: number) => {
+    pickedTaskSentences = [
+      ...pickedTaskSentences,
+      ...bucket.splice(0, Math.min(limit, amount - pickedTaskSentences.length))
+    ]
+  }
+
+  // Pick planned part
+  pickFromOrderedBucket(hardBucket, 10)
+  pickFromOrderedBucket(scheduledTillTodayBucket, newBucket.length > 0 ? 5 : 10)
+  pickFromSequentialBucket(newBucket, scheduledTillTodayBucket.length > 5 ? 3 : 5)
+  pickFromRandomBucket(easyBucket, 1)
+
+  // Fill the capacity
+  pickFromOrderedBucket(scheduledForFutureBucket, amount /* no limit */)
+  pickFromRandomBucket(easyBucket, amount /* no limit */) // Again
+  pickFromSequentialBucket(newBucket, amount /* no limit */)
+  pickFromRandomBucket(omittedBucket, amount /* no limit */)
 
   return pickedTaskSentences
 }

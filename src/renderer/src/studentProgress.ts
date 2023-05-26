@@ -6,7 +6,9 @@ import {
   Estimation,
   extractStatsFromAnswers,
   getRawTask,
-  TaskStats
+  TaskStats,
+  RawAnswer,
+  accumulateAnswerInStats
 } from './studentProgressUtils'
 import { CurrentTask, getCurrentTask, nextTask } from './lessons'
 import { getState, setState, updateState } from './state'
@@ -37,7 +39,15 @@ export function getTaskStats(id: string): TaskStats | undefined {
   return taskStatsById[id]
 }
 
+let lastAnswer: RawAnswer | undefined
+
 export function takeNextTask(): CurrentTask {
+  // Consider the last answer
+  if (lastAnswer) {
+    accumulateAnswerInStats(taskStatsById, lastAnswer)
+    lastAnswer = undefined
+  }
+
   // Move
   nextTask()
 
@@ -66,22 +76,26 @@ export function acceptAnswer({
   const { askInGeorgian, geoVariants, engVariants } = task
 
   // Save
-  updateState('answers', (answers) => [
-    ...answers,
-    {
-      task: getRawTask(task),
-      answer,
-      withHint,
-      estimation,
-      submittedAt: Date.now()
-    }
-  ])
+  if (lastAnswer) {
+    throw new Error('Unpexpected case')
+  }
+
+  lastAnswer = {
+    task: getRawTask(task),
+    answer,
+    withHint,
+    estimation,
+    submittedAt: Date.now()
+  }
+  updateState('answers', (answers) => [...answers, lastAnswer!])
 
   // Check the answer
   return evaluateAnswer(askInGeorgian ? engVariants : geoVariants, answer)
 }
 
 export function amendEstimation(estimation?: Estimation) {
+  lastAnswer!.estimation = estimation
+
   updateState('answers', (answers) => [
     ...answers.slice(0, -1),
     {

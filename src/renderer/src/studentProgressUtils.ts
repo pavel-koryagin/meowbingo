@@ -54,39 +54,48 @@ export function extractStatsFromAnswers({
   answers: Answer[]
 }): TaskStatsById {
   const result: TaskStatsById = {}
+
   // Assume they are sorted by submittedAt
-  for (const { task, submittedAt, estimation } of answers) {
-    const taskId = duplicateToPrimaryIds[task.id]
-    if (!result[taskId]) {
-      result[taskId] = { ...defaultTaskStats, lastAnsweredAt: submittedAt }
-    } else {
-      result[taskId].lastAnsweredAt = submittedAt
-    }
-    const taskStats = result[taskId]
-
-    // hardOvercoming
-    if (estimation === 'hard') {
-      taskStats.hardOvercoming = 0
-    } else if (taskStats.hardOvercoming !== null) {
-      if (estimation === 'good') taskStats.hardOvercoming++
-      else if (estimation === 'bad') taskStats.hardOvercoming--
-      else if (estimation === 'easy') taskStats.hardOvercoming = null
-    }
-
-    // isEasy
-    if (estimation === 'easy') {
-      taskStats.isEasy = true
-    } else if (estimation === 'bad' || estimation === 'hard') {
-      taskStats.isEasy = false
-    }
-
-    // confidence
-    if (estimation === 'good' || estimation === 'easy') {
-      taskStats.confidence++
-    } else if (estimation === 'bad' || estimation === 'hard') {
-      taskStats.confidence = Math.max(0, taskStats.confidence - 1)
-    }
+  for (const answer of answers) {
+    accumulateAnswerInStats(result, answer, duplicateToPrimaryIds[answer.task.id])
   }
 
   return result
+}
+
+export function accumulateAnswerInStats(
+  result: TaskStatsById,
+  { task, submittedAt, estimation }: Answer,
+  overrideTaskId?: string
+) {
+  const taskId = overrideTaskId ?? task.id
+  if (!result[taskId]) {
+    result[taskId] = { ...defaultTaskStats, lastAnsweredAt: submittedAt }
+  } else {
+    result[taskId].lastAnsweredAt = submittedAt
+  }
+  const taskStats = result[taskId]
+
+  // hardOvercoming
+  if (estimation === 'hard') {
+    taskStats.hardOvercoming = 0
+  } else if (taskStats.hardOvercoming !== null) {
+    if (estimation === 'good') taskStats.hardOvercoming++
+    else if (estimation === 'bad') taskStats.hardOvercoming--
+    else if (estimation === 'easy') taskStats.hardOvercoming = null
+  }
+
+  // isEasy
+  if (estimation === 'easy') {
+    taskStats.isEasy = true
+  } else if (estimation === 'bad' || estimation === 'hard') {
+    taskStats.isEasy = false
+  }
+
+  // confidence
+  if (estimation === 'good' || estimation === 'easy') {
+    taskStats.confidence++
+  } else if (estimation === 'bad' || estimation === 'hard') {
+    taskStats.confidence = Math.max(0, taskStats.confidence - 1)
+  }
 }

@@ -1,7 +1,9 @@
+import dayjs from 'dayjs'
 import { Task, Estimation, TaskStats } from '../studentProgressUtils'
 import { createRef, useEffect, useState } from 'react'
 import { getQualifiedWords } from '../textUtils'
 import { Lesson } from '../lessonUtils'
+import { getDesiredScheduledAt } from '../taskScheduling'
 
 interface Props {
   lesson: Lesson
@@ -251,7 +253,13 @@ function formatTaskStats(taskStats: TaskStats | undefined) {
           : 'text-bg-light'
       }`}
     >
-      {taskStats.confidence} confidence
+      {taskStats.confidence} confidence, to be shown {formatDay(getDesiredScheduledAt(taskStats))}
     </span>
   )
+}
+
+function formatDay(at: number) {
+  return dayjs(at).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
+    ? 'today'
+    : dayjs(at).minute(0).second(0).millisecond(0).fromNow()
 }

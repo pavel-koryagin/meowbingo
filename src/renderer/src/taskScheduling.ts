@@ -1,4 +1,4 @@
-import { Task } from './studentProgressUtils'
+import { Task, TaskStats } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
@@ -76,8 +76,7 @@ export function formLessonPlan({
       }
     } else {
       // Scheduled
-      const intervalDays = Math.pow(2, taskStats.confidence - 1)
-      const desiredAt = taskStats.lastAnsweredAt + intervalDays * 24 * 3600 * 1000
+      const desiredAt = getDesiredScheduledAt(taskStats)
       if (desiredAt <= Date.now()) {
         scheduledTillTodayBucket.push({ order: desiredAt, taskSentence })
       } else {
@@ -128,4 +127,9 @@ export function formLessonPlan({
   pickFromRandomBucket(omittedBucket, amount /* no limit */)
 
   return pickedTaskSentences
+}
+
+export function getDesiredScheduledAt({ confidence, lastAnsweredAt }: TaskStats) {
+  const intervalDays = Math.pow(2, confidence - 1)
+  return lastAnsweredAt + intervalDays * 24 * 3600 * 1000
 }

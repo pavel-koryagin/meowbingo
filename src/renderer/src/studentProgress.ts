@@ -20,7 +20,7 @@ const taskStatsById = extractStatsFromAnswers({
 
 export function getNewTasksParams(): NewTasksParams {
   return {
-    allTaskSentences,
+    taskSentences: allTaskSentences,
     taskStatsById,
     droppedTaskIds: getState('droppedTaskIds'),
     taskIdsInThisSession

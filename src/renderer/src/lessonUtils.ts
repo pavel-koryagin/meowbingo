@@ -13,7 +13,7 @@ export interface RawLesson {
 }
 
 export interface NewTasksParams {
-  allTaskSentences: TaskSentence[]
+  taskSentences: TaskSentence[]
   taskStatsById: TaskStatsById
   droppedTaskIds: string[]
   taskIdsInThisSession: string[]
@@ -40,12 +40,12 @@ export function loadLesson(
   { currentTaskId, taskIds }: RawLesson,
   newTasksParams: NewTasksParams
 ): Lesson {
-  const { allTaskSentences } = newTasksParams
+  const { taskSentences } = newTasksParams
   const lesson = defineEmptyLesson()
 
   // Load pre-selected tasks
   for (const taskId of taskIds) {
-    const taskSentence = allTaskSentences.find((taskSentence) => taskSentence.id === taskId)
+    const taskSentence = taskSentences.find((taskSentence) => taskSentence.id === taskId)
     if (taskSentence) {
       lesson.tasks.push(makeTask(taskSentence))
     }

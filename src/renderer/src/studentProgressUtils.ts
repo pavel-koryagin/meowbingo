@@ -32,26 +32,16 @@ export interface Answer {
 export type RawAnswer = Answer
 
 export type TaskStats = {
-  hasAnswers: true // Always true, because the StatsBlock is absent otherwise
-  hasEasy: boolean
+  lastAnsweredAt: number
+  hardOvercoming: number | null // null if never marked as hard or if marked easy, otherwise hard sets it to 0, good +1, bad -1
+  isEasy: boolean // true if marked as easy and hasn't been bad or hard since
   confidence: number // Add on good or easy, decrease on bad or hard; Don't go below 0
-} & (
-  | {
-      lastWasHard: true
-      lastHardAt: number
-    }
-  | {
-      lastWasHard: false
-      lastHardAt: null
-    }
-)
+}
 
-const defaultTaskStats: TaskStats = {
-  hasAnswers: true,
-  lastWasHard: false,
-  lastHardAt: null,
-  hasEasy: false,
-  confidence: 0 // Add on good or easy, decrease on bad or hard; Don't go below 0
+const defaultTaskStats: Omit<TaskStats, 'lastAnsweredAt'> = {
+  hardOvercoming: null,
+  isEasy: false,
+  confidence: 0 // +1 on good or easy, -1 on bad or hard; Don't go below 0
 }
 
 export type TaskStatsById = Record<string, TaskStats>
@@ -68,23 +58,33 @@ export function extractStatsFromAnswers({
   for (const { task, submittedAt, estimation } of answers) {
     const taskId = duplicateToPrimaryIds[task.id]
     if (!result[taskId]) {
-      result[taskId] = { ...defaultTaskStats }
+      result[taskId] = { ...defaultTaskStats, lastAnsweredAt: submittedAt }
+    } else {
+      result[taskId].lastAnsweredAt = submittedAt
     }
-    const taskStats = result[taskId] ?? defaultTaskStats
+    const taskStats = result[taskId]
 
+    // hardOvercoming
+    if (estimation === 'hard') {
+      taskStats.hardOvercoming = 0
+    } else if (taskStats.hardOvercoming !== null) {
+      if (estimation === 'good') taskStats.hardOvercoming++
+      else if (estimation === 'bad') taskStats.hardOvercoming--
+      else if (estimation === 'easy') taskStats.hardOvercoming = null
+    }
+
+    // isEasy
     if (estimation === 'easy') {
-      taskStats.hasEasy = true
+      taskStats.isEasy = true
+    } else if (estimation === 'bad' || estimation === 'hard') {
+      taskStats.isEasy = false
     }
 
-    taskStats.lastWasHard = estimation === 'hard'
-    if (taskStats.lastWasHard) {
-      taskStats.lastHardAt = submittedAt
-    }
-
+    // confidence
     if (estimation === 'good' || estimation === 'easy') {
       taskStats.confidence++
     } else if (estimation === 'bad' || estimation === 'hard') {
-      taskStats.confidence--
+      taskStats.confidence = Math.max(0, taskStats.confidence - 1)
     }
   }
 

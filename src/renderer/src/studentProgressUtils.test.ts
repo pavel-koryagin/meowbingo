@@ -27,10 +27,9 @@ const sampleTask3: Task = {
 }
 
 const sampleTaskStats: TaskStats = {
-  hasAnswers: true,
-  lastWasHard: false,
-  lastHardAt: null,
-  hasEasy: false,
+  lastAnsweredAt: moment2,
+  hardOvercoming: null,
+  isEasy: false,
   confidence: 0
 }
 
@@ -68,12 +67,12 @@ describe('extractStatsFromAnswers', () => {
     expect(result).toStrictEqual({
       [sampleTask1.id]: {
         ...sampleTaskStats,
-        hasEasy: false,
+        isEasy: false,
         confidence: 0
       },
       [sampleTask2.id]: {
         ...sampleTaskStats,
-        hasEasy: true,
+        isEasy: true,
         confidence: 1
       }
     })
@@ -105,7 +104,7 @@ describe('extractStatsFromAnswers', () => {
     expect(result).toStrictEqual({
       [sampleTask2.id]: {
         ...sampleTaskStats,
-        hasEasy: true,
+        isEasy: true,
         confidence: 1
       }
     })

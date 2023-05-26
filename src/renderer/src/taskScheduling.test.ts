@@ -1,13 +1,6 @@
 import _range from 'lodash/range'
-import _intersection from 'lodash/intersection'
-import { formRemainingTasks } from './taskScheduling'
-import { Lesson } from './lessonUtils'
+import { formLessonPlan } from './taskScheduling'
 import { TaskSentence } from './tasksBase'
-
-const lesson: Lesson = {
-  currentTaskIndex: 0,
-  tasks: []
-}
 
 const allTaskSentences: TaskSentence[] = _range(1, 40).map((index) => ({
   id: `TS ${index}`,
@@ -16,94 +9,54 @@ const allTaskSentences: TaskSentence[] = _range(1, 40).map((index) => ({
   duplicates: []
 }))
 
-const bucketOf5Ids = ['TS 1', 'TS 2', 'TS 3', 'TS 4', 'TS 5']
-
-describe('formRemainingTasks', () => {
-  it('handles typical case', () => {
+describe('formLessonPlan', () => {
+  it('handles case with all new', () => {
     // Act
-    const result = formRemainingTasks(
-      lesson,
-      {
-        allTaskSentences,
-        taskStatsById: {},
-        droppedTaskIds: [],
-        taskIdsInThisSession: []
-      },
-      [
-        {
-          doesTaskSentenceBelong: ({ id }) => bucketOf5Ids.includes(id)
-        }
-      ]
-    )
+    const result = formLessonPlan({
+      taskSentences: allTaskSentences,
+      taskStatsById: {},
+      droppedTaskIds: [],
+      taskIdsInThisSession: [],
+      amount: 5
+    })
 
     // Assert
-    expect(result.length).toBe(20)
-
-    const bucketIds = _intersection(
-      result.map(({ id }) => id),
-      bucketOf5Ids
-    )
-    bucketIds.sort()
-    expect(bucketIds).toStrictEqual(bucketOf5Ids)
+    expect(result.length).toBe(5)
   })
 
-  it('limits by bucket size', () => {
-    // Arrange
-    const AMOUNT = 3
-
+  it('always includes hard', () => {
     // Act
-    const result = formRemainingTasks(
-      lesson,
-      {
-        allTaskSentences,
-        taskStatsById: {},
-        droppedTaskIds: [],
-        taskIdsInThisSession: []
-      },
-      [
-        {
-          amount: AMOUNT,
-          doesTaskSentenceBelong: ({ id }) => bucketOf5Ids.includes(id)
+    const result = formLessonPlan({
+      taskSentences: allTaskSentences,
+      taskStatsById: {
+        'TS 1': {
+          lastAnsweredAt: 0, // Not important
+          hardOvercoming: 0,
+          isEasy: false,
+          confidence: 0
         }
-      ]
-    )
+      },
+      droppedTaskIds: [],
+      taskIdsInThisSession: [],
+      amount: 5
+    })
 
     // Assert
-    expect(result.length).toBe(20)
-
-    const bucketIds = _intersection(
-      result.map(({ id }) => id),
-      bucketOf5Ids
-    )
-    expect(bucketIds.length).toBe(AMOUNT)
+    expect(result.length).toBe(5)
+    expect(result.map(({ id }) => id)).toContain('TS 1')
   })
 
   it('does not fail when lacking', () => {
     // Act
-    const result = formRemainingTasks(
-      lesson,
-      {
-        allTaskSentences: allTaskSentences.slice(0, 15),
-        taskStatsById: {},
-        droppedTaskIds: [],
-        taskIdsInThisSession: []
-      },
-      [
-        {
-          amount: 10,
-          doesTaskSentenceBelong: ({ id }) => bucketOf5Ids.includes(id)
-        }
-      ]
-    )
+    const result = formLessonPlan({
+      taskSentences: allTaskSentences.slice(0, 15),
+      taskStatsById: {},
+      droppedTaskIds: [],
+      taskIdsInThisSession: [],
+      amount: 20
+    })
 
     // Assert
     expect(result.length).toBe(15)
-
-    const bucketIds = _intersection(
-      result.map(({ id }) => id),
-      bucketOf5Ids
-    )
-    bucketIds.sort()
-    expect(bucketIds).toStrictEqual(bucketOf5Ids)
   })
 })

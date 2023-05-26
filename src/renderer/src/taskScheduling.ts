@@ -1,4 +1,4 @@
-import { Task, TaskStats } from './studentProgressUtils'
+import { Task, TaskStats, TaskStatsById } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
@@ -41,49 +41,14 @@ export function formLessonPlan({
   taskStatsById,
   amount
 }: NewTasksParams & { amount: number }) {
-  // Make buckets with different properties
-  // Hard - marked hard and not followed by at least two more goods than bads; up to 10 ordered by last bad; no pause
-  const hardBucket: OrderedTaskSentence[] = []
-
-  // Scheduled - normal cards, ordered by recommended time to review; the rest amount
-  const scheduledTillTodayBucket: OrderedTaskSentence[] = []
-  const scheduledForFutureBucket: OrderedTaskSentence[] = []
-
-  // New - never seen; up to 5
-  const newBucket: TaskSentence[] = []
-
-  // Easy - all easy, override status with bads; don't show if shown less than 10 days ago, then show only 1 random of them
-  const easyBucket: TaskSentence[] = []
-
-  // Omitted - e.g. easy within 10 days; do not show, unless there are no other cards left
-  const omittedBucket: TaskSentence[] = []
-
-  // Classify
-  for (const taskSentence of taskSentences) {
-    const taskStats = taskStatsById[taskSentence.id]
-    if (!taskStats) {
-      // New
-      newBucket.push(taskSentence)
-    } else if (taskStats.hardOvercoming !== null && taskStats.hardOvercoming < 2) {
-      // Hard
-      hardBucket.push({ order: taskStats.lastAnsweredAt, taskSentence })
-    } else if (taskStats.isEasy) {
-      // Easy
-      if (taskStats.lastAnsweredAt < Date.now() - 10 * 24 * 3600 * 1000) {
-        easyBucket.push(taskSentence)
-      } else {
-        omittedBucket.push(taskSentence)
-      }
-    } else {
-      // Scheduled
-      const desiredAt = getDesiredScheduledAt(taskStats)
-      if (desiredAt <= Date.now()) {
-        scheduledTillTodayBucket.push({ order: desiredAt, taskSentence })
-      } else {
-        scheduledForFutureBucket.push({ order: desiredAt, taskSentence })
-      }
-    }
-  }
+  const {
+    hardBucket,
+    scheduledTillTodayBucket,
+    scheduledForFutureBucket,
+    newBucket,
+    easyBucket,
+    omittedBucket
+  } = classifySentencesIntoBuckets(taskSentences, taskStatsById)
 
   // Define pick logic
   let pickedTaskSentences: TaskSentence[] = []
@@ -139,4 +104,58 @@ export function getDesiredScheduledAt({ confidence, lastAnsweredAt }: TaskStats)
 
 export function getIntervalByConfidence(confidence: number) {
   return Math.pow(2, confidence)
+}
+
+function classifySentencesIntoBuckets(taskSentences: TaskSentence[], taskStatsById: TaskStatsById) {
+  // Make buckets with different properties
+  // Hard - marked hard and not followed by at least two more goods than bads; up to 10 ordered by last bad; no pause
+  const hardBucket: OrderedTaskSentence[] = []
+
+  // Scheduled - normal cards, ordered by recommended time to review; the rest amount
+  const scheduledTillTodayBucket: OrderedTaskSentence[] = []
+  const scheduledForFutureBucket: OrderedTaskSentence[] = []
+
+  // New - never seen; up to 5
+  const newBucket: TaskSentence[] = []
+
+  // Easy - all easy, override status with bads; don't show if shown less than 10 days ago, then show only 1 random of them
+  const easyBucket: TaskSentence[] = []
+
+  // Omitted - e.g. easy within 10 days; do not show, unless there are no other cards left
+  const omittedBucket: TaskSentence[] = []
+
+  // Classify
+  for (const taskSentence of taskSentences) {
+    const taskStats = taskStatsById[taskSentence.id]
+    if (!taskStats) {
+      // New
+      newBucket.push(taskSentence)
+    } else if (taskStats.hardOvercoming !== null && taskStats.hardOvercoming < 2) {
+      // Hard
+      hardBucket.push({ order: taskStats.lastAnsweredAt, taskSentence })
+    } else if (taskStats.isEasy) {
+      // Easy
+      if (taskStats.lastAnsweredAt < Date.now() - 10 * 24 * 3600 * 1000) {
+        easyBucket.push(taskSentence)
+      } else {
+        omittedBucket.push(taskSentence)
+      }
+    } else {
+      // Scheduled
+      const desiredAt = getDesiredScheduledAt(taskStats)
+      if (desiredAt <= Date.now()) {
+        scheduledTillTodayBucket.push({ order: desiredAt, taskSentence })
+      } else {
+        scheduledForFutureBucket.push({ order: desiredAt, taskSentence })
+      }
+    }
+  }
+  return {
+    hardBucket,
+    scheduledTillTodayBucket,
+    scheduledForFutureBucket,
+    newBucket,
+    easyBucket,
+    omittedBucket
+  }
 }

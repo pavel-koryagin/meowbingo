@@ -1,6 +1,6 @@
 import { acceptAnswer, amendEstimation, dropTask, takeNextTask } from '../studentProgress'
 import { TrainingPaneView } from './TrainingPaneView'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import _shuffle from 'lodash/shuffle'
 import { getCurrentTask } from '../lessons'
 import { getQualifiedWords, QualifiedWord } from '../textUtils'
@@ -15,17 +15,29 @@ export function TrainingPane(): JSX.Element {
   const [hint, setHint] = useState<string[] | undefined>(undefined)
   const [qualifiedWords, setQualifiedWords] = useState<QualifiedWord[]>([])
 
+  const [sound, setSound] = useState<string | null>(null)
+
+  useEffect(() => {
+    window.api.getPronunciation(task.geo).then((loadedSound) => {
+      if (loadedSound) {
+        setSound(loadedSound)
+      }
+    })
+  })
+
   function next() {
     setCurrentTask(takeNextTask())
     setShowAnswer(false)
     setHint(undefined)
     setAnswer('')
     setQualifiedWords([])
+    setSound(null)
   }
 
   return (
     <TrainingPaneView
       {...currentTask}
+      sound={sound}
       showAnswer={showAnswer}
       answer={answer}
       hint={hint}

@@ -6,6 +6,7 @@ import { getDesiredScheduledAt, getIntervalByConfidence } from '../taskSchedulin
 import { CurrentTask } from '../lessons'
 
 interface Props extends CurrentTask {
+  sound: string | null
   showAnswer: boolean
   answer: string
   hint?: string[]
@@ -25,6 +26,7 @@ export function TrainingPaneView({
   taskStats,
   pastAnswers,
   bucketStats,
+  sound,
   showAnswer,
   answer,
   hint,
@@ -61,6 +63,8 @@ export function TrainingPaneView({
     }
   })
 
+  const showingGeo = askInGeorgian || showAnswer
+
   return (
     <form
       onSubmit={(e) => {
@@ -88,6 +92,7 @@ export function TrainingPaneView({
         }
       }}
     >
+      {showingGeo && sound && <audio src={sound} autoPlay />}
       <div className="border-bottom mb-5">
         Task {currentTaskIndex + 1} / {totalTasks}
       </div>

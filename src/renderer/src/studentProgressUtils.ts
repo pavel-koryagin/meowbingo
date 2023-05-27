@@ -7,7 +7,6 @@ export interface RawTask {
 }
 
 export interface Task extends RawTask {
-  geoAudio: string | null
   geoWords: string[]
   engWords: string[]
   geoVariants: string[]

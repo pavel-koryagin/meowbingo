@@ -135,7 +135,6 @@ export function makeTask({ id, geo, eng, duplicates }: TaskSentence): Task {
     askInGeorgian: Math.random() < 0.5,
     geo,
     eng,
-    geoAudio: null,
     geoWords: getWords(geo),
     engWords: getWords(eng),
     geoVariants: _uniq([geo, ...duplicates.map(({ geo }) => geo)]),

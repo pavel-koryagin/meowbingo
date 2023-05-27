@@ -9,7 +9,6 @@ const sampleTask1: Task = {
   askInGeorgian: true,
   geo: 'კი',
   eng: 'yes',
-  geoAudio: null,
   geoWords: [],
   engWords: [],
   geoVariants: [],

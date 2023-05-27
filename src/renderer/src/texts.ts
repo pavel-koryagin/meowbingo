@@ -133,7 +133,7 @@ f) I’m sorry. Thank you. Goodbye.`
         title: '4. Translate into Georgian and answer the questions',
         isList: true,
         geo: `a) ვინ ხართ თქვენ? b) სად ხართ თქვენ? c) სადაური ხართ?
-d) სადაურებიარიან? e) რა არის ის?
+d) სადაურები არიან? e) რა არის ის?
 f) სეული დიდი ქალაქია?
 g) ამერიკა არის პატარა ქვეყანა?
 h) სად არის ეს გერმანელი სტუდენტი?

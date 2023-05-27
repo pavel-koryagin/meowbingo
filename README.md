@@ -4,6 +4,9 @@ An Electron application with React and TypeScript
 
 ## TODO list
 
+- More options to classify the answer:
+  - a) mark as definitely good (for the future checks)
+  - b) mark with note to ask a teacher
 - Recognize answers that where marked as good in the past
 - Add session parameters, like direction (eng->geo/geo->eng/both), mark type (new, repeat, hard), etc.
 - Create a view to show all tasks and their statuses

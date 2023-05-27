@@ -1,7 +1,10 @@
+export type TaskKind = 'arrange:eng' | 'arrange:geo' | 'type:eng' | 'type:geo' | 'listen'
+
 export interface RawTask {
   id: string
   shownAt: number
   askInGeorgian: boolean
+  // TODO: kind: TaskKind
   geo: string
   eng: string
 }

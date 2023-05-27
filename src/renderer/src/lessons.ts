@@ -51,3 +51,8 @@ export function getCurrentTask(): CurrentTask {
     bucketStats: getBucketStats()
   }
 }
+
+export function repeatCurrentTask() {
+  const lesson = getCurrentLesson()
+  lesson.tasks.push(lesson.tasks[lesson.currentTaskIndex])
+}

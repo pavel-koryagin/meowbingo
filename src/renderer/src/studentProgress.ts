@@ -13,7 +13,7 @@ import {
   accumulateAnswerInStats,
   Answer
 } from './studentProgressUtils'
-import { CurrentTask, getCurrentTask, nextTask } from './lessons'
+import { CurrentTask, getCurrentTask, nextTask, repeatCurrentTask } from './lessons'
 import { getState, setState, updateState } from './state'
 import { NewTasksParams } from './lessonUtils'
 import { classifySentencesIntoBuckets } from './taskScheduling'
@@ -62,6 +62,9 @@ export function takeNextTask(): CurrentTask {
   // Consider the last answer
   if (lastAnswer) {
     accumulateAnswerInStats(taskStatsById, lastAnswer)
+    if (lastAnswer.estimation === 'bad' || lastAnswer.estimation === 'hard') {
+      repeatCurrentTask()
+    }
     lastAnswer = undefined
   }
 

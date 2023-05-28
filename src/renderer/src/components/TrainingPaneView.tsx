@@ -1,11 +1,12 @@
 import dayjs from 'dayjs'
 import { Estimation, TaskStats } from '../studentProgressUtils'
-import { createRef, useEffect, useState } from 'react'
 import { QualifiedWord } from '../textUtils'
 import { getDesiredScheduledAt, getIntervalByConfidence } from '../taskScheduling'
 import { CurrentTask } from '../lessons'
+import { AnswerTypingView } from './AnswerTypingView'
 
-interface Props extends CurrentTask {
+interface Props {
+  currentTask: CurrentTask
   sound: string | null
   showAnswer: boolean
   answer: string
@@ -18,14 +19,7 @@ interface Props extends CurrentTask {
 }
 
 export function TrainingPaneView({
-  lesson: {
-    currentTaskIndex,
-    tasks: { length: totalTasks }
-  },
-  task: { id, eng, geo, askInGeorgian },
-  taskStats,
-  pastAnswers,
-  bucketStats,
+  currentTask,
   sound,
   showAnswer,
   answer,
@@ -36,16 +30,16 @@ export function TrainingPaneView({
   onSubmit,
   onHint
 }: Props): JSX.Element {
-  // TODO: Move state to TrainingPane or to a widget
-  const [usedHints, setUsedHints] = useState<number[]>([])
-  const textareaRef = createRef<HTMLTextAreaElement>()
-
-  // Reset on every change of the task
-  useEffect(() => {
-    if (usedHints.length) {
-      setUsedHints([])
-    }
-  }, [id])
+  const {
+    lesson: {
+      currentTaskIndex,
+      tasks: { length: totalTasks }
+    },
+    task: { eng, geo, askInGeorgian },
+    taskStats,
+    pastAnswers,
+    bucketStats
+  } = currentTask
 
   const hasAnswerToSubmit = answer.trim() !== ''
 
@@ -56,12 +50,6 @@ export function TrainingPaneView({
       onSubmit(answer)
     }
   }
-
-  useEffect(() => {
-    if (!showAnswer) {
-      textareaRef.current?.focus()
-    }
-  })
 
   const showingGeo = askInGeorgian || showAnswer
 
@@ -98,74 +86,17 @@ export function TrainingPaneView({
       </div>
       <div className="form-group mb-3">{askInGeorgian ? geo : eng}</div>
       <div className="form-group mb-3">
-        <textarea
-          className="form-control"
-          value={answer}
-          readOnly={showAnswer}
-          ref={textareaRef}
-          onChange={(e) => onAnswerChange(e.currentTarget.value)}
+        <AnswerTypingView
+          {...currentTask}
+          showAnswer={showAnswer}
+          answer={answer}
+          hint={hint}
+          qualifiedWords={qualifiedWords}
+          isAnswerPerfect={isAnswerPerfect}
+          onAnswerChange={onAnswerChange}
         />
       </div>
       <div className="form-group mb-3">
-        <div
-          className={`alert ${
-            !showAnswer ? 'alert-info' : isAnswerPerfect ? 'alert-success' : 'alert-warning'
-          }`}
-        >
-          {hint && !showAnswer ? (
-            hint.length === 1 ? (
-              // Single word hint; user presses "Check" if no idea
-              <span>One word</span>
-            ) : (
-              // Regular hint
-              <>
-                {hint.map((word, index) => (
-                  <span
-                    key={index}
-                    className={`me-3 ${usedHints.includes(index) ? 'opacity-50' : ''}`}
-                    style={{
-                      cursor: 'pointer',
-                      borderBottom: '1px dashed var(--bs-info)'
-                    }}
-                    onClick={() => {
-                      onAnswerChange(answer.trimEnd() + ' ' + word)
-                      setUsedHints([...usedHints, index])
-                    }}
-                  >
-                    {word}
-                  </span>
-                ))}
-                <span
-                  className={`btn btn-sm btn-outline-dark align-baseline ${
-                    usedHints.length ? 'visible' : 'invisible'
-                  }`}
-                  style={{ margin: '-5px 0' }}
-                  onClick={() => setUsedHints([])}
-                >
-                  ×
-                </span>
-              </>
-            )
-          ) : (
-            <span className={showAnswer ? undefined : 'invisible'}>
-              <span className={`${isAnswerPerfect ? '' : 'invisible'} me-2`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-check-circle-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                </svg>
-              </span>
-              {qualifiedWords.map(({ withPunctuation, matchesTyped }, index) =>
-                matchesTyped ? withPunctuation : <strong key={index}>{withPunctuation}</strong>
-              )}
-            </span>
-          )}
-        </div>
         <div className="row">
           <div className="col d-flex justify-content-start">
             {!showAnswer ? (

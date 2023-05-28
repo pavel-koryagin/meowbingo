@@ -70,7 +70,7 @@ export function TrainingPane(): JSX.Element {
 
   return (
     <TrainingPaneView
-      {...currentTask}
+      currentTask={currentTask}
       sound={sound}
       showAnswer={showAnswer}
       answer={answer}

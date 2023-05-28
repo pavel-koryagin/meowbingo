@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import _shuffle from 'lodash/shuffle'
 import { getCurrentTask } from '../lessons'
 import { getQualifiedWords, QualifiedWord } from '../textUtils'
+import { TaskKind } from '../studentProgressUtils'
 
 export function TrainingPane(): JSX.Element {
   const [isAnswerPerfect, setIsAnswerPerfect] = useState(false)
@@ -117,7 +118,7 @@ export function TrainingPane(): JSX.Element {
         next()
       }}
       onHint={() => {
-        const words = task.askInGeorgian ? task.engWords : task.geoWords
+        const words = task.kind === TaskKind.typeInMyLanguage ? task.engWords : task.geoWords
         setHint(_shuffle(words))
       }}
     />

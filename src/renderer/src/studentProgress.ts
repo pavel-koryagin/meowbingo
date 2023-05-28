@@ -4,14 +4,15 @@ import { AnswerResult, evaluateAnswer } from './textUtils'
 import { generateAllTaskSentences } from './tasksBase'
 import { texts } from './texts'
 import {
-  Task,
+  accumulateAnswerInStats,
+  Answer,
   Estimation,
   extractStatsFromAnswers,
   getRawTask,
-  TaskStats,
   RawAnswer,
-  accumulateAnswerInStats,
-  Answer
+  Task,
+  TaskKind,
+  TaskStats
 } from './studentProgressUtils'
 import { CurrentTask, getCurrentTask, nextTask, repeatCurrentTask } from './lessons'
 import { getState, setState, updateState } from './state'
@@ -93,7 +94,7 @@ export function acceptAnswer({
   withHint,
   estimation
 }: AcceptAnswerParams): AnswerResult {
-  const { askInGeorgian, geoVariants, engVariants } = task
+  const { kind, geoVariants, engVariants } = task
 
   // Save
   if (lastAnswer) {
@@ -110,7 +111,7 @@ export function acceptAnswer({
   updateState('answers', (answers) => [...answers, lastAnswer!])
 
   // Check the answer
-  return evaluateAnswer(askInGeorgian ? engVariants : geoVariants, answer)
+  return evaluateAnswer(kind === TaskKind.typeInMyLanguage ? engVariants : geoVariants, answer)
 }
 
 export function amendEstimation(estimation?: Estimation) {

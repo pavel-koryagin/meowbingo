@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Estimation, TaskStats } from '../studentProgressUtils'
+import { Estimation, TaskKind, TaskStats } from '../studentProgressUtils'
 import { QualifiedWord } from '../textUtils'
 import { getDesiredScheduledAt, getIntervalByConfidence } from '../taskScheduling'
 import { CurrentTask } from '../lessons'
@@ -35,7 +35,7 @@ export function TrainingPaneView({
       currentTaskIndex,
       tasks: { length: totalTasks }
     },
-    task: { eng, geo, askInGeorgian },
+    task: { eng, geo, kind },
     taskStats,
     pastAnswers,
     bucketStats
@@ -51,7 +51,8 @@ export function TrainingPaneView({
     }
   }
 
-  const showingGeo = askInGeorgian || showAnswer
+  const askInTargetLanguage = kind === TaskKind.typeInMyLanguage
+  const showingTargetText = askInTargetLanguage || showAnswer
 
   return (
     <form
@@ -80,11 +81,11 @@ export function TrainingPaneView({
         }
       }}
     >
-      {showingGeo && sound && <audio src={sound} autoPlay />}
+      {showingTargetText && sound && <audio src={sound} autoPlay />}
       <div className="border-bottom mb-5">
         Task {currentTaskIndex + 1} / {totalTasks}
       </div>
-      <div className="form-group mb-3">{askInGeorgian ? geo : eng}</div>
+      <div className="form-group mb-3">{askInTargetLanguage ? geo : eng}</div>
       <div className="form-group mb-3">
         <AnswerTypingView
           {...currentTask}

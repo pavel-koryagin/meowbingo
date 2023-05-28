@@ -1,4 +1,4 @@
-import { extractStatsFromAnswers, Task, TaskStats } from './studentProgressUtils'
+import { extractStatsFromAnswers, Task, TaskKind, TaskStats } from './studentProgressUtils'
 
 const moment1 = 100
 const moment2 = 101
@@ -6,7 +6,7 @@ const moment2 = 101
 const sampleTask1: Task = {
   id: 'Block 1',
   shownAt: moment1,
-  askInGeorgian: true,
+  kind: TaskKind.typeInMyLanguage,
   geo: 'კი',
   eng: 'yes',
   geoWords: [],

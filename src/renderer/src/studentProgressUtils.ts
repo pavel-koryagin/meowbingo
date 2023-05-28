@@ -1,10 +1,17 @@
-export type TaskKind = 'arrange:eng' | 'arrange:geo' | 'type:eng' | 'type:geo' | 'listen'
+export enum TaskKind {
+  // We use short form: 'my' (base language) and 'it' (target language)
+  // TODO: Migrate gradually to 'my' and 'it' instead of 'geo' and 'eng'
+  typeInMyLanguage = 'type:my',
+  typeInTargetLanguage = 'type:it'
+  // arrangeInMyLanguage = 'arrange:my'
+  // arrangeInTargetLanguage = 'arrange:it'
+  // listen = 'listen'
+}
 
 export interface RawTask {
   id: string
   shownAt: number
-  askInGeorgian: boolean
-  // TODO: kind: TaskKind
+  kind: TaskKind
   geo: string
   eng: string
 }
@@ -16,8 +23,8 @@ export interface Task extends RawTask {
   engVariants: string[]
 }
 
-export function getRawTask({ id, shownAt, askInGeorgian, geo, eng }: Task): RawTask {
-  return { id, shownAt, askInGeorgian, geo, eng }
+export function getRawTask({ id, shownAt, kind, geo, eng }: Task): RawTask {
+  return { id, shownAt, kind, geo, eng }
 }
 
 // hard = systematically bad, i.e. stronger than bad

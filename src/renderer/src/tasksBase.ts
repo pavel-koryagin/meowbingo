@@ -1,7 +1,7 @@
 import _uniqBy from 'lodash/uniqBy'
 import { Texts } from './texts'
 import { getSentences, getWords } from './textUtils'
-import { Task } from './studentProgressUtils'
+import { Task, TaskKind } from './studentProgressUtils'
 import _uniq from 'lodash/uniq'
 
 export interface TaskSentence {
@@ -132,7 +132,7 @@ export function makeTask({ id, geo, eng, duplicates }: TaskSentence): Task {
   return {
     id,
     shownAt: 0,
-    askInGeorgian: Math.random() < 0.5,
+    kind: Math.random() < 0.5 ? TaskKind.typeInTargetLanguage : TaskKind.typeInMyLanguage,
     geo,
     eng,
     geoWords: getWords(geo),

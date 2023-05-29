@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Estimation, TaskKind, TaskStats } from '../studentProgressUtils'
+import { Estimation, getDirectionByKind, TaskKind, TaskStats } from '../studentProgressUtils'
 import { QualifiedWord } from '../textUtils'
 import { getDesiredScheduledAt, getIntervalByConfidence } from '../taskScheduling'
 import { CurrentTask } from '../lessons'
@@ -51,7 +51,7 @@ export function TrainingPaneView({
     }
   }
 
-  const askInTargetLanguage = kind === TaskKind.typeInMyLanguage
+  const askInTargetLanguage = getDirectionByKind(kind) === 'target'
   const showingTargetText = askInTargetLanguage || showAnswer
 
   return (

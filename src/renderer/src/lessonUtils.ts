@@ -1,5 +1,5 @@
 import { TaskSentence } from './tasksBase'
-import { Task, TaskStatsById } from './studentProgressUtils'
+import { Task, StudentStats } from './studentProgressUtils'
 import { formRemainingTasks } from './taskScheduling'
 
 export interface Lesson {
@@ -9,7 +9,7 @@ export interface Lesson {
 
 export interface NewTasksParams {
   taskSentences: TaskSentence[]
-  taskStatsById: TaskStatsById
+  studentStats: StudentStats
   droppedTaskIds: string[]
   taskIdsInThisSession: string[]
 }

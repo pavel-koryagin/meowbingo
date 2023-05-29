@@ -9,9 +9,9 @@ export enum TaskKind {
   // listenAndType = 'listen-type'
 }
 
-export type Lang = 'target' | 'my'
+export type TaskDirection = 'target' | 'my'
 
-export function getLangByKind(kind: TaskKind): Lang {
+export function getDirectionByKind(kind: TaskKind): TaskDirection {
   return kind === TaskKind.typeInTargetLanguage || kind === TaskKind.arrangeInTargetLanguage
     ? 'target'
     : 'my'
@@ -62,9 +62,9 @@ const defaultTaskStats: Omit<TaskStats, 'lastAnsweredAt'> = {
   confidence: 0 // +1 on good or easy, -1 on bad or hard; Don't go below 0
 }
 
-export type SentenceStats = Partial<Record<Lang, TaskStats>>
+export type SentenceStats = Partial<Record<TaskDirection, TaskStats>>
 
-export type TaskStatsById = Record<string, SentenceStats>
+export type StudentStats = Record<string, SentenceStats>
 
 export function extractStatsFromAnswers({
   duplicateToPrimaryIds,
@@ -72,8 +72,8 @@ export function extractStatsFromAnswers({
 }: {
   duplicateToPrimaryIds: Record<string, string>
   answers: Answer[]
-}): TaskStatsById {
-  const result: TaskStatsById = {}
+}): StudentStats {
+  const result: StudentStats = {}
 
   // Assume they are sorted by submittedAt
   for (const answer of answers) {
@@ -84,12 +84,12 @@ export function extractStatsFromAnswers({
 }
 
 export function accumulateAnswerInStats(
-  result: TaskStatsById,
+  result: StudentStats,
   { task, submittedAt, estimation }: Answer,
   overrideTaskId?: string
 ) {
   const taskId = overrideTaskId ?? task.id
-  const lang = getLangByKind(task.kind)
+  const lang = getDirectionByKind(task.kind)
 
   if (!result[taskId]) {
     result[taskId] = {}

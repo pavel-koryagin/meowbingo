@@ -14,7 +14,7 @@ describe('formLessonPlan', () => {
     // Act
     const result = formLessonPlan({
       taskSentences: allTaskSentences,
-      taskStatsById: {},
+      studentStats: {},
       droppedTaskIds: [],
       taskIdsInThisSession: [],
       amount: 5
@@ -28,7 +28,7 @@ describe('formLessonPlan', () => {
     // Act
     const result = formLessonPlan({
       taskSentences: allTaskSentences,
-      taskStatsById: {
+      studentStats: {
         'TS 1': {
           target: {
             lastAnsweredAt: 0, // Not important
@@ -52,7 +52,7 @@ describe('formLessonPlan', () => {
     // Act
     const result = formLessonPlan({
       taskSentences: allTaskSentences.slice(0, 15),
-      taskStatsById: {},
+      studentStats: {},
       droppedTaskIds: [],
       taskIdsInThisSession: [],
       amount: 20

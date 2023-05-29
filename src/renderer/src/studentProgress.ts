@@ -8,7 +8,7 @@ import {
   Answer,
   Estimation,
   extractStatsFromAnswers,
-  getLangByKind,
+  getDirectionByKind,
   getRawTask,
   RawAnswer,
   Task,
@@ -27,7 +27,7 @@ const { duplicateToPrimaryIds, allTaskSentences } = generateAllTaskSentences(
   getState('droppedTaskIds')
 )
 
-const taskStatsById = extractStatsFromAnswers({
+const studentStats = extractStatsFromAnswers({
   duplicateToPrimaryIds,
   answers: getState('answers')
 })
@@ -35,19 +35,19 @@ const taskStatsById = extractStatsFromAnswers({
 export function getNewTasksParams(): NewTasksParams {
   return {
     taskSentences: allTaskSentences,
-    taskStatsById,
+    studentStats,
     droppedTaskIds: getState('droppedTaskIds'),
     taskIdsInThisSession
   }
 }
 
 export function getTaskStats(id: string, kind: TaskKind): TaskStats | undefined {
-  const lang = getLangByKind(kind)
-  return taskStatsById[id] ? taskStatsById[id][lang] : undefined
+  const lang = getDirectionByKind(kind)
+  return studentStats[id] ? studentStats[id][lang] : undefined
 }
 
 export function getBucketStats(): { title: string; count: number }[] {
-  const buckets = classifySentencesIntoBuckets(allTaskSentences, taskStatsById)
+  const buckets = classifySentencesIntoBuckets(allTaskSentences, studentStats)
   return Object.entries(buckets).map(([name, sentences]) => ({
     title: _startCase(name.replace(/Bucket$/, '')),
     count: sentences.length
@@ -64,7 +64,7 @@ let lastAnswer: RawAnswer | undefined
 export function takeNextTask(): CurrentTask {
   // Consider the last answer
   if (lastAnswer) {
-    accumulateAnswerInStats(taskStatsById, lastAnswer)
+    accumulateAnswerInStats(studentStats, lastAnswer)
     if (lastAnswer.estimation === 'bad' || lastAnswer.estimation === 'hard') {
       repeatCurrentTask()
     }

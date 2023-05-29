@@ -1,4 +1,4 @@
-import { Task, TaskKind, TaskStatsById, TaskStats } from './studentProgressUtils'
+import { Task, TaskKind, StudentStats, TaskStats } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskParams, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
@@ -37,7 +37,7 @@ interface OrderedTaskParams extends TaskParams {
 
 export function formLessonPlan({
   taskSentences,
-  taskStatsById,
+  studentStats,
   amount
 }: NewTasksParams & { amount: number }) {
   const {
@@ -47,7 +47,7 @@ export function formLessonPlan({
     newBucket,
     easyBucket,
     omittedBucket
-  } = classifySentencesIntoBuckets(taskSentences, taskStatsById)
+  } = classifySentencesIntoBuckets(taskSentences, studentStats)
 
   // Define pick logic
   let pickedTaskParams: TaskParams[] = []
@@ -107,7 +107,7 @@ export function getIntervalByConfidence(confidence: number) {
 
 export function classifySentencesIntoBuckets(
   taskSentences: TaskSentence[],
-  taskStatsById: TaskStatsById
+  studentStats: StudentStats
 ) {
   // Make buckets with different properties
   // Hard - marked hard and not followed by at least two more goods than bads; up to 10 ordered by last bad; no pause
@@ -128,8 +128,8 @@ export function classifySentencesIntoBuckets(
 
   // Classify
   for (const taskSentence of taskSentences) {
-    const taskStats = taskStatsById[taskSentence.id]?.target
-    // const statsAnswerInMy = taskStatsById[taskSentence.id].my
+    const taskStats = studentStats[taskSentence.id]?.target
+    // const statsAnswerInMy = studentStats[taskSentence.id].my
     if (!taskStats) {
       // New
       newBucket.push({ kind: TaskKind.arrangeInTargetLanguage, ...taskSentence })

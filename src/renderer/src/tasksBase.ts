@@ -140,12 +140,12 @@ export function makeTask({ kind, id, geo, eng, duplicates }: TaskParams): Task {
 
   // Resolve kind
   let effectiveKind: TaskKind | 'random' = kind
-  if (
-    effectiveKind === TaskKind.arrangeInTargetLanguage &&
-    geoWords.length < MIN_WORDS_FOR_ARRANGEMENT
-  ) {
-    effectiveKind = 'random'
-  }
+  // if (
+  //   effectiveKind === TaskKind.arrangeInTargetLanguage &&
+  //   geoWords.length < MIN_WORDS_FOR_ARRANGEMENT
+  // ) {
+  //   effectiveKind = 'random'
+  // }
   if (effectiveKind === 'random') {
     effectiveKind =
       geoWords.length >= MIN_WORDS_FOR_ARRANGEMENT && Math.random() < 0.5

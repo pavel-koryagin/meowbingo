@@ -11,6 +11,10 @@ export interface TaskSentence {
   duplicates: TaskSentence[]
 }
 
+export interface TaskParams extends TaskSentence {
+  kind: TaskKind | 'random' // Absent means random
+}
+
 type TaskSentencesByKey = Record<string, TaskSentence>
 
 export function generateAllTaskSentences(
@@ -128,14 +132,16 @@ function registerTaskSentence(
   }
 }
 
-export function makeTask({ id, geo, eng, duplicates }: TaskSentence): Task {
+export function makeTask({ kind, id, geo, eng, duplicates }: TaskParams): Task {
   const geoWords = getWords(geo)
   const engWords = getWords(eng)
   return {
     id,
     shownAt: 0,
     kind:
-      geoWords.length >= 3 && Math.random() < 0.5
+      kind !== 'random'
+        ? kind
+        : geoWords.length >= 3 && Math.random() < 0.5
         ? TaskKind.arrangeInTargetLanguage
         : Math.random() < 0.5
         ? TaskKind.typeInTargetLanguage

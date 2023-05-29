@@ -1,10 +1,8 @@
 import { RawAnswer } from './studentProgressUtils'
-import { RawLesson } from './lessonUtils'
 
 interface AppState {
   answers: RawAnswer[]
   droppedTaskIds: string[]
-  lesson?: RawLesson
 }
 
 type AppStateKey = keyof AppState

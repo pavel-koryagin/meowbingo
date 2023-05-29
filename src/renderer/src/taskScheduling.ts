@@ -1,6 +1,6 @@
 import { Task, TaskStats, TaskStatsById } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
-import { makeTask, TaskSentence } from './tasksBase'
+import { makeTask, TaskParams, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
 
 export const TASKS_IN_LESSON = 20
@@ -21,19 +21,18 @@ export function formRemainingTasks(
   const taskSentences = allTaskSentences.filter(({ id }) => !allExcludedTaskIds.includes(id))
 
   // Form the plan
-  const pickedTaskSentences = formLessonPlan({
+  const pickedTaskParams = formLessonPlan({
     ...params,
     taskSentences,
     amount
   })
 
   // Make tasks
-  return pickedTaskSentences.map((taskSentence) => makeTask(taskSentence))
+  return pickedTaskParams.map((taskParams) => makeTask(taskParams))
 }
 
-interface OrderedTaskSentence {
+interface OrderedTaskParams extends TaskParams {
   order: number
-  taskSentence: TaskSentence
 }
 
 export function formLessonPlan({
@@ -51,31 +50,29 @@ export function formLessonPlan({
   } = classifySentencesIntoBuckets(taskSentences, taskStatsById)
 
   // Define pick logic
-  let pickedTaskSentences: TaskSentence[] = []
-  const pickFromOrderedBucket = (bucket: OrderedTaskSentence[], limit: number) => {
+  let pickedTaskParams: TaskParams[] = []
+  const pickFromOrderedBucket = (bucket: OrderedTaskParams[], limit: number) => {
     bucket.sort((a, b) => a.order - b.order)
-    pickedTaskSentences = [
-      ...pickedTaskSentences,
-      ...bucket
-        .splice(0, Math.min(limit, amount - pickedTaskSentences.length))
-        .map(({ taskSentence }) => taskSentence)
+    pickedTaskParams = [
+      ...pickedTaskParams,
+      ...bucket.splice(0, Math.min(limit, amount - pickedTaskParams.length))
     ]
   }
 
-  const pickFromRandomBucket = (bucket: TaskSentence[], limit: number) => {
-    const picked = _sampleSize(bucket, Math.min(limit, amount - pickedTaskSentences.length))
-    pickedTaskSentences = [...pickedTaskSentences, ...picked]
+  const pickFromRandomBucket = (bucket: TaskParams[], limit: number) => {
+    const picked = _sampleSize(bucket, Math.min(limit, amount - pickedTaskParams.length))
+    pickedTaskParams = [...pickedTaskParams, ...picked]
     // Delete from bucket
     for (const { id } of picked) {
-      const index = bucket.findIndex(({ id: taskId }) => taskId === id)
+      const index = bucket.findIndex(({ id: itemId }) => itemId === id)
       bucket.splice(index, 1)
     }
   }
 
-  const pickFromSequentialBucket = (bucket: TaskSentence[], limit: number) => {
-    pickedTaskSentences = [
-      ...pickedTaskSentences,
-      ...bucket.splice(0, Math.min(limit, amount - pickedTaskSentences.length))
+  const pickFromSequentialBucket = (bucket: TaskParams[], limit: number) => {
+    pickedTaskParams = [
+      ...pickedTaskParams,
+      ...bucket.splice(0, Math.min(limit, amount - pickedTaskParams.length))
     ]
   }
 
@@ -95,7 +92,7 @@ export function formLessonPlan({
   pickFromSequentialBucket(newBucket, amount /* no limit */)
   pickFromRandomBucket(omittedBucket, amount /* no limit */)
 
-  return pickedTaskSentences
+  return pickedTaskParams
 }
 
 export function getDesiredScheduledAt({ confidence, lastAnsweredAt }: TaskStats) {
@@ -112,44 +109,44 @@ export function classifySentencesIntoBuckets(
 ) {
   // Make buckets with different properties
   // Hard - marked hard and not followed by at least two more goods than bads; up to 10 ordered by last bad; no pause
-  const hardBucket: OrderedTaskSentence[] = []
+  const hardBucket: OrderedTaskParams[] = []
 
   // Scheduled - normal cards, ordered by recommended time to review; the rest amount
-  const scheduledTillTodayBucket: OrderedTaskSentence[] = []
-  const scheduledForFutureBucket: OrderedTaskSentence[] = []
+  const scheduledTillTodayBucket: OrderedTaskParams[] = []
+  const scheduledForFutureBucket: OrderedTaskParams[] = []
 
   // New - never seen; up to 5
-  const newBucket: TaskSentence[] = []
+  const newBucket: TaskParams[] = []
 
   // Easy - all easy, override status with bads; don't show if shown less than 10 days ago, then show only 1 random of them
-  const easyBucket: TaskSentence[] = []
+  const easyBucket: TaskParams[] = []
 
   // Omitted - e.g. easy within 10 days; do not show, unless there are no other cards left
-  const omittedBucket: TaskSentence[] = []
+  const omittedBucket: TaskParams[] = []
 
   // Classify
   for (const taskSentence of taskSentences) {
     const taskStats = taskStatsById[taskSentence.id]
     if (!taskStats) {
       // New
-      newBucket.push(taskSentence)
+      newBucket.push({ kind: 'random', ...taskSentence })
     } else if (taskStats.hardOvercoming !== null && taskStats.hardOvercoming < 2) {
       // Hard
-      hardBucket.push({ order: taskStats.lastAnsweredAt, taskSentence })
+      hardBucket.push({ order: taskStats.lastAnsweredAt, kind: 'random', ...taskSentence })
     } else if (taskStats.isEasy) {
       // Easy
       if (taskStats.lastAnsweredAt < Date.now() - 10 * 24 * 3600 * 1000) {
-        easyBucket.push(taskSentence)
+        easyBucket.push({ kind: 'random', ...taskSentence })
       } else {
-        omittedBucket.push(taskSentence)
+        omittedBucket.push({ kind: 'random', ...taskSentence })
       }
     } else {
       // Scheduled
       const desiredAt = getDesiredScheduledAt(taskStats)
       if (desiredAt <= Date.now()) {
-        scheduledTillTodayBucket.push({ order: desiredAt, taskSentence })
+        scheduledTillTodayBucket.push({ order: desiredAt, kind: 'random', ...taskSentence })
       } else {
-        scheduledForFutureBucket.push({ order: desiredAt, taskSentence })
+        scheduledForFutureBucket.push({ order: desiredAt, kind: 'random', ...taskSentence })
       }
     }
   }

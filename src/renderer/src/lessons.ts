@@ -1,5 +1,4 @@
-import { Lesson, formNewLesson, loadLesson } from './lessonUtils'
-import { getState } from './state'
+import { Lesson, formNewLesson } from './lessonUtils'
 import { getAnswers, getBucketStats, getNewTasksParams, getTaskStats } from './studentProgress'
 import { Answer, Task, TaskStats } from './studentProgressUtils'
 
@@ -29,12 +28,7 @@ export function nextTask() {
 
 export function getCurrentLesson(): Lesson {
   if (!currentLesson) {
-    const rawLesson = getState('lesson')
-    if (rawLesson) {
-      currentLesson = loadLesson(rawLesson, getNewTasksParams())
-    } else {
-      currentLesson = formNewLesson(getNewTasksParams())
-    }
+    currentLesson = formNewLesson(getNewTasksParams())
   }
 
   return currentLesson

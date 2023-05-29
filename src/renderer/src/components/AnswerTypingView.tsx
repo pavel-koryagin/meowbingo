@@ -1,6 +1,7 @@
 import { createRef, useEffect, useState } from 'react'
 import { QualifiedWord } from '../textUtils'
 import { CurrentTask } from '../lessons'
+import { TaskKind } from '../studentProgressUtils'
 
 interface Props extends CurrentTask {
   showAnswer: boolean
@@ -12,7 +13,7 @@ interface Props extends CurrentTask {
 }
 
 export function AnswerTypingView({
-  task: { id },
+  task: { id, kind },
   showAnswer,
   answer,
   hint,
@@ -43,7 +44,7 @@ export function AnswerTypingView({
         <textarea
           className="form-control"
           value={answer}
-          readOnly={showAnswer}
+          readOnly={showAnswer || kind === TaskKind.arrangeInTargetLanguage}
           ref={textareaRef}
           onChange={(e) => onAnswerChange(e.currentTarget.value)}
         />
@@ -70,7 +71,8 @@ export function AnswerTypingView({
                       borderBottom: '1px dashed var(--bs-info)'
                     }}
                     onClick={() => {
-                      onAnswerChange(answer.trimEnd() + ' ' + word)
+                      const trimmedAnswer = answer.trimEnd()
+                      onAnswerChange(trimmedAnswer + (trimmedAnswer !== '' ? ' ' : '') + word)
                       setUsedHints([...usedHints, index])
                     }}
                   >
@@ -82,7 +84,12 @@ export function AnswerTypingView({
                     usedHints.length ? 'visible' : 'invisible'
                   }`}
                   style={{ margin: '-5px 0' }}
-                  onClick={() => setUsedHints([])}
+                  onClick={() => {
+                    setUsedHints([])
+                    if (kind === TaskKind.arrangeInTargetLanguage) {
+                      onAnswerChange('')
+                    }
+                  }}
                 >
                   ×
                 </span>

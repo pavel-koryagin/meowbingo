@@ -108,13 +108,15 @@ export function TrainingPaneView({
                   value="Check"
                   disabled={!hasAnswerToSubmit}
                 />
-                <input
-                  type="button"
-                  className="btn btn-secondary"
-                  value="Hint"
-                  disabled={hint !== undefined}
-                  onClick={onHint}
-                />
+                {kind !== TaskKind.arrangeInTargetLanguage && (
+                  <input
+                    type="button"
+                    className="btn btn-secondary"
+                    value="Hint"
+                    disabled={hint !== undefined}
+                    onClick={onHint}
+                  />
+                )}
               </>
             ) : (
               <>

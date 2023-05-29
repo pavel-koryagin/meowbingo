@@ -132,7 +132,12 @@ export function makeTask({ id, geo, eng, duplicates }: TaskSentence): Task {
   return {
     id,
     shownAt: 0,
-    kind: Math.random() < 0.5 ? TaskKind.typeInTargetLanguage : TaskKind.typeInMyLanguage,
+    kind:
+      Math.random() < 0.5
+        ? TaskKind.arrangeInTargetLanguage
+        : Math.random() < 0.5
+        ? TaskKind.typeInTargetLanguage
+        : TaskKind.typeInMyLanguage,
     geo,
     eng,
     geoWords: getWords(geo),

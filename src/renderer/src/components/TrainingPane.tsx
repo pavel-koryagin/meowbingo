@@ -21,12 +21,18 @@ export function TrainingPane(): JSX.Element {
   const [showEndLessonBanner, setShowEndLessonBanner] = useState(false)
 
   useEffect(() => {
+    // Load sound
     window.api.getPronunciation(task.geo).then((loadedSound) => {
       if (loadedSound) {
         setSound(loadedSound)
       }
     })
-  })
+
+    // Show hint
+    if (currentTask.task.kind === TaskKind.arrangeInTargetLanguage) {
+      showHint()
+    }
+  }, [currentTask.task.id])
 
   function next() {
     const nextTask = takeNextTask()
@@ -40,6 +46,11 @@ export function TrainingPane(): JSX.Element {
     if (nextTask.lesson.currentTaskIndex === 0) {
       setShowEndLessonBanner(true)
     }
+  }
+
+  function showHint() {
+    const words = task.kind === TaskKind.typeInMyLanguage ? task.engWords : task.geoWords
+    setHint(_shuffle(words))
   }
 
   if (showEndLessonBanner) {
@@ -117,10 +128,7 @@ export function TrainingPane(): JSX.Element {
         }
         next()
       }}
-      onHint={() => {
-        const words = task.kind === TaskKind.typeInMyLanguage ? task.engWords : task.geoWords
-        setHint(_shuffle(words))
-      }}
+      onHint={showHint}
     />
   )
 }

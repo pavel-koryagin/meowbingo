@@ -2,10 +2,11 @@ export enum TaskKind {
   // We use short form: 'my' (base language) and 'it' (target language)
   // TODO: Migrate gradually to 'my' and 'it' instead of 'geo' and 'eng'
   typeInMyLanguage = 'type:my',
-  typeInTargetLanguage = 'type:it'
+  typeInTargetLanguage = 'type:it',
   // arrangeInMyLanguage = 'arrange:my'
-  // arrangeInTargetLanguage = 'arrange:it'
-  // listen = 'listen'
+  arrangeInTargetLanguage = 'arrange:it'
+  // listenAndArrange = 'listen-arrange'
+  // listenAndType = 'listen-type'
 }
 
 export interface RawTask {

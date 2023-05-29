@@ -1,4 +1,4 @@
-import { Task, TaskKind, StudentStats, TaskStats } from './studentProgressUtils'
+import { StudentStats, Task, TaskKind, TaskStats } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskParams, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
@@ -128,30 +128,48 @@ export function classifySentencesIntoBuckets(
 
   // Classify
   for (const taskSentence of taskSentences) {
-    const taskStats = studentStats[taskSentence.id]?.target
-    // const statsAnswerInMy = studentStats[taskSentence.id].my
-    if (!taskStats) {
-      // New
+    const targetStats = studentStats[taskSentence.id]?.target
+    const myStats = studentStats[taskSentence.id]?.my
+
+    // New - show arrange first
+    if (!targetStats) {
       newBucket.push({ kind: TaskKind.arrangeInTargetLanguage, ...taskSentence })
-    } else if (taskStats.hardOvercoming !== null && taskStats.hardOvercoming < 2) {
-      // Hard
-      hardBucket.push({ order: taskStats.lastAnsweredAt, kind: 'random', ...taskSentence })
-    } else if (taskStats.isEasy) {
-      // Easy
-      if (taskStats.lastAnsweredAt < Date.now() - 10 * 24 * 3600 * 1000) {
-        easyBucket.push({ kind: 'random', ...taskSentence })
+      continue
+    }
+    if (!myStats) {
+      newBucket.push({ kind: TaskKind.typeInMyLanguage, ...taskSentence })
+      continue
+    }
+
+    const processLang = (taskStats: TaskStats, baseKind: TaskKind, advancedKind: TaskKind) => {
+      if (taskStats.hardOvercoming != null && taskStats.hardOvercoming < 2) {
+        // Hard
+        hardBucket.push({
+          order: taskStats.lastAnsweredAt,
+          kind: advancedKind,
+          ...taskSentence
+        })
+      } else if (taskStats.isEasy) {
+        // Easy
+        if (taskStats.lastAnsweredAt < Date.now() - 10 * 24 * 3600 * 1000) {
+          easyBucket.push({ kind: 'random', ...taskSentence })
+        } else {
+          omittedBucket.push({ kind: 'random', ...taskSentence })
+        }
       } else {
-        omittedBucket.push({ kind: 'random', ...taskSentence })
-      }
-    } else {
-      // Scheduled
-      const desiredAt = getDesiredScheduledAt(taskStats)
-      if (desiredAt <= Date.now()) {
-        scheduledTillTodayBucket.push({ order: desiredAt, kind: 'random', ...taskSentence })
-      } else {
-        scheduledForFutureBucket.push({ order: desiredAt, kind: 'random', ...taskSentence })
+        // Scheduled
+        const desiredAt = getDesiredScheduledAt(taskStats)
+        const kind = taskStats.confidence <= 1 ? baseKind : advancedKind
+        if (desiredAt <= Date.now()) {
+          scheduledTillTodayBucket.push({ order: desiredAt, kind, ...taskSentence })
+        } else {
+          scheduledForFutureBucket.push({ order: desiredAt, kind, ...taskSentence })
+        }
       }
     }
+
+    processLang(targetStats, TaskKind.arrangeInTargetLanguage, TaskKind.typeInTargetLanguage)
+    processLang(myStats, TaskKind.typeInMyLanguage, TaskKind.typeInMyLanguage)
   }
   return {
     hardBucket,

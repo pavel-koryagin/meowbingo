@@ -129,19 +129,21 @@ function registerTaskSentence(
 }
 
 export function makeTask({ id, geo, eng, duplicates }: TaskSentence): Task {
+  const geoWords = getWords(geo)
+  const engWords = getWords(eng)
   return {
     id,
     shownAt: 0,
     kind:
-      Math.random() < 0.5
+      geoWords.length >= 3 && Math.random() < 0.5
         ? TaskKind.arrangeInTargetLanguage
         : Math.random() < 0.5
         ? TaskKind.typeInTargetLanguage
         : TaskKind.typeInMyLanguage,
     geo,
     eng,
-    geoWords: getWords(geo),
-    engWords: getWords(eng),
+    geoWords,
+    engWords,
     geoVariants: _uniq([geo, ...duplicates.map(({ geo }) => geo)]),
     engVariants: _uniq([eng, ...duplicates.map(({ eng }) => eng)])
   }

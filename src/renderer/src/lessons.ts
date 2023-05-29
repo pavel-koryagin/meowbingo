@@ -1,6 +1,6 @@
 import { Lesson, formNewLesson } from './lessonUtils'
 import { getAnswers, getBucketStats, getNewTasksParams, getTaskStats } from './studentProgress'
-import { Answer, Task, TaskStats } from './studentProgressUtils'
+import { Answer, getDirectionByKind, Task, TaskStats } from './studentProgressUtils'
 
 let currentLesson: Lesson
 
@@ -37,11 +37,12 @@ export function getCurrentLesson(): Lesson {
 export function getCurrentTask(): CurrentTask {
   const lesson = getCurrentLesson()
   const task = lesson.tasks[lesson.currentTaskIndex]
+  const direction = getDirectionByKind(task.kind)
   return {
     lesson,
     task,
-    taskStats: getTaskStats(task.id, task.kind),
-    pastAnswers: getAnswers(task.id),
+    taskStats: getTaskStats(task.id, direction),
+    pastAnswers: getAnswers(task.id, direction),
     bucketStats: getBucketStats()
   }
 }

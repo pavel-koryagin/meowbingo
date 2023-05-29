@@ -12,6 +12,7 @@ import {
   getRawTask,
   RawAnswer,
   Task,
+  TaskDirection,
   TaskKind,
   TaskStats
 } from './studentProgressUtils'
@@ -41,9 +42,8 @@ export function getNewTasksParams(): NewTasksParams {
   }
 }
 
-export function getTaskStats(id: string, kind: TaskKind): TaskStats | undefined {
-  const lang = getDirectionByKind(kind)
-  return studentStats[id] ? studentStats[id][lang] : undefined
+export function getTaskStats(id: string, direction: TaskDirection): TaskStats | undefined {
+  return studentStats[id] ? studentStats[id][direction] : undefined
 }
 
 export function getBucketStats(): { title: string; count: number }[] {
@@ -54,8 +54,10 @@ export function getBucketStats(): { title: string; count: number }[] {
   }))
 }
 
-export function getAnswers(taskId: string): Answer[] {
-  const answers = getState('answers').filter((answer) => answer.task.id === taskId)
+export function getAnswers(taskId: string, direction: TaskDirection): Answer[] {
+  const answers = getState('answers').filter(
+    ({ task }) => task.id === taskId && getDirectionByKind(task.kind) === direction
+  )
   return _reverse(answers)
 }
 

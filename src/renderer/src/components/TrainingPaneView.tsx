@@ -51,7 +51,7 @@ export function TrainingPaneView({
     }
   }
 
-  const askInTargetLanguage = getDirectionByKind(kind) === 'target'
+  const askInTargetLanguage = getDirectionByKind(kind) !== 'target'
   const showingTargetText = askInTargetLanguage || showAnswer
 
   return (

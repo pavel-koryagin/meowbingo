@@ -9,6 +9,14 @@ export enum TaskKind {
   // listenAndType = 'listen-type'
 }
 
+export type Lang = 'target' | 'my'
+
+export function getLangByKind(kind: TaskKind): Lang {
+  return kind === TaskKind.typeInTargetLanguage || kind === TaskKind.arrangeInTargetLanguage
+    ? 'target'
+    : 'my'
+}
+
 export interface RawTask {
   id: string
   shownAt: number
@@ -54,7 +62,9 @@ const defaultTaskStats: Omit<TaskStats, 'lastAnsweredAt'> = {
   confidence: 0 // +1 on good or easy, -1 on bad or hard; Don't go below 0
 }
 
-export type TaskStatsById = Record<string, TaskStats>
+export type SentenceStats = Partial<Record<Lang, TaskStats>>
+
+export type TaskStatsById = Record<string, SentenceStats>
 
 export function extractStatsFromAnswers({
   duplicateToPrimaryIds,
@@ -79,12 +89,17 @@ export function accumulateAnswerInStats(
   overrideTaskId?: string
 ) {
   const taskId = overrideTaskId ?? task.id
+  const lang = getLangByKind(task.kind)
+
   if (!result[taskId]) {
-    result[taskId] = { ...defaultTaskStats, lastAnsweredAt: submittedAt }
-  } else {
-    result[taskId].lastAnsweredAt = submittedAt
+    result[taskId] = {}
   }
-  const taskStats = result[taskId]
+  if (!result[taskId][lang]) {
+    result[taskId][lang] = { ...defaultTaskStats, lastAnsweredAt: submittedAt }
+  } else {
+    result[taskId][lang]!.lastAnsweredAt = submittedAt
+  }
+  const taskStats = result[taskId][lang]!
 
   // hardOvercoming
   if (estimation === 'hard') {

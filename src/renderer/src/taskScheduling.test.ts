@@ -30,10 +30,12 @@ describe('formLessonPlan', () => {
       taskSentences: allTaskSentences,
       taskStatsById: {
         'TS 1': {
-          lastAnsweredAt: 0, // Not important
-          hardOvercoming: 0,
-          isEasy: false,
-          confidence: 0
+          target: {
+            lastAnsweredAt: 0, // Not important
+            hardOvercoming: 0,
+            isEasy: false,
+            confidence: 0
+          }
         }
       },
       droppedTaskIds: [],

@@ -65,14 +65,18 @@ describe('extractStatsFromAnswers', () => {
     // Assert
     expect(result).toStrictEqual({
       [sampleTask1.id]: {
-        ...sampleTaskStats,
-        isEasy: false,
-        confidence: 0
+        my: {
+          ...sampleTaskStats,
+          isEasy: false,
+          confidence: 0
+        }
       },
       [sampleTask2.id]: {
-        ...sampleTaskStats,
-        isEasy: true,
-        confidence: 1
+        my: {
+          ...sampleTaskStats,
+          isEasy: true,
+          confidence: 1
+        }
       }
     })
   })
@@ -102,9 +106,11 @@ describe('extractStatsFromAnswers', () => {
     // Assert
     expect(result).toStrictEqual({
       [sampleTask2.id]: {
-        ...sampleTaskStats,
-        isEasy: true,
-        confidence: 1
+        my: {
+          ...sampleTaskStats,
+          isEasy: true,
+          confidence: 1
+        }
       }
     })
   })

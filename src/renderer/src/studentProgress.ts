@@ -8,6 +8,7 @@ import {
   Answer,
   Estimation,
   extractStatsFromAnswers,
+  getLangByKind,
   getRawTask,
   RawAnswer,
   Task,
@@ -40,8 +41,9 @@ export function getNewTasksParams(): NewTasksParams {
   }
 }
 
-export function getTaskStats(id: string): TaskStats | undefined {
-  return taskStatsById[id]
+export function getTaskStats(id: string, kind: TaskKind): TaskStats | undefined {
+  const lang = getLangByKind(kind)
+  return taskStatsById[id] ? taskStatsById[id][lang] : undefined
 }
 
 export function getBucketStats(): { title: string; count: number }[] {

@@ -40,7 +40,7 @@ export function getCurrentTask(): CurrentTask {
   return {
     lesson,
     task,
-    taskStats: getTaskStats(task.id),
+    taskStats: getTaskStats(task.id, task.kind),
     pastAnswers: getAnswers(task.id),
     bucketStats: getBucketStats()
   }

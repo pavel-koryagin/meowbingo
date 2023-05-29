@@ -1,4 +1,4 @@
-import { Task, TaskKind, TaskStats, TaskStatsById } from './studentProgressUtils'
+import { Task, TaskKind, TaskStatsById, TaskStats } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskParams, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
@@ -128,7 +128,8 @@ export function classifySentencesIntoBuckets(
 
   // Classify
   for (const taskSentence of taskSentences) {
-    const taskStats = taskStatsById[taskSentence.id]
+    const taskStats = taskStatsById[taskSentence.id]?.target
+    // const statsAnswerInMy = taskStatsById[taskSentence.id].my
     if (!taskStats) {
       // New
       newBucket.push({ kind: TaskKind.arrangeInTargetLanguage, ...taskSentence })

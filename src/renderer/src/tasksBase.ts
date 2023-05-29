@@ -132,20 +132,33 @@ function registerTaskSentence(
   }
 }
 
+const MIN_WORDS_FOR_ARRANGEMENT = 3
+
 export function makeTask({ kind, id, geo, eng, duplicates }: TaskParams): Task {
   const geoWords = getWords(geo)
   const engWords = getWords(eng)
-  return {
-    id,
-    shownAt: 0,
-    kind:
-      kind !== 'random'
-        ? kind
-        : geoWords.length >= 3 && Math.random() < 0.5
+
+  // Resolve kind
+  let effectiveKind: TaskKind | 'random' = kind
+  if (
+    effectiveKind === TaskKind.arrangeInTargetLanguage &&
+    geoWords.length < MIN_WORDS_FOR_ARRANGEMENT
+  ) {
+    effectiveKind = 'random'
+  }
+  if (effectiveKind === 'random') {
+    effectiveKind =
+      geoWords.length >= MIN_WORDS_FOR_ARRANGEMENT && Math.random() < 0.5
         ? TaskKind.arrangeInTargetLanguage
         : Math.random() < 0.5
         ? TaskKind.typeInTargetLanguage
-        : TaskKind.typeInMyLanguage,
+        : TaskKind.typeInMyLanguage
+  }
+
+  return {
+    id,
+    shownAt: 0,
+    kind: effectiveKind,
     geo,
     eng,
     geoWords,

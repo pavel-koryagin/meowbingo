@@ -12,10 +12,10 @@ describe('texts', () => {
       })
     }
   }
-
-  // Use this to find the lines with contradictions. It will fail, you click "show diff"
-  // it('debug', () => {
-  //   expect(getSentences(`copyGeoTextHere`)).toEqual(getSentences(`copyEngTextHere`))
-  //   expect(getList(`copyGeoTextHere`)).toEqual(getList(`copyEngTextHere`))
-  // })
 })
+
+// Use this to find the lines with contradictions. It will fail, you click "show diff"
+// it('debug', () => {
+//   expect(getSentences(`copyGeoTextHere`)).toEqual(getSentences(`copyEngTextHere`))
+//   expect(getList(`copyGeoTextHere`)).toEqual(getList(`copyEngTextHere`))
+// })

@@ -285,5 +285,122 @@ x) Does this student live here?
 y) Where does this child live?`
       }
     ]
+  },
+  {
+    title: 'Lesson 5',
+    blocks: [
+      {
+        title: 'Texts',
+        geo: `– გამარჯობა! როგორ ხართ? – გმადლობთ, კარგად და თქვენ როგორ ხართ? – სად არიან თქვენი მშობლები? – ეს დედაჩემია. მამაჩემი ინგლისიდან მოდის. – სად არის თქვენი და-ძმა? როგორ არიან ისინი? – გმადლობთ, ისინი კარგად არიან. ჩემი და სახლშია თბილისში. ჩემი ძმა მიდის ლონდონიდან სეულში. ის არ მოდის თბილისში. – ის თვითმფრინავით მიდის? – დიახ, ის მიდის თვითმფრინავით. – მე მომწონს მგზავრობა გემით. მე არ მომწონს მგზავრობა მატარებლით. მე არ მომწონს ეს მანქანა. მე მომწონს ის გემი. მე არ მომწონს მანქანით მგზავრობა. სად მიდის შენი ძმა მატარებლით? – რომში მიდის. – სად მიდის ეს მატარებელი? – ეს მატარებელი მიდის იაპონიაში. – გმადლობთ.
+– რამდენი წიგნია მაგიდაზე და რამდენი რვეულია ჩანთაში? – მაგიდაზე არის რვა წიგნი და ხუთი ფანქარი. მე მომწონს ეს წიგნი.
+– სად არის ბებიაჩემი? – ბებიაჩემი არის ოთახში და მამაშენი უნივერსიტეტშია. – სადაა დედამისი? – დედამისი აქაა. ეს არის ჩემი ქალიშვილი. ეს თქვენი ვაჟიშვილია? – ეს ჩემი შვილი არაა, ეს ჩემი სტუდენტია.
+– სად მიდის თქვენი მატარებელი? საიდან მოდის თქვენი მატარებელი? თქვენი და მატარებლით მიდის სეულში? – დიახ.`,
+        eng: `– Hello! How are you? – Thank you, I'm well and how are you? – Where are your parents? – This is my mother. My father is coming from England. – Where are your sister and brother? How are they? – Thank you, they are well. My sister is at home in Tbilisi. My brother is going from London to Seoul. He is not coming to Tbilisi. – Is he going by plane? – Yes, he is going by plane. – I like to travel by ship. I don't like to travel by train. I don't like this car. I like that ship. I don't like to travel by car. Where is your bother going by train? – He's going to Rome. – Where is this train going? – This train is going to Japan. – Thank you.
+– How many books are on the table and how many notebooks are in the bag? – There are eight books on the table and five pencils. I like this book.
+– Where is my grandmother? – My grandmother is in the room and your father is at the university. Where is her mother? – Her mother is here. This is my daughter. Is this your son? – This is not my child; this is my student.
+– Where is your train going? Where is your train coming from? Is your sister going to Seoul by train? – Yes.`
+      },
+      {
+        title: '1. Translate',
+        isList: true,
+        geo: `a) მე არ მომწონს ეს კლასი. ეს პატარაა. ის კლასი დიდია.
+b) ბებიაშენი და პაპაჩემი მიდიან სეულში.
+c) ეს არის დედაჩემი. ის ლამაზი ქალია. ის არის კორეელი.
+d) – მამათქვენი სად არის? – მამაჩვენი უნივერსიტეტშია.
+e) ეს ჩემი და-ძმაა. ჩემი და მიდის თბილისში. ის არ მიდის მატარებლით. ის მიდის თვითმფრინავით.
+f) მე არ მომწონს მატარებლით მგზავრობა. მე მომწონს მგზავრობა გემით.
+g) ქალები არიან თვითმფრინავში. კაცები არიან გემზე. ისინი მიდიან გემით.
+h) აქ არის რვა რვეული და ორი ფანქარი. ერთი წიგნი არის მაგიდაზე. ჩანთაში არის სამი კალამი.
+i) – ბებია მისი მოდის თბილისში. – აქ მოდის? – დიახ.
+j) – რამდენი სტუდენტია კლასში? – აქ არის ათი სტუდენტი. – სად არიან
+კორეელი სტუდენტები? – ისინი არიან უნივერსიტეტში.`,
+        eng: `a) I don't like this class. It is small. This class is big.
+b) Your grandmother and my grandfather are going to Seoul.
+c) This is my mother. She is a beautiful woman. She is Korean.
+d) – Where is your father? – Our father is at the university.
+e) This is my sister and brother. My sister is going to Tbilisi. She doesn't go by train. She
+goes by plane.
+f) I don't like traveling by train. I like to travel by ship.
+g) The women are on the plane. The men are on the ship. They are going by ship.
+h) Here are eight notebooks and two pencils. One book is on the table. There are three
+pens in the bag.
+i) –His/her grandmother is going to Tbilisi. – She is coming here? – Yes.
+j) –How many students are in the classroom? – Here are ten students. – Where are the
+Korean students? – They are at the university.`
+      },
+      {
+        title: '2. Translate',
+        geo: `a) ეს არის დედაჩემი. ის არის პაპაშენი. ისინი მოდიან თბილისში.
+b) – საიდან არის მამათქვენი? – ის არის ლონდონიდან.
+c) – როგორა ხარ? როგორ არიან? – გმადლობთ. კარგად.
+d) ექსი კალამი არის ჩანთაში და სამი ფანქარი არის მაგიდაზე.
+e) რამდენი სტუდენტი არის? სად არიან?
+f) – მომწონს მანქანით მგზავრობა. – არ მომწონს ეს მატარებელი. – სად მიდის ეს
+ავტობუსი? – ეს მიდის სეულში.
+g) – ის მიდის თბილისში? – არა, ის მიდის მადრიდში. – პაპაშენი მიდის
+ესპანეთში? – არა, მისი მშობლები მიდიან იქ. – სად მიდის შენი და? – ის არ
+მიდის.
+h) – ეს არის შენი ვაჟიშვილი? – დიახ, ის არის ჩემი ვაჟიშვილი. – სად არის შენი
+ქალიშვილი? – ის არის გორში.
+i) – როგორ თქვენი მეგობარი ჯონი? – გმადლობთ, კარგად. შენ როგორა ხარ?
+j) – ბოდიში, ვინ ხარ შენ? – მე ვარ კორეელი სტუდენტი.
+k) ჩვენ ვართ ბავშვები. ჩვენ ვართ მეგობრები. ეს არის ჩვენი სახლი.
+l) შვიდიხეარისქუჩაშისახლთან.
+m) მანქანა არის აქ. მე მომწონს მგზავრობა მანქანით.
+n) ეს პაპაშენია. ის მოდის აქ.
+o) ეს კაცები არიან ჩემი სოფელიდან. ისინი არ არიან თბილისიდან.`,
+        eng: `a) This is my mother. That is your grandmother. They are coming to Tbilisi.
+b) – Where is your father from? – He is from London.
+c) – How are you? How are they? – Thank you. I’m OK (well).
+d) There are six pens in the bag and three pencils are on the table.
+e) How many students are there? Where are they?
+f) – I like traveling by car. – I don’t like this train. – Where does this bus go? – It goes to
+Seoul.
+g) – Does it go to Tbilisi? – No it goes to Madrid. – Does your grandfather go to Spain?
+– No, his parents go there. – Where does your sister go? – She doesn’t go.
+h) – Is this your son? – Yes, he’s my son. – Where is your daughter? – She is in Gori.
+i) –How is your friend John? – Thank you, he is OK. How are you?
+j) – Excuse me, who are you? – I am a Korean student.
+k) We are children. We are friends. This is our house.
+l) There are seven trees in the street at the house.
+m) There is a car here. I like traveling by car.
+n) This is your grandfather. He comes here.
+o) These men are from my village. They are not from Tbilisi.`
+      },
+      {
+        title: '3. Translate',
+        geo: `a) ეს ქალები არიან მეგობრები. ესენი არიან კორეელები. ჩვენ ვართ მეგობრები. ჩვენ ვართ ქართველები.
+b) ჩემი წიგნი ჩანთაშია. შენი რვეული მაგიდაზეა. აქ შვიდი წიგნია და ორი ფანქარი.
+c) – სად არიან ბავშვები? – ბავშვები არიან ოთახში. რამდენი ბავშვია ოთახში? – აქ სამი ბავშვია და ერთი ქალი. – სად არიან ქალები? – ქალები არიან სახლთან ქუჩაში. – ეს იმათი სახლია.
+d) მანქანა მიდის ქუჩაში. ის არის ხესთან. ეს ხე დიდია და ლამაზი. მე მომწონს ის.
+e) სამი ძმა სოფელშია და ერთი არის თბილისში. ესენი ჩემი შვილები არიან. ეს
+ჩემი მშობლებია. ჩვენ ვართ იქიდან.
+f) – სად არიან თქვენი მშობლები და და-ძმა? – ისინი აქ არ არიან.
+g) – როგორ არიან ისინი? – გმადლობთ კარგად. – თქვენ როგორ ხართ?
+h) – აქ არის სამი ქართველი და ხუთი კორეელი სტუდენტი. რამდენი
+სტუდენტია კლასში? – აქ არის რვა სტუდენტი.
+i) – ჩანთაში არის ორი შენი და სამი ჩემი წიგნი. რამდენი წიგნია ჩანთაში? – იქ
+არის ხუთი წიგნი.
+j) – გამარჯობა! როგორ ხარ? – გმადლობთ, კარგად. თქვენ როგორ ხართ?
+– კარგად, დიდი მადლობა. ნახვამდის.`,
+        eng: `a) These women are friends. They are Koreans. We are friends. We are Georgians.
+b) My book is in the bag. Your notebook is on the table. Here are seven books and two
+pencils.
+c) – Where are the children? – The children are in the room. – How many children are
+in the room? – Here there are three children and one woman. – Where are the
+women? – The women are at home in the street. – This is their house.
+d) The car goes in the street. It is by the tree. This tree is big and beautiful. I like it.
+e) Three brothers are in the village and one is in Tbilisi. These are my children. These
+are my parents. We are from there.
+f) – Where are your parents, sister, and bother? – They are not here.
+g) – How are they? – Thank you, they are well. – How are you?
+h) – Here are three Georgian and five Korean students. How many students are in the
+classroom? – There are eight students here.
+i) – There are two of your books and three of mine in the bag. How many books are
+in the bag? – There are five books.
+j) – Hello! How are you? – Thank you, I'm well. How are you? – Well, thank you very
+much. Goodbye.`
+      }
+    ]
   }
 ]

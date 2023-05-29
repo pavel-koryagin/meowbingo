@@ -38,13 +38,15 @@ export function AnswerTypingView({
     }
   })
 
+  const isTyping = kind === TaskKind.typeInTargetLanguage || kind === TaskKind.typeInMyLanguage
+
   return (
     <>
       <div className="form-group mb-3">
         <textarea
           className="form-control"
           value={answer}
-          readOnly={showAnswer || kind === TaskKind.arrangeInTargetLanguage}
+          readOnly={showAnswer || !isTyping}
           ref={textareaRef}
           onChange={(e) => onAnswerChange(e.currentTarget.value)}
         />
@@ -56,7 +58,7 @@ export function AnswerTypingView({
           }`}
         >
           {hint && !showAnswer ? (
-            hint.length === 1 ? (
+            hint.length === 1 && isTyping ? (
               // Single word hint; user presses "Check" if no idea
               <span>One word</span>
             ) : (

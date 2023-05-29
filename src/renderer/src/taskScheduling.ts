@@ -1,4 +1,4 @@
-import { Task, TaskStats, TaskStatsById } from './studentProgressUtils'
+import { Task, TaskKind, TaskStats, TaskStatsById } from './studentProgressUtils'
 import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskParams, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
@@ -63,8 +63,10 @@ export function formLessonPlan({
     const picked = _sampleSize(bucket, Math.min(limit, amount - pickedTaskParams.length))
     pickedTaskParams = [...pickedTaskParams, ...picked]
     // Delete from bucket
-    for (const { id } of picked) {
-      const index = bucket.findIndex(({ id: itemId }) => itemId === id)
+    for (const { id, kind } of picked) {
+      const index = bucket.findIndex(
+        ({ id: itemId, kind: itemKind }) => itemId === id && itemKind === kind
+      )
       bucket.splice(index, 1)
     }
   }
@@ -129,7 +131,7 @@ export function classifySentencesIntoBuckets(
     const taskStats = taskStatsById[taskSentence.id]
     if (!taskStats) {
       // New
-      newBucket.push({ kind: 'random', ...taskSentence })
+      newBucket.push({ kind: TaskKind.arrangeInTargetLanguage, ...taskSentence })
     } else if (taskStats.hardOvercoming !== null && taskStats.hardOvercoming < 2) {
       // Hard
       hardBucket.push({ order: taskStats.lastAnsweredAt, kind: 'random', ...taskSentence })

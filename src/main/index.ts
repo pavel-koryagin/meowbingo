@@ -39,6 +39,7 @@ function createWindow(): void {
 // Handle IPC event from the renderer process
 ipcMain.handle('getSettings', (): Settings => {
   return {
+    isDev: is.dev,
     paths: { userData: app.getPath('userData') }
   }
 })
@@ -70,7 +71,7 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (process.platform !== 'darwin' || is.dev /* not convenient in dev mode */) {
     app.quit()
   }
 })

@@ -6,6 +6,8 @@ import { getCurrentTask } from '../lessons'
 import { getQualifiedWords, QualifiedWord } from '../textUtils'
 import { getDirectionByKind, TaskKind } from '../studentProgressUtils'
 
+await new Promise((resolve) => setTimeout(() => resolve(1), 1000))
+
 export function TrainingPane(): JSX.Element {
   const [isAnswerPerfect, setIsAnswerPerfect] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)

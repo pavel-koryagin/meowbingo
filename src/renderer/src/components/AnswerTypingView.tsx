@@ -64,23 +64,38 @@ export function AnswerTypingView({
             ) : (
               // Regular hint
               <>
-                {hint.map((word, index) => (
-                  <span
-                    key={index}
-                    className={`me-3 ${usedHints.includes(index) ? 'opacity-50' : ''}`}
-                    style={{
-                      cursor: 'pointer',
-                      borderBottom: '1px dashed var(--bs-info)'
-                    }}
-                    onClick={() => {
-                      const trimmedAnswer = answer.trimEnd()
-                      onAnswerChange(trimmedAnswer + (trimmedAnswer !== '' ? ' ' : '') + word)
-                      setUsedHints([...usedHints, index])
-                    }}
-                  >
-                    {word}
-                  </span>
-                ))}
+                {hint.map((word, index) =>
+                  !usedHints.includes(index) ? (
+                    // Not used
+                    <span
+                      key={index}
+                      className="me-3"
+                      style={{
+                        cursor: 'pointer',
+                        borderBottom: '1px dashed var(--bs-info)'
+                      }}
+                      onClick={() => {
+                        const trimmedAnswer = answer.trimEnd()
+                        onAnswerChange(trimmedAnswer + (trimmedAnswer !== '' ? ' ' : '') + word)
+                        setUsedHints([...usedHints, index])
+                      }}
+                    >
+                      {word}
+                    </span>
+                  ) : (
+                    // Used
+                    <span
+                      key={index}
+                      className="me-3 opacity-50"
+                      style={{
+                        cursor: 'default',
+                        borderBottom: '1px dashed var(--bs-info)'
+                      }}
+                    >
+                      {word}
+                    </span>
+                  )
+                )}
                 <span
                   className={`btn btn-sm btn-outline-dark align-baseline ${
                     usedHints.length ? 'visible' : 'invisible'

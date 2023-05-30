@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, ipcMain, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -34,6 +34,14 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+// Handle IPC event from the renderer process
+ipcMain.handle('getSettings', () => {
+  // TODO: share the type definition for Settings
+  return {
+    paths: { userData: app.getPath('userData') }
+  }
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

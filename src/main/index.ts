@@ -2,6 +2,7 @@ import { app, ipcMain, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import type { Settings } from '../preload/getSettings'
 
 function createWindow(): void {
   // Create the browser window.
@@ -36,8 +37,7 @@ function createWindow(): void {
 }
 
 // Handle IPC event from the renderer process
-ipcMain.handle('getSettings', () => {
-  // TODO: share the type definition for Settings
+ipcMain.handle('getSettings', (): Settings => {
   return {
     paths: { userData: app.getPath('userData') }
   }

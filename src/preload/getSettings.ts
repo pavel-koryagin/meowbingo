@@ -1,6 +1,6 @@
 import { electronAPI } from '@electron-toolkit/preload'
 
-interface Settings {
+export interface Settings {
   paths: {
     userData: string
   }

@@ -1,10 +1,9 @@
 import { electronAPI } from '@electron-toolkit/preload'
 
 export interface Settings {
+  playHtUserId?: string
   isDev: boolean
-  paths: {
-    userData: string
-  }
+  userDataPath: string
 }
 
 export async function getSettings(): Promise<Settings> {

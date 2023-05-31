@@ -102,7 +102,9 @@ export function getDesiredScheduledAt({ confidence, lastAnsweredAt }: TaskStats)
 }
 
 export function getIntervalByConfidence(confidence: number) {
-  return Math.pow(2, confidence)
+  // It should probably be 2 for the unique ideas (e.g. words)
+  // and 3 when different tasks (e.g. sentences) repeat the same ideas
+  return Math.pow(3, confidence)
 }
 
 export function classifySentencesIntoBuckets(

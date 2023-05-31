@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import type { Settings } from '../preload/getSettings'
+import { readFileSync } from 'fs'
 
 function createWindow(): void {
   // Create the browser window.
@@ -36,11 +37,17 @@ function createWindow(): void {
   }
 }
 
+const userDataPath = app.getPath('userData')
+const settings: Omit<Settings, 'isDev' | 'userDataPath'> = JSON.parse(
+  readFileSync(join(userDataPath, 'settings.json'), 'utf-8')
+)
+
 // Handle IPC event from the renderer process
 ipcMain.handle('getSettings', (): Settings => {
   return {
+    ...settings,
     isDev: is.dev,
-    paths: { userData: app.getPath('userData') }
+    userDataPath
   }
 })
 

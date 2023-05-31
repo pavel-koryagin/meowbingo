@@ -4,6 +4,7 @@ import { QualifiedWord } from '../textUtils'
 import { getDesiredScheduledAt, getIntervalByConfidence } from '../taskScheduling'
 import { CurrentTask } from '../lessons'
 import { AnswerTypingView } from './AnswerTypingView'
+import { useRef } from 'react'
 
 interface Props {
   currentTask: CurrentTask
@@ -40,6 +41,8 @@ export function TrainingPaneView({
     pastAnswers,
     bucketStats
   } = currentTask
+
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   const hasAnswerToSubmit = answer.trim() !== ''
 
@@ -81,11 +84,39 @@ export function TrainingPaneView({
         }
       }}
     >
-      {showingTargetText && sound && <audio src={sound} autoPlay />}
       <div className="border-bottom mb-5">
         Task {currentTaskIndex + 1} / {totalTasks}
       </div>
-      <div className="form-group mb-3">{askInTargetLanguage ? geo : eng}</div>
+      <div className="form-group mb-3">
+        {showingTargetText && sound && (
+          <>
+            <audio src={sound} autoPlay ref={audioRef} />
+            <button
+              className="btn float-end"
+              style={{ marginTop: '-0.45rem' }}
+              onClick={() => {
+                if (audioRef.current) {
+                  audioRef.current.currentTime = 0
+                  audioRef.current.play()
+                }
+              }}
+              title="Play again"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-play-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
+              </svg>
+            </button>
+          </>
+        )}
+        {askInTargetLanguage ? geo : eng}
+      </div>
       <div className="form-group mb-3">
         <AnswerTypingView
           {...currentTask}

@@ -17,7 +17,7 @@ function escapeAudioFilename(filename) {
     .replace(REGEX_CHAR_TO_ESCAPE, (char) => encodeURIComponent(char))
 }
 
-function makeLink(data: Buffer | ArrayBuffer): string {
+function makeLink(data: Buffer): string {
   return `data:audio/mpeg;base64,${data.toString('base64')}`
 }
 
@@ -41,7 +41,7 @@ export async function getPronunciation(sentence: string): Promise<string | null>
   const audioData = await requestPlayHtGeorgianTTS(settings.playHtUserId, sentence)
 
   // Write the binary audio content to a local file
-  fs.writeFileSync(file, Buffer.from(audioData), 'binary')
+  fs.writeFileSync(file, audioData, 'binary')
   console.log(`Wrote audio to ${file}`)
 
   return makeLink(audioData)
@@ -50,7 +50,7 @@ export async function getPronunciation(sentence: string): Promise<string | null>
 export async function requestPlayHtGeorgianTTS(
   playHtUserId: string,
   sentence: string
-): Promise<ArrayBuffer> {
+): Promise<Buffer> {
   const { data } = await axios.post('https://play.ht/api/transcribe', {
     userId: playHtUserId,
     platform: 'dashboard',
@@ -68,5 +68,5 @@ export async function requestPlayHtGeorgianTTS(
 
   // Get the file from cached
   const { data: audioData } = await axios.get(data.file, { responseType: 'arraybuffer' })
-  return audioData
+  return Buffer.from(audioData)
 }

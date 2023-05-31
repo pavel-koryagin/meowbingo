@@ -12,6 +12,19 @@ export interface CurrentTask {
   bucketStats: { title: string; count: number }[]
 }
 
+function startLesson() {
+  currentLesson = formNewLesson(getNewTasksParams())
+
+  // Initiate audio caching
+  // do not start with the first task to avoid parallel request of the same as it is going to be requested by the UI
+  // TODO: also cache words
+  // TODO: cache all the available tasks (not just the current lesson) in background
+  const [firstTask, ...restTasks] = currentLesson.tasks
+  for (const task of [...restTasks, firstTask]) {
+    window.api.cachePronunciation(task.geo)
+  }
+}
+
 export function nextTask() {
   // Load
   getCurrentLesson()
@@ -19,7 +32,7 @@ export function nextTask() {
   // Move
   currentLesson.currentTaskIndex++
   if (currentLesson.currentTaskIndex >= currentLesson.tasks.length) {
-    currentLesson = formNewLesson(getNewTasksParams())
+    startLesson()
   }
 
   const task = currentLesson.tasks[currentLesson.currentTaskIndex]
@@ -28,7 +41,7 @@ export function nextTask() {
 
 export function getCurrentLesson(): Lesson {
   if (!currentLesson) {
-    currentLesson = formNewLesson(getNewTasksParams())
+    startLesson()
   }
 
   return currentLesson

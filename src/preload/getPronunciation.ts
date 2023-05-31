@@ -21,6 +21,38 @@ function makeLink(data: Buffer): string {
   return `data:audio/mpeg;base64,${data.toString('base64')}`
 }
 
+const cacheQueue: string[] = []
+let errorAlerted = false
+
+async function cacheNext() {
+  try {
+    await getPronunciation(cacheQueue[0])
+  } finally {
+    cacheQueue.shift()
+    if (cacheQueue.length > 0) {
+      await cacheNext()
+    }
+  }
+}
+
+export function cachePronunciation(sentence: string): void {
+  // TODO: preload file names to avoid extensive IO on every start when the whole base caching will be implemented
+
+  // Enqueue
+  cacheQueue.push(sentence)
+
+  // Start queue, if just created
+  if (cacheQueue.length == 1) {
+    cacheNext().catch((err) => {
+      console.error('Failed to cache', err)
+      if (!errorAlerted) {
+        alert('Failed to cache audio, see console for details')
+        errorAlerted = true
+      }
+    })
+  }
+}
+
 export async function getPronunciation(sentence: string): Promise<string | null> {
   const settings = await getSettings()
 

@@ -19,6 +19,7 @@ export function cleanSentence(sentence: string): string {
       .replace(/^[a-z]\)\s+/, '')
       .replace(/^[–-]\s+/, '')
       .replace(/\n/g, ' ')
+      .replace(/\.$/g, '')
   )
 }
 

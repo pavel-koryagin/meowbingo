@@ -324,8 +324,8 @@ f) I don't like traveling by train. I like to travel by ship.
 g) The women are on the plane. The men are on the ship. They are going by ship.
 h) Here are eight notebooks and two pencils. One book is on the table. There are three
 pens in the bag.
-i) –His/her grandmother is going to Tbilisi. – She is coming here? – Yes.
-j) –How many students are in the classroom? – Here are ten students. – Where are the
+i) – His/her grandmother is going to Tbilisi. – She is coming here? – Yes.
+j) – How many students are in the classroom? – Here are ten students. – Where are the
 Korean students? – They are at the university.`
       },
       {

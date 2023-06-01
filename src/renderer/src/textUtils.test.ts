@@ -65,4 +65,16 @@ describe('getWords', () => {
     // Assert
     expect(result).toStrictEqual([`I'm`, 'at', 'the', 'university'])
   })
+
+  it('handles dashes', () => {
+    // Act
+    // Leading dash - remove
+    // Hyphen in და-ძმა - keep as part of the word
+    // Third dash is hyphen chat - remove
+    // Fourth dash - remove
+    const result = getWords(`– სად არის თქვენი და-ძმა - და – ძმა?`)
+
+    // Assert
+    expect(result).toStrictEqual(['სად', 'არის', 'თქვენი', 'და-ძმა', 'და', 'ძმა'])
+  })
 })

@@ -17,7 +17,7 @@ export function cleanSentence(sentence: string): string {
       .trim()
       // remove list marker
       .replace(/^[a-z]\)\s+/, '')
-      .replace(/^[–-]\s+/, '')
+      .replace(/^[–-]\s*/, '')
       .replace(/\n/g, ' ')
       .replace(/\.$/g, '')
   )

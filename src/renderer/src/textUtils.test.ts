@@ -3,8 +3,9 @@ import { getList, getSentences, getWords } from './textUtils'
 describe('getSentences', () => {
   it('handles typical case', () => {
     // Act
+    // Second sentence has a dash in the beginning with a lost space
     const result = getSentences(
-      `– ვინ არის ეს? – მე ვარ კორეელი სტუდენტი! ეს არის ქართველი სტუდენტი.`
+      `– ვინ არის ეს? –მე ვარ კორეელი სტუდენტი! ეს არის ქართველი სტუდენტი.`
     )
 
     // Assert

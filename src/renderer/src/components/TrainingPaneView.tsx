@@ -92,6 +92,7 @@ export function TrainingPaneView({
           <>
             <audio src={sound} autoPlay ref={audioRef} />
             <button
+              type="button"
               className="btn float-end"
               style={{ marginTop: '-0.45rem' }}
               onClick={() => {

@@ -3,6 +3,7 @@ import _sampleSize from 'lodash/sampleSize'
 import { makeTask, TaskParams, TaskSentence } from './tasksBase'
 import { Lesson, NewTasksParams } from './lessonUtils'
 
+const TIMESTAMP_MASK = 1000000000000
 export const TASKS_IN_LESSON = 20
 
 export function formRemainingTasks(
@@ -162,10 +163,12 @@ export function classifySentencesIntoBuckets(
         // Scheduled
         const desiredAt = getDesiredScheduledAt(taskStats)
         const kind = taskStats.confidence <= 1 ? baseKind : advancedKind
+        // confidence asc, then desiredAt asc; less confidence - show more often
+        const order = taskStats.confidence * TIMESTAMP_MASK + desiredAt
         if (desiredAt <= Date.now()) {
-          scheduledTillTodayBucket.push({ order: desiredAt, kind, ...taskSentence })
+          scheduledTillTodayBucket.push({ order, kind, ...taskSentence })
         } else {
-          scheduledForFutureBucket.push({ order: desiredAt, kind, ...taskSentence })
+          scheduledForFutureBucket.push({ order, kind, ...taskSentence })
         }
       }
     }

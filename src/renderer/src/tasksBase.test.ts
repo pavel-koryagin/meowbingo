@@ -20,8 +20,8 @@ describe('generateAllTaskSentences', () => {
     // Act
     const result = generateAllTaskSentences(
       makeSampleTexts({
-        geo: 'მე ვარ უნივერსიტეტში.',
-        eng: "I'm at the university."
+        geo: 'მე ვარ უნივერსიტეტში',
+        eng: "I'm at the university"
       })
     )
 
@@ -30,8 +30,8 @@ describe('generateAllTaskSentences', () => {
       allTaskSentences: [
         {
           id: 'Lesson 1 > Block 1 > sentence 1',
-          eng: "I'm at the university.",
-          geo: 'მე ვარ უნივერსიტეტში.',
+          eng: "I'm at the university",
+          geo: 'მე ვარ უნივერსიტეტში',
           duplicates: []
         }
       ],
@@ -46,12 +46,12 @@ describe('generateAllTaskSentences', () => {
     const result = generateAllTaskSentences(
       makeSampleTexts(
         {
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university."
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university"
         },
         {
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: 'I am at the university.' // Different spelling
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: 'I am at the university' // Different spelling
         }
       )
     )
@@ -61,13 +61,13 @@ describe('generateAllTaskSentences', () => {
       allTaskSentences: [
         {
           id: 'Lesson 1 > Block 1 > sentence 1',
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university.",
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university",
           duplicates: [
             {
               id: 'Lesson 1 > Block 2 > sentence 1',
-              geo: 'მე ვარ უნივერსიტეტში.',
-              eng: 'I am at the university.',
+              geo: 'მე ვარ უნივერსიტეტში',
+              eng: 'I am at the university',
               duplicates: []
             }
           ]
@@ -85,12 +85,12 @@ describe('generateAllTaskSentences', () => {
     const result = generateAllTaskSentences(
       makeSampleTexts(
         {
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university."
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university"
         },
         {
-          geo: 'მე უნივერსიტეტში ვარ.', // Different syntax
-          eng: "I'm at the university."
+          geo: 'მე უნივერსიტეტში ვარ', // Different syntax
+          eng: "I'm at the university"
         }
       )
     )
@@ -100,13 +100,13 @@ describe('generateAllTaskSentences', () => {
       allTaskSentences: [
         {
           id: 'Lesson 1 > Block 1 > sentence 1',
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university.",
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university",
           duplicates: [
             {
               id: 'Lesson 1 > Block 2 > sentence 1',
-              geo: 'მე უნივერსიტეტში ვარ.',
-              eng: "I'm at the university.",
+              geo: 'მე უნივერსიტეტში ვარ',
+              eng: "I'm at the university",
               duplicates: []
             }
           ]
@@ -124,12 +124,12 @@ describe('generateAllTaskSentences', () => {
     const result = generateAllTaskSentences(
       makeSampleTexts(
         {
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university."
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university"
         },
         {
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university."
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university"
         }
       )
     )
@@ -139,13 +139,13 @@ describe('generateAllTaskSentences', () => {
       allTaskSentences: [
         {
           id: 'Lesson 1 > Block 1 > sentence 1',
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university.",
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university",
           duplicates: [
             {
               id: 'Lesson 1 > Block 2 > sentence 1',
-              geo: 'მე ვარ უნივერსიტეტში.',
-              eng: "I'm at the university.",
+              geo: 'მე ვარ უნივერსიტეტში',
+              eng: "I'm at the university",
               duplicates: []
             }
           ]
@@ -162,13 +162,13 @@ describe('generateAllTaskSentences', () => {
     // Arrange
     const blocks: Parameters<typeof makeSampleTexts> = [
       {
-        geo: 'მე ვარ უნივერსიტეტში.',
-        eng: "I'm at the university."
+        geo: 'მე ვარ უნივერსიტეტში',
+        eng: "I'm at the university"
       },
       {
         // Both are synonyms
-        geo: 'მე უნივერსიტეტში ვარ.',
-        eng: 'I am at the university.'
+        geo: 'მე უნივერსიტეტში ვარ',
+        eng: 'I am at the university'
       }
     ]
 
@@ -185,19 +185,19 @@ describe('generateAllTaskSentences', () => {
       allTaskSentences: [
         {
           id: 'Lesson 1 > Block 1 > sentence 1',
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university.",
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university",
           duplicates: [
             {
               id: 'Lesson 1 > Block 2 > sentence 1',
-              geo: 'მე უნივერსიტეტში ვარ.',
-              eng: 'I am at the university.',
+              geo: 'მე უნივერსიტეტში ვარ',
+              eng: 'I am at the university',
               duplicates: []
             },
             {
               id: 'Lesson 1 > Block 3 > sentence 1',
-              geo: 'მე ვარ უნივერსიტეტში.',
-              eng: 'I am at the university.',
+              geo: 'მე ვარ უნივერსიტეტში',
+              eng: 'I am at the university',
               duplicates: []
             }
           ]
@@ -217,12 +217,12 @@ describe('generateAllTaskSentences', () => {
       makeSampleTexts(
         {
           // This block is marked for dropping
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: "I'm at the university."
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: "I'm at the university"
         },
         {
-          geo: 'მე ვარ უნივერსიტეტში.', // Same as first, so we test that it is dropped before merging
-          eng: 'I am at the university.'
+          geo: 'მე ვარ უნივერსიტეტში', // Same as first, so we test that it is dropped before merging
+          eng: 'I am at the university'
         }
       ),
       ['Lesson 1 > Block 1 > sentence 1']
@@ -233,8 +233,8 @@ describe('generateAllTaskSentences', () => {
       allTaskSentences: [
         {
           id: 'Lesson 1 > Block 2 > sentence 1',
-          geo: 'მე ვარ უნივერსიტეტში.',
-          eng: 'I am at the university.',
+          geo: 'მე ვარ უნივერსიტეტში',
+          eng: 'I am at the university',
           duplicates: []
         }
       ],

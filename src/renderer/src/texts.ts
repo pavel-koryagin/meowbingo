@@ -402,5 +402,109 @@ j) – Hello! How are you? – Thank you, I'm well. How are you? – Well, thank
 much. Goodbye.`
       }
     ]
+  },
+  {
+    title: 'Lesson 6',
+    blocks: [
+      {
+        title: 'Texts',
+        geo: `– გამარჯობა! როგორ ხარ? – გმადლობთ, ძალიან კარგად ვარ. შენი მშობლები როგორ არიან? – კარგად არიან. დიდი მადლობა.
+– მე მაქვს ძალიან ლამაზი ცისფერი კაბა. შენ მოგწონს ცისფერი ფერი? – არა, მე არ მომწონს ეგ ფერი, მაგრამ შენი კაბა ძალიან ლამაზია. – გინდა ეს წითელი ვარდი? – გმადლობთ.
+– მე ძალიან მომწონს მანქანით მგზავრობა. მე მაქვს წითელი მანქანა, მაგრამ არ მომწონს ეს ფერი. მე მინდა თეთრი მანქანა. შენი მანქანა რა ფერია? – მე არა მაქვს მანქანა.
+– მწვანე ხე არის ქუჩაზე. რა ფერია ზეცა? – ზეცა ცისფერია. – არა, აქ ზეცა ლურჯია. მზე რა ფერია? – მზე ყვითელია. დედამიწა ყავისფერია. – მთვარე რა ფერია?
+– მას არა აქვს ნაცრისფერი ფანქარი. თქვენი ფანქარი რა ფერია? – მე ჩანთაში მაქვს ყავისფერი, ლურჯი, მწვანე და ყვითელი ფანქრები. რა ფერი გინდა? – გმადლობთ. მე არ მინდა ეგ ფანქრები. მე მაქვს ეს ფერები.
+– აქ მაგიდაზე არის ათი ვარდისფერი და ოთხი ყვითელი ვარდი. რა არის თეფშზე? – ეს კარგი დიდი წითელი ვაშლია.
+– შენ არ გინდა ერთი ჭიქა ღვინო? – არა, გმადლობთ. მე არ მინდა ღვინო. – ქალს აქვს ლამაზი წითელი კაბა. არ მოგწონს ჩემი თეთრი დროშა? – დიახ, ძალიან მომწონს. თქვენი დროშა რა ფერია?`,
+        eng: `– Hello! How are you? – Thank you, I'm very well. How are your parents? – They are well. Thank you very much.
+– I have a very beautiful blue dress. Do you like the color blue? – No, I don't like that color, but your dress is very beautiful. – Do you want this red rose? – Thank you.
+– I really like to travel by car. I have a red car, but I don't like this color. I want a white car.
+What color is your car? – I don't have a car.
+– There is a green tree on the street. What color is the sky? – The sky is light blue. – No, here the sky is dark blue. What color is the sun? – The sun is yellow. The ground is brown. – What color is the moon?
+– He doesn't have a grey pencil. What color is your pencil? – In the bag I have brown, dark blue, green, and yellow pencils. What color do you want? – Thank you. I don't want these pencils. I have these colors.
+– Here on the table are ten pink and four yellow roses. What is on the plate? – This is a big, red apple.
+– Don't you want a glass of wine? – No thank you. I don't want wine. – The woman has a beautiful red dress. Don't you like my white flag? – Yes, I really like it. What color is your flag?`
+      },
+      {
+        title: '1. Translate',
+        isList: true,
+        geo: `a) – რა ფერია შენი ფანქარი? – მე მაქვს ათი ფანქარი. მე მაქვს წითელი, ყვითელი, ლურჯი, მწვანე, ვარდისფერი და შავი ფანქრები. – ეს არ არის ათი, ეგ არის ექვსი. შენ ექვსი ფანქარი გაქვს. – დიახ, მე მაქვს ექვსი ფანქარი და ოთხი კალამი.
+b) – რა ფერია თქვენი დროშა? – ქართული დროშა არის წითელი და თეთრი. – რა ფერია იმათი დროშა? რა ფერია კორეული დროშა?
+c) – მე არ მაქვს წითელი კაბა. შენ გაქვს მწვანე კაბა? – არა, ეს ჩემი არ არის, ეს იმისი კაბაა.
+d) – მოგწონს თვითმფრინავით მგზავრობა? – არა, მე მომწონს მატარებელი. – სად მიდის ეს მატარებელი? – ეს მიდის ლონდონში.
+e) ზეცა ცისფერია და მზე ყვითელია. რა ფერია აქ მთვარე? რა ფერია თქვენი ვარდები? მოგწონს ვარდისფერი ვარდები?
+f) ჭიქაში არის თეთრი ღვინო. მაგიდაზე არის ორი ჭიქა და სამი თეფში. თეფშზე არის წითელი ვაშლი.
+g) მე მომწონს ქართული ღვინო. ის ძალიან კარგია. შენ არ მოგწონს?`,
+        eng: `a) – What color is your pencil? – I have ten pencils. I have red, yellow, dark blue, green, pink and black pencils. – This isn't ten, that's six. You have six pencils. – Yes, I have six pencils and four pens.
+b) – What color is your flag? –The Georgian flag is red and white. – What color is their flag? What color is the Korean flag?
+c) – I don't have a red dress. Do you have a green dress? – No, this isn't mine, this is her dress.
+d) – Do you like to travel by plane? – No, I like the train. – Where is this train going? – It's going to London.
+e) The sky is light blue and the sun is yellow. What color is the moon here? What color are your roses? Do you like pink roses?
+f) There is white wine in the glass. There are two glasses and three plates on the table. There is a red apple on the plate.
+g) I like Georgian wine. It's very good. Don't you like it?`
+      },
+      {
+        title: '2. Translate and answer in Georgian',
+        isList: true,
+        geo: `a) რა ფერია თქვენი მანქანა? ის შავია?
+b) რა ფერია კორეული დროშა?
+c) რა ფერია ამერიკული დროშა? d) ფერია ქართული დროშა?
+e) როგორა ხართ?
+f) საიდანაა დედათქვენი?
+g) რა ფერია მზე?
+h) სად არის სეული?
+i) მოგწონს ვარდისფერი ვარდები?
+j) ეს ხეები მწვანე არის?
+k) მოგწონს მგზავრობა მატარებლით?
+l) გინდამგზავრობათვითმფრინავით?
+m) გყავთ და?
+n) გყავთ ძმა?
+o) რამდენი და-ძმა გყავთ?`,
+        eng: `a) What color is your car? Is it black?
+b) What color is the Korean flag?
+c) What color is the American flag? d) What color is the Georgian flag? e) How are you?
+f) Where is your mother from? g) What color is the sun?
+h) Where is Seoul?
+i) Do you like pink roses?
+j) Are these trees green?
+k) Do you like traveling by train?
+l) Do you want to travel by plane?
+m) Do you have a sister?
+n) Do you have a brother?
+o) How many sisters and brothers do you have?`
+      },
+      {
+        title: '3. Translate',
+        isList: true,
+        geo: `a) – მე მყავს დედა და მამა. მე მყავს და-ძმა. რამდენი ძმა გყავს? – ორი ძმა. – სად არიან ისინი? – ისინი აქ არიან თბილისში.
+b) – თეფში არა გაქვს? – დიახ, მე მაქვს ერთი თეფში აქ მაგიდაზე.
+c) – მას აქვს ნაცრისფერი და ლურჯი კაბები. შენ არა გაქვს? – მე მაქვს მწვანე და
+წითელი კაბები.
+d) – როგორ არის ბებიაშენი? – გმადლობთ, კარგად. ის მიდის სეულში
+თვითმფრინავით. ჩვენი მშობლები აქ მოდიან მატარებლით.
+e) – როგორა ხარ? – გმადლობთ, მე კარგად ვარ. მე არა ვარ ცუდად. პაპაჩემია
+ცუდად.
+f) – მას აქვს ყავისფერი ჩანთა და ჩანთაში აქვს ორი ფანქარი, სამი წიგნი და ერთი
+კალამი. სად არის მისი ჩანთა? – აქ არის ოთახში მაგიდასთან.
+g) – გინდა წითელი ვარდები? – არა, მე მომწონს თეთრი ვარდები. მას ყვითელი ვარდები აქვს.
+h) – მე მყავს სამი მეგობარი. ერთი არის ქართველი და ორი კორეელი. შენ რამდენი მეგობარი გყავს? – მე მყავს ერთი ამერიკელი მეგობარი.
+i) – კაცს აქვს წითელი ღვინო. ეს კორეული ღვინოა? – არა, ეს იტალიური ღვინოა, მას არა აქვს კორეული ღვინო. იტალიური ღვინო კარგია? – დიახ, ძალიან კარგია. მე მომწონს.
+j) – მე მაქვს კარგი წიგნი. შენ არ მოგწონს ეს წიგნი? – ეს ძალიან კარგია.`,
+        eng: `a) – I have a mother and father. I have a sister and brother. How many brothers do you have? – Two brothers. – Where are they? – They are here in Tbilisi.
+b) – Don't you have a plate? – Yes, I have one plate here on the table.
+c) – She has gray and dark blue dresses. Don't you have some? – I have green and red
+dresses.
+d) – How is your grandmother? – Thank you, she's well. She is going to Seoul by plane.
+Our parents are coming here by train.
+e) – How are you? – Thank you, I'm well. I'm not bad. My grandfather is ill.
+f) – She has a brown bag and in the bag she has two pencils, three books and one pen.
+Where is her bag? – It is here in the room at the table.
+g) – Do you want some red roses? – No, I like white roses. She has yellow roses.
+h) – I have three friends. One is Georgian and two are Koreans. How many friends do
+you have? – She has one American friend.
+i) – The man has red wine. Is this Korean wine? – No, this is Italian wine, he doesn't
+have Korean wine. Is Italian wine good? – Yes, it's very good. I like it.
+j) – I have a good book. Don't you like this book? – It's very good.`
+      }
+    ]
   }
 ]

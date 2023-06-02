@@ -6,6 +6,11 @@ export interface Settings {
   userDataPath: string
 }
 
+let settings: Settings | undefined
+
 export async function getSettings(): Promise<Settings> {
-  return electronAPI.ipcRenderer.invoke('getSettings')
+  if (!settings) {
+    settings = (await electronAPI.ipcRenderer.invoke('getSettings')) as Settings
+  }
+  return settings
 }

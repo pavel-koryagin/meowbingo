@@ -7,10 +7,9 @@
   "homepage": "https://www.electronjs.org",
   "scripts": {
     "start": "electron-vite preview",
-    "dev": "electron-vite dev",
+    "dev": "MEOW_STATE_FILE=data/state.json electron-vite dev",
     "test": "jest",
     "full-lint": "concurrently --group --raw npm:typecheck:node npm:typecheck:web npm:lint",
-    "use": "MEOW_STATE_FILE=data/state-prod.json electron-vite dev",
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",

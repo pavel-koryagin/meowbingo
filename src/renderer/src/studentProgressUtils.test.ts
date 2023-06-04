@@ -68,14 +68,14 @@ describe('extractStatsFromAnswers', () => {
         my: {
           ...sampleTaskStats,
           isEasy: false,
-          confidence: 0
+          confidence: 1
         }
       },
       [sampleTask2.id]: {
         my: {
           ...sampleTaskStats,
           isEasy: true,
-          confidence: 1
+          confidence: 2
         }
       }
     })
@@ -109,7 +109,7 @@ describe('extractStatsFromAnswers', () => {
         my: {
           ...sampleTaskStats,
           isEasy: true,
-          confidence: 1
+          confidence: 2
         }
       }
     })

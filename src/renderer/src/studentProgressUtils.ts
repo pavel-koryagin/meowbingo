@@ -59,7 +59,7 @@ export type TaskStats = {
 const defaultTaskStats: Omit<TaskStats, 'lastAnsweredAt'> = {
   hardOvercoming: null,
   isEasy: false,
-  confidence: 0 // +1 on good or easy, -1 on bad or hard; Don't go below 0
+  confidence: 1 // +1 on good or easy, -1 on bad or hard; Don't go below 0; start with 1 to distinguish new and failed
 }
 
 export type SentenceStats = Partial<Record<TaskDirection, TaskStats>>

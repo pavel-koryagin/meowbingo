@@ -24,6 +24,11 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:storybook/recommended'
   ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
     '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',

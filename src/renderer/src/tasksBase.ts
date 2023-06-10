@@ -134,6 +134,36 @@ function registerTaskSentence(
 
 const MIN_WORDS_FOR_ARRANGEMENT = 3
 
+function enhanceEng(eng: string): string[] {
+  const result = [eng]
+
+  if (eng.match(/\bdon't\b/)) {
+    result.push(eng.replace(/\bdon't\b/, 'do not'))
+  } else if (eng.match(/\bdo not\b/)) {
+    result.push(eng.replace(/\bdo not\b/, "don't"))
+  }
+
+  if (eng.match(/\bdoesn't\b/)) {
+    result.push(eng.replace(/\bdoesn't\b/, 'does not'))
+  } else if (eng.match(/\bdoes not\b/)) {
+    result.push(eng.replace(/\bdoes not\b/, "doesn't"))
+  }
+
+  if (eng.match(/\bcan't\b/)) {
+    result.push(eng.replace(/\bcan't\b/, 'cannot'))
+  } else if (eng.match(/\bcannot\b/)) {
+    result.push(eng.replace(/\bcannot\b/, "can't"))
+  }
+
+  if (eng.match(/\bI'm\b/)) {
+    result.push(eng.replace(/\bI'm\b/, 'I am'))
+  } else if (eng.match(/\bI am\b/)) {
+    result.push(eng.replace(/\bI am\b/, "I'm"))
+  }
+
+  return result
+}
+
 export function makeTask({ kind, id, geo, eng, duplicates }: TaskParams): Task {
   const geoWords = getWords(geo)
   const engWords = getWords(eng)
@@ -155,6 +185,11 @@ export function makeTask({ kind, id, geo, eng, duplicates }: TaskParams): Task {
         : TaskKind.typeInMyLanguage
   }
 
+  const engVariants = enhanceEng(eng)
+  for (const { eng } of duplicates) {
+    engVariants.push(...enhanceEng(eng))
+  }
+
   return {
     id,
     shownAt: 0,
@@ -164,6 +199,6 @@ export function makeTask({ kind, id, geo, eng, duplicates }: TaskParams): Task {
     geoWords,
     engWords,
     geoVariants: _uniq([geo, ...duplicates.map(({ geo }) => geo)]),
-    engVariants: _uniq([eng, ...duplicates.map(({ eng }) => eng)])
+    engVariants: _uniq(engVariants)
   }
 }

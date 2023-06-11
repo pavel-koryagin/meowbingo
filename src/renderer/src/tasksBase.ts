@@ -137,26 +137,26 @@ const MIN_WORDS_FOR_ARRANGEMENT = 3
 function enhanceEng(eng: string): string[] {
   const result = [eng]
 
-  if (eng.match(/\bdon't\b/)) {
-    result.push(eng.replace(/\bdon't\b/, 'do not'))
+  if (eng.match(/\bdon['’]t\b/)) {
+    result.push(eng.replace(/\bdon['’]t\b/, 'do not'))
   } else if (eng.match(/\bdo not\b/)) {
     result.push(eng.replace(/\bdo not\b/, "don't"))
   }
 
-  if (eng.match(/\bdoesn't\b/)) {
-    result.push(eng.replace(/\bdoesn't\b/, 'does not'))
+  if (eng.match(/\bdoesn['’]t\b/)) {
+    result.push(eng.replace(/\bdoesn['’]t\b/, 'does not'))
   } else if (eng.match(/\bdoes not\b/)) {
     result.push(eng.replace(/\bdoes not\b/, "doesn't"))
   }
 
-  if (eng.match(/\bcan't\b/)) {
-    result.push(eng.replace(/\bcan't\b/, 'cannot'))
+  if (eng.match(/\bcan['’]t\b/)) {
+    result.push(eng.replace(/\bcan['’]t\b/, 'cannot'))
   } else if (eng.match(/\bcannot\b/)) {
     result.push(eng.replace(/\bcannot\b/, "can't"))
   }
 
-  if (eng.match(/\bI'm\b/)) {
-    result.push(eng.replace(/\bI'm\b/, 'I am'))
+  if (eng.match(/\bI['’]m\b/)) {
+    result.push(eng.replace(/\bI['’]m\b/, 'I am'))
   } else if (eng.match(/\bI am\b/)) {
     result.push(eng.replace(/\bI am\b/, "I'm"))
   }

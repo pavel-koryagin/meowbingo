@@ -75,8 +75,8 @@ export function getQualifiedWords(expectedAnswer: string, actualAnswer: string):
 }
 
 function evaluateSingleAnswer(expected: string, actual: string): AnswerResult {
-  const expectedWords = getWords(expected.toLowerCase())
-  const actualWords = getWords(actual.toLowerCase())
+  const expectedWords = getWords(expected.toLowerCase().replace(/’/g, "'"))
+  const actualWords = getWords(actual.toLowerCase().replace(/’/g, "'"))
 
   const goodWords = _intersection(expectedWords, actualWords)
 

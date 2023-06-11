@@ -83,7 +83,7 @@ export function formLessonPlan({
   pickFromOrderedBucket(hardBucket, 10)
   pickFromOrderedBucket(
     scheduledTillTodayBucket,
-    newBucket.length === 0 || hardBucket.length ? 10 : 5
+    newBucket.length === 0 || hardBucket.length === 0 ? 10 : 5
   )
   pickFromSequentialBucket(newBucket, scheduledTillTodayBucket.length > 5 ? 3 : 5)
   pickFromRandomBucket(easyBucket, 1)
